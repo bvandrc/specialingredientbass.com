@@ -14,9 +14,7 @@ header {
   padding: 5px;
 
   /* Appearance - Glow */
-  --header-title-img-glow: drop-shadow(0 0 30px purple);
-  -webkit-filter: var(--header-title-img-glow);
-  filter: var(--header-title-img-glow);
+  filter: drop-shadow(0 0 30px purple);
 }
 
 #header-right {
