@@ -9,6 +9,11 @@
   grid-template-columns: repeat(auto-fit, minmax(min(500px, 100vw), 1fr));
   grid-gap: 1em;
   align-items: flex-start;
+
+  @media (max-width: 800px) {
+    margin-top: 0.5em; /* no glow border, so reduce */
+    grid-gap: 0px; /* no glow border, so reduce */
+  }
 }
 
 #main-body {
@@ -31,6 +36,11 @@
   border-radius: var(--border-radius);
   border-color: var(--border-color);
   box-shadow: 0 0 10px 2px var(--border-color);
+
+  @media (max-width: 800px) {
+    border-width: 0px; /* no glow border - reduce y space */
+    box-shadow: none;
+  }
 }
 
 .card-title {
@@ -120,16 +130,4 @@
   text-align: center;
   cursor: pointer;
   user-select: none;
-}
-
-@media (max-width: 800px) {
-  #main-grid {
-    margin-top: 0.5em; /* no glow border, so reduce */
-    grid-gap: 0px; /* no glow border, so reduce */
-  }
-
-  .grid-card {
-    border-width: 0px; /* no glow border - reduce y space */
-    box-shadow: none;
-  }
 }

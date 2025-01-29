@@ -27,6 +27,14 @@ body {
   font-family: tahoma, sans-serif;
 }
 
+@media (max-width: 800px) {
+  html,
+  body {
+    overflow-x: hidden;
+    margin: 0;
+  }
+}
+
 p {
   margin-top: 0;
   margin-bottom: 0;
@@ -90,12 +98,4 @@ a:visited {
     0 0 10px var(--shadow-color),
     0 0 15px var(--shadow-color),
     0 0 30px var(--shadow-color);
-}
-
-@media (max-width: 800px) {
-  html,
-  body {
-    overflow-x: hidden;
-    margin: 0;
-  }
 }
