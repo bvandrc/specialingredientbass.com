@@ -9,6 +9,7 @@ export const CircleLink = ({
   <a
     target="_blank"
     tabIndex={0}
+    role="link"
     {...props}
     className={classNames('circle', props['className'])}
     aria-label={props['aria-label'] ?? props['title']}
