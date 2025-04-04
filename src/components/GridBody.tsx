@@ -56,7 +56,7 @@ export const GridBody = () => {
             <SoundcloudTrack
               url="https://soundcloud.com/special-ingredient/plant-life-vol-2?in=special-ingredient/sets/trippy-melty-wavy-bass"
               title="Plant Life Vol. 2"
-              subTitle="Halftime Squelch-Hop & Uptempo Tribal Bass"
+              subTitle="Halftime Psy-Hop & Uptempo Tribal Bass"
             />
           </GridCard>
           <GridCard title="Dubstep & Riddim">
