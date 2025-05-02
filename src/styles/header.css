@@ -18,6 +18,7 @@ header {
 
   @media (max-width: 1200px) {
     max-width: calc(85%);
+    max-height: 17vh;
   }
 }
 
