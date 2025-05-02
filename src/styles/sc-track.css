@@ -2,14 +2,6 @@
   position: relative;
   margin: 5px 10px;
   font-family: 'Outfit';
-}
-
-.track-art-and-title {
-  display: flex;
-  align-items: flex-start; /* Aligns items at the top */
-  gap: 10px;
-  margin-bottom: 2px;
-  padding-bottom: 0px;
 
   .album-art {
     vertical-align: middle;
@@ -21,10 +13,21 @@
       height: 4.7em;
     }
   }
+}
+
+.top-row {
+  display: flex;
+  align-items: flex-start; /* Aligns items at the top */
+  gap: 10px;
+
+  .track-title-wrapper {
+    display: flex;
+    flex-direction: column;
+    grid: 20px;
+  }
 
   .track-title {
     font-size: 1.2em;
-    margin-bottom: 0.2em;
   }
 
   .track-subtitle {
@@ -34,8 +37,8 @@
   }
 }
 
-.track-addl-info {
-  margin-bottom: 0em;
+.addl-info-row {
+  margin-top: 0.2em;
   font-size: 1em;
   font-family: 'Barlow', sans-serif;
   text-align: justify;

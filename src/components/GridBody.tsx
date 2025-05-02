@@ -66,9 +66,9 @@ export const GridBody = () => {
               subTitle="OG Deeper Late Night Wonky Riddim"
               additionalInfo={
                 <>
-                  <i>True</i> riddim, carefully picked. If you're not a fan yet maybe I can bring
-                  you to the dark side 😉 Headphones recommended, Lotta wild sounds bouncing around
-                  the 3D space in this one.
+                  <i>True</i> riddim, carefully picked. If you're not a fan of riddim yet, try this
+                  one out. Headphones recommended, Lotta wild sounds bouncing around the 3D space in
+                  this one.
                 </>
               }
             />
@@ -76,7 +76,6 @@ export const GridBody = () => {
               url="https://soundcloud.com/special-ingredient/aged-cheddar-mix-vol-1?in=special-ingredient/sets/heavier-dubstep"
               title="Aged Cheddar Vol. 1"
               subTitle="Early 2010s Wompy Dubstep— Liquid Stranger, Bar9, etc"
-              additionalInfo="For this mix, I mainly wanted to capture all my favorite tracks of Liquid Stranger's 2010 album Mechanoid Meltdown, a style that I think is completely unmatched to this day, and fill in with my favorite bangers of the era/sound."
             />
             <SoundcloudTrack
               url="https://soundcloud.com/special-ingredient/special-ingredient-b2b-saumii-larimer-lounge-1-26-2023?in=special-ingredient/sets/heavier-dubstep"
@@ -101,10 +100,14 @@ export const GridBody = () => {
             />
           </GridCard>
           <GridCard title="Mashups / Flips">
-            <SoundcloudTrack url="https://soundcloud.com/special-ingredient/meduso-a-moment-vip-x-baby-bash-cyclone?in=special-ingredient/sets/mashups-flips" />
-            <SoundcloudTrack url="https://soundcloud.com/special-ingredient/skeler-x-jojo-x-blackstreet-no-diggity-mashup?in=special-ingredient/sets/mashups-flips" />
-            <SoundcloudTrack url="https://soundcloud.com/special-ingredient/akon-love-right-now-na-na-na-x-nit-grit-mashup?in=special-ingredient/sets/mashups-flips" />
-            <SoundcloudTrack url="https://soundcloud.com/special-ingredient/ian-snow-revelation-x-travis-scott-kid-cudi-through-the-late-night?in=special-ingredient/sets/mashups-flips" />
+            {[
+              'https://soundcloud.com/special-ingredient/meduso-a-moment-vip-x-baby-bash-cyclone?in=special-ingredient/sets/mashups-flips',
+              'https://soundcloud.com/special-ingredient/skeler-x-jojo-x-blackstreet-no-diggity-mashup?in=special-ingredient/sets/mashups-flips',
+              'https://soundcloud.com/special-ingredient/akon-love-right-now-na-na-na-x-nit-grit-mashup?in=special-ingredient/sets/mashups-flips',
+              'https://soundcloud.com/special-ingredient/ian-snow-revelation-x-travis-scott-kid-cudi-through-the-late-night?in=special-ingredient/sets/mashups-flips',
+            ].map((url) => (
+              <SoundcloudTrack url={url} albumArtToSide />
+            ))}
           </GridCard>
           {/* <GridCard title="Spotify Playlists">
       <div className="collapse-content">

@@ -3,31 +3,20 @@ import * as fs from 'fs'
 import { defineConfig } from 'vite'
 import { getOEmbed } from './src/api/soundcloud'
 
+const gridBodyCode = fs.readFileSync('./src/components/GridBody.tsx')
+const scUrlMatches = gridBodyCode.toString().matchAll(/https:\/\/soundcloud\.com\/.*?(?=['"])/g)
+const scUrls = Array.from(scUrlMatches).map((m) => m[0])
+const scTracks = await Promise.all(
+  scUrls.map(async (url) => ({
+    originalLink: url,
+    ...(await getOEmbed({ url, maxheight: 166, auto_play: false })),
+  })),
+)
+fs.writeFileSync('soundcloud-data.json', JSON.stringify(scTracks, null, 2) + '\n')
+
 export default defineConfig(() => ({
   base: `/`,
-  plugins: [
-    {
-      name: 'get-soundcloud-data',
-      async buildStart() {
-        const code = fs.readFileSync('./src/components/GridBody.tsx')
-        const matches = code.toString().matchAll(/url="(.*)"/g)
-
-        const soundcloudTracks = await Promise.all(
-          Array.from(matches).map(async (match) => ({
-            originalLink: match[1],
-            ...(await getOEmbed({
-              url: match[1],
-              maxheight: 166,
-              auto_play: false,
-            })),
-          })),
-        )
-
-        fs.writeFileSync('soundcloud-data.json', JSON.stringify(soundcloudTracks, null, 2) + '\n')
-      },
-    },
-    react(),
-  ],
+  plugins: [react()],
   build: {
     target: 'esnext',
     modulePreload: false,

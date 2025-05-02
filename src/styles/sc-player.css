@@ -1,7 +1,17 @@
 .sc-player {
+  display: flex;
+  gap: 0.5em;
+
+  .album-art {
+    margin-bottom: 0.5em;
+  }
+}
+
+.sc-player-waveform {
   display: flex; /* Enables flexbox */
   align-items: center; /* Aligns items vertically */
   height: 100px;
+  width: 100%;
   position: relative;
 }
 
@@ -19,6 +29,8 @@
     /* Position */
     position: relative;
     top: -60px; /* Hide top of iframe */
+    left: -1px; /* Hide left px because is not black */
+    width: calc(100% + 2px); /* Hide right px because is not black */
 
     /* Appearance */
     filter: invert(100%) hue-rotate(180deg);

@@ -22,6 +22,7 @@ export interface SoundcloudPlayerProps {
   className?: string
   setAlbumArtUrl?: (url: string) => void
   onPlayToggle?: (isPlaying: boolean) => void
+  showAlbumArt?: boolean
 }
 
 const EXTERNAL_LINK_LABEL = 'This track on SoundCloud.com (new tab)'
@@ -33,6 +34,7 @@ export const SoundcloudPlayer = ({
   className,
   setAlbumArtUrl,
   onPlayToggle,
+  showAlbumArt = false,
 }: SoundcloudPlayerProps) => {
   const id = useId()
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -81,55 +83,60 @@ export const SoundcloudPlayer = ({
   }, [trackInfo?.artwork_url])
 
   return (
-    <div className="sc-player" role="group" aria-label="soundcloud player">
-      {trackInfo && (
-        <>
-          <span
-            className="play-button"
-            role="button"
-            aria-label={isPlaying ? 'Pause' : 'Play'}
-            onClick={() => {
-              const widget = window.SC.Widget(id)
-              widget.toggle()
-            }}
-          >
-            <FontAwesomeIcon
-              className="play-button-icon"
-              icon={isPlaying ? faPauseCircle : faPlayCircle}
-            />
-            <FontAwesomeIcon className="play-button-background" icon={faCircle} />
-          </span>
-          <span className="sc-stats">
-            <span className="sc-stat play-count">
-              <FontAwesomeIcon icon={faPlay} size="xs" />
-              {trackInfo.playback_count.toLocaleString()}
-            </span>
-            <span className="sc-stat likes-count">
-              <FontAwesomeIcon icon={faHeart} size="xs" />
-              {trackInfo.likes_count.toLocaleString()}
-            </span>{' '}
-            <span className="sc-stat comment-count">
-              <FontAwesomeIcon icon={faComment} size="xs" />
-              {trackInfo.comment_count.toLocaleString()}
-            </span>
-          </span>
-          <a
-            className="sc-external-link"
-            href={url}
-            target="_blank"
-            title={EXTERNAL_LINK_LABEL}
-            aria-label={EXTERNAL_LINK_LABEL}
-          >
-            <FontAwesomeIcon icon={faSoundcloud} />
-            <FontAwesomeIcon icon={faExternalLink} />
-          </a>
-        </>
+    <div className="sc-player">
+      {showAlbumArt && trackInfo?.artwork_url && (
+        <img src={trackInfo.artwork_url} className="album-art" alt="album art" />
       )}
-      <div
-        className={classNames('sc-iframe-wrapper', className, { playing: isPlaying })}
-        dangerouslySetInnerHTML={{ __html: dummyElement.outerHTML }}
-        ref={wrapperRef}
-      />
+      <div className="sc-player-waveform" role="group" aria-label="soundcloud player">
+        {trackInfo && (
+          <>
+            <span
+              className="play-button"
+              role="button"
+              aria-label={isPlaying ? 'Pause' : 'Play'}
+              onClick={() => {
+                const widget = window.SC.Widget(id)
+                widget.toggle()
+              }}
+            >
+              <FontAwesomeIcon
+                className="play-button-icon"
+                icon={isPlaying ? faPauseCircle : faPlayCircle}
+              />
+              <FontAwesomeIcon className="play-button-background" icon={faCircle} />
+            </span>
+            <span className="sc-stats">
+              <span className="sc-stat play-count">
+                <FontAwesomeIcon icon={faPlay} size="xs" />
+                {trackInfo.playback_count.toLocaleString()}
+              </span>
+              <span className="sc-stat likes-count">
+                <FontAwesomeIcon icon={faHeart} size="xs" />
+                {trackInfo.likes_count.toLocaleString()}
+              </span>{' '}
+              <span className="sc-stat comment-count">
+                <FontAwesomeIcon icon={faComment} size="xs" />
+                {trackInfo.comment_count.toLocaleString()}
+              </span>
+            </span>
+            <a
+              className="sc-external-link"
+              href={url}
+              target="_blank"
+              title={EXTERNAL_LINK_LABEL}
+              aria-label={EXTERNAL_LINK_LABEL}
+            >
+              <FontAwesomeIcon icon={faSoundcloud} />
+              <FontAwesomeIcon icon={faExternalLink} />
+            </a>
+          </>
+        )}
+        <div
+          className={classNames('sc-iframe-wrapper', className, { playing: isPlaying })}
+          dangerouslySetInnerHTML={{ __html: dummyElement.outerHTML }}
+          ref={wrapperRef}
+        />
+      </div>
     </div>
   )
 }
