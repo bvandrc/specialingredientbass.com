@@ -28,12 +28,16 @@
 
   .track-title {
     font-size: 1.2em;
+    color: white;
   }
 
   .track-subtitle {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: turquoise;
+    font-size: 1.1em;
+    color: rgb(255, 199, 173);
+
+    .bracket {
+      color: grey;
+    }
   }
 }
 

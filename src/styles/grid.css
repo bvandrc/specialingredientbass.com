@@ -6,7 +6,7 @@
 
   /* Position (contents) */
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(500px, 100vw), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(450px, 100vw), 1fr));
   grid-gap: 1em;
   align-items: flex-start;
 
