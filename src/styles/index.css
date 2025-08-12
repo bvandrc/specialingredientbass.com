@@ -51,10 +51,6 @@ a:visited {
   color: inherit;
 }
 
-.hidden {
-  max-height: 0px;
-}
-
 .display-none {
   display: none;
 }

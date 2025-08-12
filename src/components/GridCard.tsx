@@ -110,9 +110,9 @@ export const GridCard = ({ title, children }: GridCardProps) => {
   const titleId = useId()
 
   const scrollToTop = () => {
-    const topItem = getIsMobile() ? titleRef : ref
     requestAnimationFrame(() => {
-      topItem?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      const topItem = getIsMobile() ? titleRef : ref
+      topItem.current!.scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
   }
 
@@ -227,7 +227,9 @@ export const GridCard = ({ title, children }: GridCardProps) => {
             if (isOpen && expandingRef?.current) {
               scrollToTop()
             }
-            setExpandingRef(undefined)
+            requestAnimationFrame(() => {
+              setExpandingRef(undefined)
+            })
           }
         }}
       >

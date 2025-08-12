@@ -1,3 +1,8 @@
+#main-body {
+  margin: auto;
+  width: 100%;
+}
+
 #main-grid {
   /* Position (center on page) */
   margin: auto;
@@ -16,18 +21,14 @@
   }
 }
 
-#main-body {
-  margin: auto;
-  width: 100%;
-}
-
 .grid-card {
   /* Position */
-  --card-max-height: calc(var(--app-height) - 4em);
-  max-height: var(--card-max-height);
+  max-height: calc(var(--app-height) - 4em);
+
+  /* Contents */
   display: flex;
-  flex-flow: column;
-  position: relative; /* Needed for contents */
+  flex-direction: column;
+  position: relative;
 
   /* Appearance - Border */
   --border-color: darkslateblue;
@@ -92,23 +93,16 @@
 
 .collapse-content {
   position: relative;
-  overflow-y: auto;
-  max-height: var(--card-max-height);
-  transition: max-height 400ms;
-  /* Gradient for overflow */
-  /* --gradient-height: 20px;
-  --mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black var(--gradient-height),
-    black calc(100% - var(--gradient-height)),
-    transparent 100%
-  );
-  -webkit-mask-image: var(--mask-image);
-  mask-image: var(--mask-image); */
+  overflow-y: auto; /* enable vertical scrolling */
+  max-height: var(--app-height);
+  transition: max-height 400ms ease-in-out;
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  &.hidden {
+    max-height: 0px;
   }
 }
 
