@@ -1,33 +1,38 @@
-#main-grid {
-  /* Position (center on page) */
-  margin: auto;
-  margin-top: 1em;
-  width: 100%;
-
-  /* Position (contents) */
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(450px, 100vw), 1fr));
-  grid-gap: 1em;
-  align-items: flex-start;
-
-  @media (max-width: 800px) {
-    margin-top: 0.5em; /* no glow border, so reduce */
-    grid-gap: 0px; /* no glow border, so reduce */
-  }
-}
-
 #main-body {
   margin: auto;
   width: 100%;
 }
 
+.main-masonry-grid {
+  /* Position (center on page) */
+  margin-top: 1em;
+  width: auto;
+
+  /* Position (contents) */
+  display: flex;
+
+  @media (max-width: 800px) {
+    margin-top: 0.5em; /* no glow border, so reduce */
+  }
+}
+
+.masonry-grid-column {
+  padding: 0.5em;
+
+  @media (max-width: 800px) {
+    padding: 0; /* no glow border, so reduce */
+  }
+}
+
 .grid-card {
   /* Position */
-  --card-max-height: calc(var(--app-height) - 4em);
-  max-height: var(--card-max-height);
+  max-height: calc(var(--app-height) - 4em);
+  margin-bottom: 1em;
+
+  /* Contents */
   display: flex;
-  flex-flow: column;
-  position: relative; /* Needed for contents */
+  flex-direction: column;
+  position: relative;
 
   /* Appearance - Border */
   --border-color: darkslateblue;
@@ -40,6 +45,7 @@
   @media (max-width: 800px) {
     border-width: 0px; /* no glow border - reduce y space */
     box-shadow: none;
+    margin-bottom: 0em;
   }
 }
 
@@ -92,23 +98,16 @@
 
 .collapse-content {
   position: relative;
-  overflow-y: auto;
-  max-height: var(--card-max-height);
-  transition: max-height 400ms;
-  /* Gradient for overflow */
-  /* --gradient-height: 20px;
-  --mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black var(--gradient-height),
-    black calc(100% - var(--gradient-height)),
-    transparent 100%
-  );
-  -webkit-mask-image: var(--mask-image);
-  mask-image: var(--mask-image); */
+  overflow-y: auto; /* enable vertical scrolling */
+  max-height: var(--app-height);
+  transition: max-height 400ms ease-in-out;
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  &.hidden {
+    max-height: 0px;
   }
 }
 
