@@ -138,7 +138,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
 
   useEffect(() => {
     // starting the transition
-    if (!isOpen) {
+    if (isOpen) {
       setExpandingRef(ref)
     }
   }, [isOpen])
