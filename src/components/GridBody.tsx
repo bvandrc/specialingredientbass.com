@@ -1,5 +1,6 @@
 import { faExternalLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useMemo } from 'react'
 import { getIsMobile } from '../utils/html-utils'
 import { GridCard, GridCardsProvider, useGridCards } from './GridCard'
 import { SoundcloudTrack } from './SoundcloudTrack'
@@ -102,6 +103,15 @@ const GridCards = () => {
 
 const GridCardsWrapper = () => {
   const { openIds, expandingRef } = useGridCards()
+
+  const spacerHeight = useMemo(() => {
+    if (!expandingRef?.current) return
+    return (
+      parseInt(window.getComputedStyle(expandingRef.current).maxHeight) -
+      expandingRef.current.offsetHeight
+    )
+  }, [expandingRef?.current])
+
   return (
     <>
       {openIds.length == 0 && (
@@ -114,15 +124,7 @@ const GridCardsWrapper = () => {
       </div>
       {
         // create a div at the bottom when expanding so can scroll title to the top
-        expandingRef?.current && openIds.length === 0 && (
-          <div
-            style={{
-              height:
-                parseInt(window.getComputedStyle(expandingRef.current).maxHeight) -
-                expandingRef.current.offsetHeight,
-            }}
-          />
-        )
+        expandingRef?.current && openIds.length === 0 && <div style={{ height: spacerHeight }} />
       }
     </>
   )
