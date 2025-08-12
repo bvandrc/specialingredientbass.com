@@ -143,60 +143,10 @@ export const GridCard = ({ title, children }: GridCardProps) => {
     }
   }, [])
 
-  const [UpArrow, DownArrow] = useMemo(() => {
-    const scrollRegion = collapseContentRef.current
-    if (!scrollRegion || !isOpen) return [null, null]
-
-    const ARROW_CLICK_SCROLL_DIST = 150 // distance scrolled when arrow clicked
-    const ARROW_MAGNET_DISTANCE = 100 // when new scroll is within this distance from top/bottom, just scroll all the way to top/bottom
-    const ARROW_DISTANCE_FROM_EDGE = 5 // pixels
-
-    const ScrollArrow = (props: Omit<FontAwesomeIconProps, 'size' | 'className'>) => (
-      <FontAwesomeIcon size="2x" className="scroll-arrow" {...props} />
-    )
-
-    const UpArrow = isScrolledToTop(scrollRegion, 50) ? null : (
-      <ScrollArrow
-        icon={faCaretUp}
-        onClick={() => {
-          const newScrollTop = scrollRegion.scrollTop - ARROW_CLICK_SCROLL_DIST
-          scrollRegion.scrollTo({
-            top: isScrolledToTop({ scrollTop: newScrollTop }, ARROW_MAGNET_DISTANCE)
-              ? 0
-              : newScrollTop,
-            behavior: 'smooth',
-          })
-        }}
-        style={{ top: scrollRegion.offsetTop + ARROW_DISTANCE_FROM_EDGE }}
-      />
-    )
-
-    const DownArrow = isScrolledToBottom(scrollRegion, 50) ? null : (
-      <ScrollArrow
-        icon={faCaretDown}
-        onClick={() => {
-          const newScrollTop = scrollRegion.scrollTop + ARROW_CLICK_SCROLL_DIST
-          scrollRegion.scrollTo({
-            top: isScrolledToBottom(
-              {
-                scrollHeight: scrollRegion.scrollHeight,
-                offsetHeight: scrollRegion.offsetHeight,
-                scrollTop: newScrollTop,
-              },
-              ARROW_MAGNET_DISTANCE,
-            )
-              ? scrollRegion.scrollHeight
-              : newScrollTop,
-            behavior: 'smooth',
-          })
-        }}
-        style={{
-          bottom: ARROW_DISTANCE_FROM_EDGE,
-        }}
-      />
-    )
-    return [UpArrow, DownArrow]
-  }, [height, scrollPosition])
+  const [UpArrow, DownArrow] = useMemo(
+    () => GetArrows({ scrollRegion: collapseContentRef.current, isOpen: isOpen && !expandingRef }),
+    [height, scrollPosition, isOpen, expandingRef],
+  )
 
   return (
     <div className="grid-card" role="region" aria-labelledby={titleId} ref={ref}>
@@ -238,4 +188,64 @@ export const GridCard = ({ title, children }: GridCardProps) => {
       {isOpen && DownArrow}
     </div>
   )
+}
+
+const GetArrows = ({
+  scrollRegion,
+  isOpen,
+}: {
+  scrollRegion: HTMLDivElement | null
+  isOpen: boolean
+}) => {
+  if (!scrollRegion || !isOpen) return [null, null]
+
+  const ARROW_CLICK_SCROLL_DIST = 150 // distance scrolled when arrow clicked
+  const ARROW_MAGNET_DISTANCE = 100 // when new scroll is within this distance from top/bottom, just scroll all the way to top/bottom
+  const ARROW_DISTANCE_FROM_EDGE = 5 // pixels
+
+  const ScrollArrow = (props: Omit<FontAwesomeIconProps, 'size' | 'className'>) => (
+    <FontAwesomeIcon size="2x" className="scroll-arrow" {...props} />
+  )
+
+  const UpArrow = isScrolledToTop(scrollRegion, 50) ? null : (
+    <ScrollArrow
+      icon={faCaretUp}
+      onClick={() => {
+        const newScrollTop = scrollRegion.scrollTop - ARROW_CLICK_SCROLL_DIST
+        scrollRegion.scrollTo({
+          top: isScrolledToTop({ scrollTop: newScrollTop }, ARROW_MAGNET_DISTANCE)
+            ? 0
+            : newScrollTop,
+          behavior: 'smooth',
+        })
+      }}
+      style={{ top: scrollRegion.offsetTop + ARROW_DISTANCE_FROM_EDGE }}
+    />
+  )
+
+  const DownArrow = isScrolledToBottom(scrollRegion, 50) ? null : (
+    <ScrollArrow
+      icon={faCaretDown}
+      onClick={() => {
+        const newScrollTop = scrollRegion.scrollTop + ARROW_CLICK_SCROLL_DIST
+        scrollRegion.scrollTo({
+          top: isScrolledToBottom(
+            {
+              scrollHeight: scrollRegion.scrollHeight,
+              offsetHeight: scrollRegion.offsetHeight,
+              scrollTop: newScrollTop,
+            },
+            ARROW_MAGNET_DISTANCE,
+          )
+            ? scrollRegion.scrollHeight
+            : newScrollTop,
+          behavior: 'smooth',
+        })
+      }}
+      style={{
+        bottom: ARROW_DISTANCE_FROM_EDGE,
+      }}
+    />
+  )
+  return [UpArrow, DownArrow]
 }
