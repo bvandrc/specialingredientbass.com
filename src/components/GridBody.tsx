@@ -2,13 +2,13 @@ import { faExternalLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useMemo } from 'react'
 import { getIsMobile } from '../utils/html-utils'
+import type { GridCardProps } from './GridCard'
 import { GridCard, GridCardsProvider, useGridCards } from './GridCard'
 import { SoundcloudTrack } from './SoundcloudTrack'
 
-const GridCards = () => {
-  return (
+const GridCards = ({ initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) => (
     <>
-      <GridCard title="Wave / Downtempo / Psydub">
+      <GridCard title="Wave / Downtempo / Psydub" initiallyOpen={initiallyOpen}>
         <SoundcloudTrack
           url="https://soundcloud.com/special-ingredient/plant-life-vol-1?in=special-ingredient/sets/trippy-melty-wavy-bass"
           title="Plant Life Vol. 1"
@@ -30,7 +30,7 @@ const GridCards = () => {
           subTitle="Halftime Psy-Hop & Uptempo Tribal Bass"
         />
       </GridCard>
-      <GridCard title="Wompy Dubstep">
+      <GridCard title="Wompy Dubstep" initiallyOpen={initiallyOpen}>
         <SoundcloudTrack
           url="https://soundcloud.com/special-ingredient/subwoofer-sauce-vol-1?in=special-ingredient/sets/heavier-dubstep"
           title="Subwoofer Sauce Vol. 1"
@@ -38,8 +38,7 @@ const GridCards = () => {
           additionalInfo={
             <>
               <i>True</i> riddim, carefully picked. If you're not a fan of riddim yet, try this one
-              out. Headphones recommended, Lotta wild sounds bouncing around the 3D space in this
-              one.
+            out. Headphones recommended, Lotta wild sounds bouncing around the 3D space in this one.
             </>
           }
         />
@@ -49,7 +48,7 @@ const GridCards = () => {
           subTitle="Early 2010s Wompy Dubstep— Liquid Stranger, Bar9, etc"
         />
       </GridCard>
-      <GridCard title="Hype Dubstep">
+      <GridCard title="Hype Dubstep" initiallyOpen={initiallyOpen}>
         <SoundcloudTrack
           url="https://soundcloud.com/special-ingredient/live-set-dft-yellow-brick-road-tour?in=special-ingredient/sets/heavier-dubstep"
           title="Live Set @ DFT Yellow Brick Road Tour"
@@ -71,8 +70,8 @@ const GridCards = () => {
               <a href="https://soundcloud.com/saumiimusic" target="__blank">
                 Saumii <FontAwesomeIcon icon={faExternalLink} size="2xs" />
               </a>{' '}
-              for a sold out crowd at Larimer Lounge, rinsing some of our favorite tracks we've
-              shared over the years of DJing together.
+            for a sold out crowd at Larimer Lounge, rinsing some of our favorite tracks we've shared
+            over the years of DJing together.
             </>
           }
         />
@@ -82,7 +81,7 @@ const GridCards = () => {
           subTitle="Briddim, Riddim, Heavy Dubstep"
         />
       </GridCard>
-      <GridCard title="Mashups / Flips">
+      <GridCard title="Mashups / Flips" initiallyOpen={initiallyOpen}>
         {[
           'https://soundcloud.com/special-ingredient/meduso-a-moment-vip-x-baby-bash-cyclone?in=special-ingredient/sets/mashups-flips',
           'https://soundcloud.com/special-ingredient/skeler-x-jojo-x-blackstreet-no-diggity-mashup?in=special-ingredient/sets/mashups-flips',
@@ -99,10 +98,9 @@ const GridCards = () => {
 </GridCard>  */}
     </>
   )
-}
 
 const GridCardsWrapper = () => {
-  const { openIds, expandingRef } = useGridCards()
+  const { openIds, allIds, expandingRef } = useGridCards()
 
   const spacerHeight = useMemo(() => {
     if (!expandingRef?.current) return
@@ -114,13 +112,13 @@ const GridCardsWrapper = () => {
 
   return (
     <>
-      {openIds.length == 0 && (
+      {openIds.length == 0 && allIds.length > 0 && (
         <span id="click-below">
           Click for SoundCloud mixes! <span className="fa fa-arrow-down" />
         </span>
       )}
       <div id="main-grid">
-        <GridCards />
+        <GridCards initiallyOpen={!getIsMobile()} />
       </div>
       {
         // create a div at the bottom when expanding so can scroll title to the top
@@ -130,16 +128,10 @@ const GridCardsWrapper = () => {
   )
 }
 
-export const GridBody = () => {
-  const isMobile = getIsMobile()
-  return (
-    <div id="main-body" role="main" aria-label="DJ Mixes">
-      <GridCardsProvider
-        initialOpen={isMobile ? 'none' : 'all'}
-        allowMultipleOpen={!isMobile as true}
-      >
-        <GridCardsWrapper />
-      </GridCardsProvider>
-    </div>
-  )
-}
+export const GridBody = () => (
+  <div id="main-body" role="main" aria-label="DJ Mixes">
+    <GridCardsProvider allowMultipleOpen={!getIsMobile()}>
+      <GridCardsWrapper />
+    </GridCardsProvider>
+  </div>
+)

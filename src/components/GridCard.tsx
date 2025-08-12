@@ -13,7 +13,6 @@ import {
   useRef,
   useState,
 } from 'react'
-import type { MergeExclusive } from 'type-fest'
 import { getIsMobile, isScrolledToBottom, isScrolledToTop, triggerClick } from '../utils/html-utils'
 
 type IsExpandingState = ReturnType<typeof useState<React.RefObject<HTMLDivElement> | undefined>>
@@ -21,16 +20,20 @@ type IsExpandingState = ReturnType<typeof useState<React.RefObject<HTMLDivElemen
 // Context to share expansion control across cards
 const GridCardsContext = createContext<{
   openIds: string[]
+  allIds: string[]
   allowMultipleOpen: boolean
-  registerCard: (id: string) => void
+  registerCard: (id: string, { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) => void
   toggleCard: (id: string) => void
+  isOpen: (id: string, { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) => boolean
   expandingRef: IsExpandingState[0]
   setExpandingRef: IsExpandingState[1]
 }>({
   openIds: [],
-  toggleCard: () => {},
+  allIds: [],
   allowMultipleOpen: !getIsMobile(),
   registerCard: () => {},
+  toggleCard: () => {},
+  isOpen: () => false,
   expandingRef: undefined,
   setExpandingRef: () => null,
 })
@@ -41,25 +44,22 @@ export function useGridCards() {
 
 export function GridCardsProvider({
   children,
-  initialOpen,
   allowMultipleOpen,
-}: PropsWithChildren<
-  MergeExclusive<
-    { initialOpen: 'all' | 'none' | string[]; allowMultipleOpen: true },
-    { initialOpen: 'none' | [string]; allowMultipleOpen: false }
-  >
->) {
-  const [openIds, setOpenIds] = useState<string[]>(Array.isArray(initialOpen) ? initialOpen : [])
-  const [expandingRef, setExpandingRef] = useState<React.RefObject<HTMLDivElement>>()
+}: PropsWithChildren<{ allowMultipleOpen: boolean }>) {
+  const [openIds, setOpenIds] = useState<string[]>([])
+  const [allIds, setAllIds] = useState<string[]>([])
+  const [expandingRef, setExpandingRef] = useState<React.RefObject<HTMLDivElement> | undefined>()
 
   const registerCard = useCallback(
-    (id: string) => {
-      if (initialOpen === 'all' && !openIds.includes(id)) {
-        // Need to register  in the case of `all`.
+    (id: string, { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) => {
+      if (!allIds.includes(id)) {
+        setAllIds((prev) => [...prev, id])
+      }
+      if (initiallyOpen && !openIds.includes(id)) {
         setOpenIds((prev) => [...prev, id])
       }
     },
-    [initialOpen],
+    [],
   )
 
   const toggleCard = (id: string) => {
@@ -70,13 +70,18 @@ export function GridCardsProvider({
     }
   }
 
+  const isOpen = (id: string, { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) =>
+    openIds.includes(id) || (!allIds.includes(id) && initiallyOpen)
+
   return (
     <GridCardsContext.Provider
       value={{
         openIds,
-        toggleCard,
-        registerCard,
+        allIds,
         allowMultipleOpen,
+        registerCard,
+        toggleCard,
+        isOpen,
         expandingRef,
         setExpandingRef,
       }}
@@ -88,17 +93,24 @@ export function GridCardsProvider({
 
 export type GridCardProps = PropsWithChildren<{
   title: string
+  initiallyOpen: boolean
 }>
 
-export const GridCard = ({ title, children }: GridCardProps) => {
+export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const id = useId()
-  const { openIds, toggleCard, registerCard, expandingRef, setExpandingRef } = useGridCards()
+  const {
+    toggleCard,
+    registerCard,
+    isOpen: checkIsOpen,
+    expandingRef,
+    setExpandingRef,
+  } = useGridCards()
 
   useEffect(() => {
-    registerCard(id)
+    registerCard(id, { initiallyOpen })
   }, [])
 
-  const isOpen = openIds.includes(id)
+  const isOpen = checkIsOpen(id, { initiallyOpen })
 
   const ref = useRef<HTMLDivElement>(null)
 
@@ -118,11 +130,17 @@ export const GridCard = ({ title, children }: GridCardProps) => {
 
   const handleCollapseClick = useCallback(() => {
     if (!isOpen) {
-      setExpandingRef(ref)
       // scroll immediately if we can
       scrollToTop()
     }
     toggleCard(id)
+  }, [isOpen])
+
+  useEffect(() => {
+    // starting the transition
+    if (!isOpen) {
+      setExpandingRef(ref)
+    }
   }, [isOpen])
 
   useEffect(() => {
@@ -177,9 +195,7 @@ export const GridCard = ({ title, children }: GridCardProps) => {
             if (isOpen && expandingRef?.current) {
               scrollToTop()
             }
-            requestAnimationFrame(() => {
-              setExpandingRef(undefined)
-            })
+            setExpandingRef(undefined)
           }
         }}
       >
@@ -197,17 +213,19 @@ const GetArrows = ({
   scrollRegion: HTMLDivElement | null
   isOpen: boolean
 }) => {
-  if (!scrollRegion || !isOpen) return [null, null]
-
   const ARROW_CLICK_SCROLL_DIST = 150 // distance scrolled when arrow clicked
   const ARROW_MAGNET_DISTANCE = 100 // when new scroll is within this distance from top/bottom, just scroll all the way to top/bottom
   const ARROW_DISTANCE_FROM_EDGE = 5 // pixels
+  const ARROW_DISTANCE_SHOW_THRESHOLD = 50 // distance from top or bottom to show arrow
+
+  if (!scrollRegion || !isOpen || scrollRegion.offsetHeight < ARROW_DISTANCE_SHOW_THRESHOLD * 2)
+    return [null, null]
 
   const ScrollArrow = (props: Omit<FontAwesomeIconProps, 'size' | 'className'>) => (
     <FontAwesomeIcon size="2x" className="scroll-arrow" {...props} />
   )
 
-  const UpArrow = isScrolledToTop(scrollRegion, 50) ? null : (
+  const UpArrow = isScrolledToTop(scrollRegion, ARROW_DISTANCE_SHOW_THRESHOLD) ? null : (
     <ScrollArrow
       icon={faCaretUp}
       onClick={() => {
@@ -223,7 +241,7 @@ const GetArrows = ({
     />
   )
 
-  const DownArrow = isScrolledToBottom(scrollRegion, 50) ? null : (
+  const DownArrow = isScrolledToBottom(scrollRegion, ARROW_DISTANCE_SHOW_THRESHOLD) ? null : (
     <ScrollArrow
       icon={faCaretDown}
       onClick={() => {
