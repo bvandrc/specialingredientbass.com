@@ -31,13 +31,6 @@ export const scrollElement = (
   })
 }
 
-export const getWindowWidth = () =>
-  window.innerWidth ||
-  document.documentElement.clientWidth ||
-  document.body.clientWidth
-
-export const getIsMobile = () => getWindowWidth() < MOBILE_WIDTH
-
 export const htmlToElement = (html: string) => {
   const template = document.createElement('template')
   template.innerHTML = html.trim()
