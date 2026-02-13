@@ -39,6 +39,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.7",
     "@fortawesome/react-fontawesome": "^0.2",
     "classnames": "^2",
+    "es-toolkit": "^1.44.0",
     "merge-refs": "^1",
     "react": "^18",
     "react-dom": "^18",

@@ -14,6 +14,23 @@ export const isScrollableY = (
   element: Pick<HTMLElement, 'scrollHeight' | 'clientHeight'>,
 ) => element.scrollHeight > element.clientHeight
 
+export const scrollElement = (
+  el: HTMLElement | null,
+  { delta, magnetDistance }: { delta: number; magnetDistance: number },
+) => {
+  if (!el) return
+  const newScrollTop = el.scrollTop + delta
+  const atTop = isScrolledToTop({ scrollTop: newScrollTop }, magnetDistance)
+  const atBottom = isScrolledToBottom(
+    { ...el, scrollTop: newScrollTop },
+    magnetDistance,
+  )
+  el.scrollTo({
+    top: atTop ? 0 : atBottom ? el.scrollHeight : newScrollTop,
+    behavior: 'smooth',
+  })
+}
+
 export const getWindowWidth = () =>
   window.innerWidth ||
   document.documentElement.clientWidth ||
