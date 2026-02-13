@@ -1,23 +1,41 @@
 import classNames from 'classnames'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { getArrowBtns } from './getArrowBtns'
 
 export const GridCardBody = ({
   children,
-  contentRef,
   isOpen,
   expandingRef,
-  height,
   setExpandingRef,
   scrollToTop,
 }: React.PropsWithChildren<{
-  contentRef: React.RefObject<HTMLDivElement>
   isOpen: boolean
   expandingRef: React.RefObject<HTMLDivElement> | undefined
   setExpandingRef: (ref: React.RefObject<HTMLDivElement> | undefined) => void
   scrollToTop: () => void
-  height: number
 }>) => {
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  const [height, setHeight] = useState<number>(0)
+
+  useEffect(() => {
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setHeight(entry.contentRect.height)
+      }
+    })
+
+    if (contentRef.current) {
+      observer.observe(contentRef.current)
+    }
+
+    return () => {
+      if (contentRef.current) {
+        observer.unobserve(contentRef.current)
+      }
+    }
+  }, [])
+
   const [scrollTop, setScrollTop] = useState(0)
 
   const [UpArrow, DownArrow] = useMemo(

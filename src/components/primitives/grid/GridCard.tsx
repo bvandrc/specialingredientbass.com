@@ -4,7 +4,6 @@ import {
   useEffect,
   useId,
   useRef,
-  useState,
 } from 'react'
 import { getIsMobile } from '../../../utils/html-utils'
 import { GridCardBody } from './GridCardBody'
@@ -21,7 +20,6 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const titleId = useId()
   const cardRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
 
   const {
     toggleCard,
@@ -36,8 +34,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   }, [])
 
   const isOpen = checkIsOpen(id, { initiallyOpen })
-
-  const [height, setHeight] = useState<number>(0)
+  const prevIsOpen = useRef<boolean>(isOpen)
 
   const scrollToTop = () => {
     requestAnimationFrame(() => {
@@ -56,27 +53,10 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   }, [isOpen])
 
   useEffect(() => {
-    // starting the transition
-    if (isOpen) setExpandingRef(cardRef)
-  }, [isOpen])
-
-  useEffect(() => {
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        setHeight(entry.contentRect.height)
-      }
-    })
-
-    if (contentRef.current) {
-      observer.observe(contentRef.current)
-    }
-
-    return () => {
-      if (contentRef.current) {
-        observer.unobserve(contentRef.current)
-      }
-    }
-  }, [])
+    // only set expanding ref when transitioning from closed → open (so scroll/arrows run after transition)
+    if (isOpen && !prevIsOpen.current) setExpandingRef(cardRef)
+    prevIsOpen.current = isOpen
+  }, [isOpen, setExpandingRef])
 
   return (
     <section className="grid-card" aria-labelledby={titleId} ref={cardRef}>
@@ -88,12 +68,10 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
         id={titleId}
       />
       <GridCardBody
-        contentRef={contentRef}
         isOpen={isOpen}
         expandingRef={expandingRef}
         setExpandingRef={setExpandingRef}
         scrollToTop={scrollToTop}
-        height={height}
       >
         {children}
       </GridCardBody>
