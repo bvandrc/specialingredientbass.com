@@ -1,7 +1,7 @@
 import { useLayoutEffect, useState } from 'react'
 import Masonry from 'react-masonry-css'
 import { getIsMobile } from '../../../utils/html-utils'
-import { GridCardsProvider, useGridCards } from './GridCard'
+import { GridCardsProvider, useGridCards } from './GridCardsProvider'
 
 const GridCardsWrapper = ({
   children,
