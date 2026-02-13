@@ -10,7 +10,10 @@ type GridCardsContextValue = {
   allowMultipleOpen: boolean
   registerCard: (id: string, opts: Pick<GridCardProps, 'initiallyOpen'>) => void
   toggleCard: (id: string) => void
-  isOpen: (id: string, opts: Pick<GridCardProps, 'initiallyOpen'>) => boolean
+  checkIsOpen: (
+    id: string,
+    opts: Pick<GridCardProps, 'initiallyOpen'>,
+  ) => boolean
   expandingRef: ExpandingRef
   setExpandingRef: (ref: ExpandingRef) => void
 }
@@ -23,7 +26,7 @@ const GridCardsContext = createContext<GridCardsContextValue | null>({
   registerCard: () => {},
   // biome-ignore lint/suspicious/noEmptyBlockStatements: is fine
   toggleCard: () => {},
-  isOpen: () => false,
+  checkIsOpen: () => false,
   expandingRef: undefined,
   setExpandingRef: () => null,
 })
@@ -65,7 +68,7 @@ export function GridCardsProvider({
     }
   }
 
-  const isOpen = (
+  const checkIsOpen = (
     id: string,
     { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>,
   ) => openIds.includes(id) || (!allIds.includes(id) && initiallyOpen)
@@ -78,7 +81,7 @@ export function GridCardsProvider({
         allowMultipleOpen,
         registerCard,
         toggleCard,
-        isOpen,
+        checkIsOpen,
         expandingRef,
         setExpandingRef,
       }}

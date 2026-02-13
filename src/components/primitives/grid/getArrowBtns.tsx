@@ -3,7 +3,11 @@ import {
   FontAwesomeIcon,
   type FontAwesomeIconProps,
 } from '@fortawesome/react-fontawesome'
-import { isScrolledToBottom, isScrolledToTop } from '../../../utils/html-utils'
+import {
+  isScrolledToBottom,
+  isScrolledToTop,
+  scrollElement,
+} from '../../../utils/html-utils'
 
 const SCROLL_ARROW = {
   clickDistance: 150, // distance scrolled when arrow clicked
@@ -41,18 +45,12 @@ export const getArrowBtns = ({
     <FontAwesomeIcon
       {...arrowProps}
       icon={faCaretUp}
-      onClick={() => {
-        const newScrollTop = scrollRegion.scrollTop - SCROLL_ARROW.clickDistance
-        scrollRegion.scrollTo({
-          top: isScrolledToTop(
-            { scrollTop: newScrollTop },
-            SCROLL_ARROW.magnetDistance,
-          )
-            ? 0
-            : newScrollTop,
-          behavior: 'smooth',
+      onClick={() =>
+        scrollElement(scrollRegion, {
+          delta: -SCROLL_ARROW.clickDistance,
+          magnetDistance: SCROLL_ARROW.magnetDistance,
         })
-      }}
+      }
       style={{ top: scrollRegion.offsetTop + SCROLL_ARROW.distanceFromEdge }}
     />
   ) : null
@@ -61,22 +59,12 @@ export const getArrowBtns = ({
     <FontAwesomeIcon
       {...arrowProps}
       icon={faCaretDown}
-      onClick={() => {
-        const newScrollTop = scrollRegion.scrollTop + SCROLL_ARROW.clickDistance
-        scrollRegion.scrollTo({
-          top: isScrolledToBottom(
-            {
-              scrollHeight: scrollRegion.scrollHeight,
-              offsetHeight: scrollRegion.offsetHeight,
-              scrollTop: newScrollTop,
-            },
-            SCROLL_ARROW.magnetDistance,
-          )
-            ? scrollRegion.scrollHeight
-            : newScrollTop,
-          behavior: 'smooth',
+      onClick={() =>
+        scrollElement(scrollRegion, {
+          delta: SCROLL_ARROW.clickDistance,
+          magnetDistance: SCROLL_ARROW.magnetDistance,
         })
-      }}
+      }
       style={{
         bottom: SCROLL_ARROW.distanceFromEdge,
       }}

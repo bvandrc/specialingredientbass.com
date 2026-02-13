@@ -26,7 +26,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const {
     toggleCard,
     registerCard,
-    isOpen: checkIsOpen,
+    checkIsOpen,
     expandingRef,
     setExpandingRef,
   } = useGridCards()
