@@ -1,7 +1,7 @@
 .track {
   position: relative;
   margin: 5px 10px;
-  font-family: "Outfit";
+  font-family: "Outfit", sans-serif;
 
   .album-art {
     vertical-align: middle;
@@ -24,6 +24,13 @@
     display: flex;
     flex-direction: column;
     grid: 20px;
+
+    h4 {
+      margin-top: 0;
+      margin-bottom: 0;
+      line-height: 1.2em;
+      font-weight: normal;
+    }
   }
 
   .track-title {
@@ -50,6 +57,7 @@
   line-height: 1.1em;
 
   a {
+    /* biome-ignore lint/complexity/noImportantStyles: going to fix with tailwind */
     color: darkslateblue !important;
   }
 

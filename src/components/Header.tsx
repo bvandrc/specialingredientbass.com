@@ -19,7 +19,7 @@ export const Header = () => {
         />
       </div>
       <div id="header-right">
-        <div id="bio" role="region" aria-label="bio">
+        <section id="bio" aria-label="bio">
           All forms of bass music 🌀
           <br />
           Tracklist in every mix 🎵
@@ -31,7 +31,8 @@ export const Header = () => {
           Denver based 🏔️ from Wisconsin 🧀
           <br />
           AKA DJ Smoothbrain 😉
-        </div>
+        </section>
+        {/** biome-ignore lint/a11y/useSemanticElements: is fine as Div */}
         <div id="social-links" role="group" aria-label="social links">
           <CircleLink
             className="soundcloud"

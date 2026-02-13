@@ -124,6 +124,7 @@
   gap: 0.3em;
 
   /* Appearance */
+  /* biome-ignore lint/complexity/noImportantStyles: going to fix with tailwind */
   color: var(--soundcloud) !important;
   font-size: 1em;
   font-weight: bold;

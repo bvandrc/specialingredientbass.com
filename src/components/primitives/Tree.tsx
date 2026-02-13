@@ -52,7 +52,7 @@ const Node = ({
 const NodeList = ({ nodes }: TreeNodes) => (
   <ol>
     {nodes.map((node) => (
-      <Node {...node} />
+      <Node key={node.text} {...node} />
     ))}
   </ol>
 )
