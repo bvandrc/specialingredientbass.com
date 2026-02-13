@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import Masonry from 'react-masonry-css'
 import { getIsMobile } from '../../../utils/html-utils'
 import { GridCardsProvider, useGridCards } from './GridCard'
@@ -11,14 +11,26 @@ const GridCardsWrapper = ({
   noneExpandedInfo?: React.ReactNode
 }) => {
   const { openIds, allIds, expandingRef } = useGridCards()
+  const [spacerHeight, setSpacerHeight] = useState<number | undefined>()
 
-  const spacerHeight = useMemo(() => {
-    if (!expandingRef?.current) return
-    return (
-      Number.parseInt(window.getComputedStyle(expandingRef.current).maxHeight) -
-      expandingRef.current.offsetHeight
-    )
-  }, [expandingRef?.current])
+  useLayoutEffect(() => {
+    const el = expandingRef?.current
+    if (!el) return
+
+    const update = () => {
+      const maxHeight = Number.parseInt(
+        window.getComputedStyle(el).maxHeight || '0',
+      )
+      setSpacerHeight(maxHeight - el.offsetHeight)
+    }
+
+    update()
+
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+
+    return () => ro.disconnect()
+  }, [expandingRef])
 
   return (
     <>
