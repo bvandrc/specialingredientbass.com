@@ -13,18 +13,31 @@ import {
   useRef,
   useState,
 } from 'react'
-import { getIsMobile, isScrolledToBottom, isScrolledToTop, triggerClick } from '../utils/html-utils'
+import {
+  getIsMobile,
+  isScrolledToBottom,
+  isScrolledToTop,
+  triggerClick,
+} from '../utils/html-utils'
 
-type IsExpandingState = ReturnType<typeof useState<React.RefObject<HTMLDivElement> | undefined>>
+type IsExpandingState = ReturnType<
+  typeof useState<React.RefObject<HTMLDivElement> | undefined>
+>
 
 // Context to share expansion control across cards
 const GridCardsContext = createContext<{
   openIds: string[]
   allIds: string[]
   allowMultipleOpen: boolean
-  registerCard: (id: string, { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) => void
+  registerCard: (
+    id: string,
+    { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>,
+  ) => void
   toggleCard: (id: string) => void
-  isOpen: (id: string, { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) => boolean
+  isOpen: (
+    id: string,
+    { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>,
+  ) => boolean
   expandingRef: IsExpandingState[0]
   setExpandingRef: IsExpandingState[1]
 }>({
@@ -48,7 +61,9 @@ export function GridCardsProvider({
 }: PropsWithChildren<{ allowMultipleOpen: boolean }>) {
   const [openIds, setOpenIds] = useState<string[]>([])
   const [allIds, setAllIds] = useState<string[]>([])
-  const [expandingRef, setExpandingRef] = useState<React.RefObject<HTMLDivElement> | undefined>()
+  const [expandingRef, setExpandingRef] = useState<
+    React.RefObject<HTMLDivElement> | undefined
+  >()
 
   const registerCard = useCallback(
     (id: string, { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) => {
@@ -64,14 +79,18 @@ export function GridCardsProvider({
 
   const toggleCard = (id: string) => {
     if (allowMultipleOpen) {
-      setOpenIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))
+      setOpenIds((prev) =>
+        prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+      )
     } else {
       setOpenIds((prev) => (prev.includes(id) ? [] : [id]))
     }
   }
 
-  const isOpen = (id: string, { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) =>
-    openIds.includes(id) || (!allIds.includes(id) && initiallyOpen)
+  const isOpen = (
+    id: string,
+    { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>,
+  ) => openIds.includes(id) || (!allIds.includes(id) && initiallyOpen)
 
   return (
     <GridCardsContext.Provider
@@ -162,12 +181,21 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   }, [])
 
   const [UpArrow, DownArrow] = useMemo(
-    () => GetArrows({ scrollRegion: collapseContentRef.current, isOpen: isOpen && !expandingRef }),
+    () =>
+      GetArrows({
+        scrollRegion: collapseContentRef.current,
+        isOpen: isOpen && !expandingRef,
+      }),
     [height, scrollPosition, isOpen, expandingRef],
   )
 
   return (
-    <div className="grid-card" role="region" aria-labelledby={titleId} ref={ref}>
+    <div
+      className="grid-card"
+      role="region"
+      aria-labelledby={titleId}
+      ref={ref}
+    >
       <div
         className="card-title"
         role="button"
@@ -180,7 +208,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
         <FontAwesomeIcon
           size="lg"
           icon={faCaretDown}
-          className={classNames(`collapse-caret`, { open: isOpen })}
+          className={classNames('collapse-caret', { open: isOpen })}
         />
       </div>
       {isOpen && UpArrow}
@@ -218,20 +246,30 @@ const GetArrows = ({
   const ARROW_DISTANCE_FROM_EDGE = 5 // pixels
   const ARROW_DISTANCE_SHOW_THRESHOLD = 50 // distance from top or bottom to show arrow
 
-  if (!scrollRegion || !isOpen || scrollRegion.offsetHeight < ARROW_DISTANCE_SHOW_THRESHOLD * 2)
+  if (
+    !scrollRegion ||
+    !isOpen ||
+    scrollRegion.offsetHeight < ARROW_DISTANCE_SHOW_THRESHOLD * 2
+  )
     return [null, null]
 
-  const ScrollArrow = (props: Omit<FontAwesomeIconProps, 'size' | 'className'>) => (
-    <FontAwesomeIcon size="2x" className="scroll-arrow" {...props} />
-  )
+  const ScrollArrow = (
+    props: Omit<FontAwesomeIconProps, 'size' | 'className'>,
+  ) => <FontAwesomeIcon size="2x" className="scroll-arrow" {...props} />
 
-  const UpArrow = isScrolledToTop(scrollRegion, ARROW_DISTANCE_SHOW_THRESHOLD) ? null : (
+  const UpArrow = isScrolledToTop(
+    scrollRegion,
+    ARROW_DISTANCE_SHOW_THRESHOLD,
+  ) ? null : (
     <ScrollArrow
       icon={faCaretUp}
       onClick={() => {
         const newScrollTop = scrollRegion.scrollTop - ARROW_CLICK_SCROLL_DIST
         scrollRegion.scrollTo({
-          top: isScrolledToTop({ scrollTop: newScrollTop }, ARROW_MAGNET_DISTANCE)
+          top: isScrolledToTop(
+            { scrollTop: newScrollTop },
+            ARROW_MAGNET_DISTANCE,
+          )
             ? 0
             : newScrollTop,
           behavior: 'smooth',
@@ -241,7 +279,10 @@ const GetArrows = ({
     />
   )
 
-  const DownArrow = isScrolledToBottom(scrollRegion, ARROW_DISTANCE_SHOW_THRESHOLD) ? null : (
+  const DownArrow = isScrolledToBottom(
+    scrollRegion,
+    ARROW_DISTANCE_SHOW_THRESHOLD,
+  ) ? null : (
     <ScrollArrow
       icon={faCaretDown}
       onClick={() => {

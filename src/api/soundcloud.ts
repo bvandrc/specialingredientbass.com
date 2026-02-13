@@ -23,7 +23,7 @@ export function getOEmbed(params: {
   /** @default true */
   show_comments?: boolean
 }) {
-  return makeRequest('GET', `https://soundcloud.com/oembed`, {
+  return makeRequest('GET', 'https://soundcloud.com/oembed', {
     client_id: SC_CLIENT_ID,
     ...params,
   }).then((res) => res.json() as Promise<OEmbed>)

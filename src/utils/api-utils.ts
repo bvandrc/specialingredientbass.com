@@ -19,10 +19,14 @@ export function makeRequest(
   const urlObj = new URL(url)
   setSearchParams(urlObj, params)
 
-  return fetch(urlObj.href, { ...requestArgs, method }).then(async (response) => {
-    if (!response.ok) {
-      throw new Error(`${response.status}: ${response.statusText} - ${await response.text()}`)
-    }
-    return response
-  })
+  return fetch(urlObj.href, { ...requestArgs, method }).then(
+    async (response) => {
+      if (!response.ok) {
+        throw new Error(
+          `${response.status}: ${response.statusText} - ${await response.text()}`,
+        )
+      }
+      return response
+    },
+  )
 }
