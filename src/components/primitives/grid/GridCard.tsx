@@ -1,6 +1,8 @@
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
-import type { FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  FontAwesomeIcon,
+  type FontAwesomeIconProps,
+} from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 import {
   createContext,
@@ -18,29 +20,27 @@ import {
   isScrolledToBottom,
   isScrolledToTop,
   triggerClick,
-} from '../utils/html-utils'
+} from '../../../utils/html-utils'
 
-type IsExpandingState = ReturnType<
-  typeof useState<React.RefObject<HTMLDivElement> | undefined>
->
+export type GridCardProps = PropsWithChildren<{
+  title: string
+  initiallyOpen: boolean
+}>
 
-/** Context to share expansion control across cards */
-const GridCardsContext = createContext<{
+type ExpandingRef = React.RefObject<HTMLDivElement> | undefined
+
+type GridCardsContextValue = {
   openIds: string[]
   allIds: string[]
   allowMultipleOpen: boolean
-  registerCard: (
-    id: string,
-    { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>,
-  ) => void
+  registerCard: (id: string, opts: Pick<GridCardProps, 'initiallyOpen'>) => void
   toggleCard: (id: string) => void
-  isOpen: (
-    id: string,
-    { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>,
-  ) => boolean
-  expandingRef: IsExpandingState[0]
-  setExpandingRef: IsExpandingState[1]
-}>({
+  isOpen: (id: string, opts: Pick<GridCardProps, 'initiallyOpen'>) => boolean
+  expandingRef: ExpandingRef
+  setExpandingRef: (ref: ExpandingRef) => void
+}
+
+const GridCardsContext = createContext<GridCardsContextValue | null>({
   openIds: [],
   allIds: [],
   allowMultipleOpen: !getIsMobile(),
@@ -54,7 +54,10 @@ const GridCardsContext = createContext<{
 })
 
 export function useGridCards() {
-  return useContext(GridCardsContext)
+  const ctx = useContext(GridCardsContext)
+  if (!ctx)
+    throw new Error('useGridCards must be used within GridCardsProvider')
+  return ctx
 }
 
 export function GridCardsProvider({
@@ -63,9 +66,7 @@ export function GridCardsProvider({
 }: PropsWithChildren<{ allowMultipleOpen: boolean }>) {
   const [openIds, setOpenIds] = useState<string[]>([])
   const [allIds, setAllIds] = useState<string[]>([])
-  const [expandingRef, setExpandingRef] = useState<
-    React.RefObject<HTMLDivElement> | undefined
-  >()
+  const [expandingRef, setExpandingRef] = useState<ExpandingRef>(undefined)
 
   const registerCard = useCallback(
     (id: string, { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) => {
@@ -112,13 +113,13 @@ export function GridCardsProvider({
   )
 }
 
-export type GridCardProps = PropsWithChildren<{
-  title: string
-  initiallyOpen: boolean
-}>
-
 export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const id = useId()
+  const titleId = useId()
+  const cardRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+
   const {
     toggleCard,
     registerCard,
@@ -133,35 +134,25 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
 
   const isOpen = checkIsOpen(id, { initiallyOpen })
 
-  const ref = useRef<HTMLDivElement>(null)
-
   const [scrollPosition, setScrollPosition] = useState(0)
   const [height, setHeight] = useState<number>(0)
-  const titleRef = useRef<HTMLDivElement>(null)
-  const collapseContentRef = useRef<HTMLDivElement>(null)
-
-  const titleId = useId()
 
   const scrollToTop = () => {
     requestAnimationFrame(() => {
-      const topItem = getIsMobile() ? titleRef : ref
+      const topItem = getIsMobile() ? titleRef : cardRef
       topItem.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
   }
 
-  const handleCollapseClick = useCallback(() => {
-    if (!isOpen) {
+  const handleTitleClick = useCallback(() => {
       // scroll immediately if we can
-      scrollToTop()
-    }
+    if (!isOpen) scrollToTop()
     toggleCard(id)
   }, [isOpen])
 
   useEffect(() => {
     // starting the transition
-    if (isOpen) {
-      setExpandingRef(ref)
-    }
+    if (isOpen) setExpandingRef(cardRef)
   }, [isOpen])
 
   useEffect(() => {
@@ -171,13 +162,13 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
       }
     })
 
-    if (collapseContentRef.current) {
-      observer.observe(collapseContentRef.current)
+    if (contentRef.current) {
+      observer.observe(contentRef.current)
     }
 
     return () => {
-      if (collapseContentRef.current) {
-        observer.unobserve(collapseContentRef.current)
+      if (contentRef.current) {
+        observer.unobserve(contentRef.current)
       }
     }
   }, [])
@@ -185,21 +176,22 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const [UpArrow, DownArrow] = useMemo(
     () =>
       GetArrows({
-        scrollRegion: collapseContentRef.current,
+        scrollRegion: contentRef.current,
         isOpen: isOpen && !expandingRef,
       }),
     [height, scrollPosition, isOpen, expandingRef],
   )
 
   return (
-    <section className="grid-card" aria-labelledby={titleId} ref={ref}>
+    <section className="grid-card" aria-labelledby={titleId} ref={cardRef}>
       {/** biome-ignore lint/a11y/useSemanticElements: is fine as Div */}
       <div
         className="card-title"
         role="button"
         tabIndex={0}
+        aria-expanded={isOpen}
         onKeyDown={triggerClick}
-        onClick={handleCollapseClick}
+        onClick={handleTitleClick}
         ref={titleRef}
       >
         <h2 id={titleId}>{title}</h2>
@@ -207,12 +199,13 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
           size="lg"
           icon={faCaretDown}
           className={classNames('collapse-caret', { open: isOpen })}
+          aria-hidden
         />
       </div>
       {isOpen && UpArrow}
       <div
         className={classNames('collapse-content', { hidden: !isOpen })}
-        ref={collapseContentRef}
+        ref={contentRef}
         onScroll={(e) => setScrollPosition(e.currentTarget.scrollTop)}
         // due to other cards collapsing, may need to scroll again once finished since proper position
         // on page can't be calculated while that collapse animation is occurring.
@@ -232,6 +225,13 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   )
 }
 
+const SCROLL_ARROW = {
+  clickDistance: 150, // distance scrolled when arrow clicked
+  magnetDistance: 100, // when new scroll is within this distance from top/bottom, just scroll all the way to top/bottom
+  distanceFromEdge: 5, // pixels
+  showThreshold: 50, // distance from top or bottom to show arrow
+} as const
+
 const GetArrows = ({
   scrollRegion,
   isOpen,
@@ -239,15 +239,10 @@ const GetArrows = ({
   scrollRegion: HTMLDivElement | null
   isOpen: boolean
 }) => {
-  const ARROW_CLICK_SCROLL_DIST = 150 // distance scrolled when arrow clicked
-  const ARROW_MAGNET_DISTANCE = 100 // when new scroll is within this distance from top/bottom, just scroll all the way to top/bottom
-  const ARROW_DISTANCE_FROM_EDGE = 5 // pixels
-  const ARROW_DISTANCE_SHOW_THRESHOLD = 50 // distance from top or bottom to show arrow
-
   if (
     !scrollRegion ||
     !isOpen ||
-    scrollRegion.offsetHeight < ARROW_DISTANCE_SHOW_THRESHOLD * 2
+    scrollRegion.offsetHeight < SCROLL_ARROW.showThreshold * 2
   )
     return [null, null]
 
@@ -255,36 +250,36 @@ const GetArrows = ({
     props: Omit<FontAwesomeIconProps, 'size' | 'className'>,
   ) => <FontAwesomeIcon size="2x" className="scroll-arrow" {...props} />
 
-  const UpArrow = isScrolledToTop(
+  const showUpArrow = !isScrolledToTop(scrollRegion, SCROLL_ARROW.showThreshold)
+  const showDownArrow = !isScrolledToBottom(
     scrollRegion,
-    ARROW_DISTANCE_SHOW_THRESHOLD,
-  ) ? null : (
+    SCROLL_ARROW.showThreshold,
+  )
+
+  const UpArrow = showUpArrow ? (
     <ScrollArrow
       icon={faCaretUp}
       onClick={() => {
-        const newScrollTop = scrollRegion.scrollTop - ARROW_CLICK_SCROLL_DIST
+        const newScrollTop = scrollRegion.scrollTop - SCROLL_ARROW.clickDistance
         scrollRegion.scrollTo({
           top: isScrolledToTop(
             { scrollTop: newScrollTop },
-            ARROW_MAGNET_DISTANCE,
+            SCROLL_ARROW.magnetDistance,
           )
             ? 0
             : newScrollTop,
           behavior: 'smooth',
         })
       }}
-      style={{ top: scrollRegion.offsetTop + ARROW_DISTANCE_FROM_EDGE }}
+      style={{ top: scrollRegion.offsetTop + SCROLL_ARROW.distanceFromEdge }}
     />
-  )
+  ) : null
 
-  const DownArrow = isScrolledToBottom(
-    scrollRegion,
-    ARROW_DISTANCE_SHOW_THRESHOLD,
-  ) ? null : (
+  const DownArrow = showDownArrow ? (
     <ScrollArrow
       icon={faCaretDown}
       onClick={() => {
-        const newScrollTop = scrollRegion.scrollTop + ARROW_CLICK_SCROLL_DIST
+        const newScrollTop = scrollRegion.scrollTop + SCROLL_ARROW.clickDistance
         scrollRegion.scrollTo({
           top: isScrolledToBottom(
             {
@@ -292,7 +287,7 @@ const GetArrows = ({
               offsetHeight: scrollRegion.offsetHeight,
               scrollTop: newScrollTop,
             },
-            ARROW_MAGNET_DISTANCE,
+            SCROLL_ARROW.magnetDistance,
           )
             ? scrollRegion.scrollHeight
             : newScrollTop,
@@ -300,9 +295,9 @@ const GetArrows = ({
         })
       }}
       style={{
-        bottom: ARROW_DISTANCE_FROM_EDGE,
+        bottom: SCROLL_ARROW.distanceFromEdge,
       }}
     />
-  )
+  ) : null
   return [UpArrow, DownArrow]
 }

@@ -1,20 +1,8 @@
 import { faExternalLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useMemo } from 'react'
-import Masonry from 'react-masonry-css'
-import { getIsMobile } from '../utils/html-utils'
-import { GridCard, GridCardsProvider, useGridCards } from './GridCard'
-import { SoundcloudTrack } from './SoundcloudTrack'
+import type { GridCardsCriteria } from '../components/MainGridBody'
 
-interface GridCardTrack {
-  url: string
-  title?: string
-  subTitle?: string
-  additionalInfo?: React.ReactNode
-  albumArtToSide?: boolean
-}
-
-const GRID_CARD_DATA: { title: string; children: GridCardTrack[] }[] = [
+export const GRID_CARD_DATA: GridCardsCriteria = [
   {
     title: 'Wave / Downtempo / Psydub',
     children: [
@@ -111,60 +99,3 @@ const GRID_CARD_DATA: { title: string; children: GridCardTrack[] }[] = [
     ],
   },
 ]
-
-const GridCardsWrapper = () => {
-  const { openIds, allIds, expandingRef } = useGridCards()
-
-  const spacerHeight = useMemo(() => {
-    if (!expandingRef?.current) return
-    return (
-      Number.parseInt(window.getComputedStyle(expandingRef.current).maxHeight) -
-      expandingRef.current.offsetHeight
-    )
-  }, [expandingRef?.current])
-
-  const isMobile = getIsMobile()
-
-  return (
-    <>
-      {openIds.length === 0 && allIds.length > 0 && (
-        <span id="click-below">
-          Click for SoundCloud mixes! <span className="fa fa-arrow-down" />
-        </span>
-      )}
-      <Masonry
-        breakpointCols={{
-          default: 5,
-          2250: 4,
-          1800: 3,
-          1350: 2,
-          900: 1,
-        }}
-        columnClassName="masonry-grid-column"
-        className="main-masonry-grid"
-      >
-        {GRID_CARD_DATA.map(({ title, children }) => (
-          <GridCard key={title} title={title} initiallyOpen={!isMobile}>
-            {children.map((track) => (
-              <SoundcloudTrack key={track.url} {...track} />
-            ))}
-          </GridCard>
-        ))}
-      </Masonry>
-      {
-        // create a div at the bottom when expanding so can scroll title to the top
-        expandingRef?.current && openIds.length === 0 && (
-          <div style={{ height: spacerHeight }} />
-        )
-      }
-    </>
-  )
-}
-
-export const GridBody = () => (
-  <main id="main-body" aria-label="DJ Mixes">
-    <GridCardsProvider allowMultipleOpen={!getIsMobile()}>
-      <GridCardsWrapper />
-    </GridCardsProvider>
-  </main>
-)

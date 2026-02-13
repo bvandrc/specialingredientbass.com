@@ -6,14 +6,14 @@ import './styles/index.css'
 
 import './api/soundcloudWidget'
 
-import { GridBody } from './components/GridBody'
 import { Header } from './components/Header'
+import { MainGridBody } from './components/MainGridBody'
 
 export const App = () => {
   return (
     <>
       {<Header />}
-      {<GridBody />}
+      {<MainGridBody />}
     </>
   )
 }
