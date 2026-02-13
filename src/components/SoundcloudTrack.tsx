@@ -40,12 +40,12 @@ export const SoundcloudTrack = ({
         {!albumArtToSide && albumArtUrl && (
           <img src={albumArtUrl} className="album-art" alt="album art" />
         )}
-        <span className="track-title-wrapper" role="heading" aria-level={3}>
-          <p
+        <span className="track-title-wrapper">
+          <h4
             className={classNames('track-title', { 'shadow-cyan': isPlaying })}
           >
             {title}
-          </p>
+          </h4>
           {subTitle && <p className="track-subtitle">{subTitle}</p>}
         </span>
       </div>

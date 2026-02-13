@@ -108,6 +108,7 @@ const GridCardData = (): {
       'https://soundcloud.com/special-ingredient/akon-love-right-now-na-na-na-x-nit-grit-mashup?in=special-ingredient/sets/mashups-flips',
       'https://soundcloud.com/special-ingredient/ian-snow-revelation-x-travis-scott-kid-cudi-through-the-late-night?in=special-ingredient/sets/mashups-flips',
     ].map((url, index) => (
+      // biome-ignore lint/suspicious/noArrayIndexKey: not sure what else to use, TODO: fix this
       <SoundcloudTrack url={url} albumArtToSide key={index} />
     )),
   },
@@ -169,9 +170,9 @@ const GridCardsWrapper = () => {
 }
 
 export const GridBody = () => (
-  <div id="main-body" role="main" aria-label="DJ Mixes">
+  <main id="main-body" aria-label="DJ Mixes">
     <GridCardsProvider allowMultipleOpen={!getIsMobile()}>
       <GridCardsWrapper />
     </GridCardsProvider>
-  </div>
+  </main>
 )

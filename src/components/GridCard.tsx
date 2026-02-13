@@ -24,7 +24,7 @@ type IsExpandingState = ReturnType<
   typeof useState<React.RefObject<HTMLDivElement> | undefined>
 >
 
-// Context to share expansion control across cards
+/** Context to share expansion control across cards */
 const GridCardsContext = createContext<{
   openIds: string[]
   allIds: string[]
@@ -44,7 +44,9 @@ const GridCardsContext = createContext<{
   openIds: [],
   allIds: [],
   allowMultipleOpen: !getIsMobile(),
+  // biome-ignore lint/suspicious/noEmptyBlockStatements: is fine
   registerCard: () => {},
+  // biome-ignore lint/suspicious/noEmptyBlockStatements: is fine
   toggleCard: () => {},
   isOpen: () => false,
   expandingRef: undefined,
@@ -143,7 +145,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const scrollToTop = () => {
     requestAnimationFrame(() => {
       const topItem = getIsMobile() ? titleRef : ref
-      topItem.current!.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      topItem.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
   }
 
@@ -190,12 +192,8 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   )
 
   return (
-    <div
-      className="grid-card"
-      role="region"
-      aria-labelledby={titleId}
-      ref={ref}
-    >
+    <section className="grid-card" aria-labelledby={titleId} ref={ref}>
+      {/** biome-ignore lint/a11y/useSemanticElements: is fine as Div */}
       <div
         className="card-title"
         role="button"
@@ -230,7 +228,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
         {children}
       </div>
       {isOpen && DownArrow}
-    </div>
+    </section>
   )
 }
 

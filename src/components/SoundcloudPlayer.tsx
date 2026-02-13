@@ -13,7 +13,7 @@ import classNames from 'classnames'
 import { useEffect, useId, useRef, useState } from 'react'
 import type { TrackInfo } from '../api/soundcloudWidget'
 import { setSearchParams } from '../utils/api-utils'
-import { htmlToElement } from '../utils/html-utils'
+import { htmlToElement, triggerClick } from '../utils/html-utils'
 
 export interface SoundcloudPlayerProps {
   url: string
@@ -70,17 +70,17 @@ export const SoundcloudPlayer = ({
       widget.bind(window.SC.Widget.Events.PAUSE, () => setIsPlaying(false))
       widget.bind(window.SC.Widget.Events.FINISH, () => setIsPlaying(false))
     }
-  }, [iFrameElement])
+  }, [iFrameElement, id, trackInfo])
 
   useEffect(() => {
     onPlayToggle?.(isPlaying)
-  }, [isPlaying])
+  }, [isPlaying, onPlayToggle])
 
   useEffect(() => {
     if (trackInfo?.artwork_url) {
       setAlbumArtUrl?.(trackInfo.artwork_url)
     }
-  }, [trackInfo?.artwork_url])
+  }, [trackInfo?.artwork_url, setAlbumArtUrl])
 
   return (
     <div className="sc-player">
@@ -91,6 +91,7 @@ export const SoundcloudPlayer = ({
           alt="album art"
         />
       )}
+      {/** biome-ignore lint/a11y/useSemanticElements: is fine as Div */}
       <div
         className="sc-player-waveform"
         role="group"
@@ -98,14 +99,17 @@ export const SoundcloudPlayer = ({
       >
         {trackInfo && (
           <>
+            {/** biome-ignore lint/a11y/useSemanticElements: TODO: change to button, fix css for it */}
             <span
               className="play-button"
               role="button"
               aria-label={isPlaying ? 'Pause' : 'Play'}
+              tabIndex={0}
               onClick={() => {
                 const widget = window.SC.Widget(id)
                 widget.toggle()
               }}
+              onKeyDown={triggerClick}
             >
               <FontAwesomeIcon
                 className="play-button-icon"
@@ -146,6 +150,7 @@ export const SoundcloudPlayer = ({
           className={classNames('sc-iframe-wrapper', className, {
             playing: isPlaying,
           })}
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: just do it to set HTML from soundcoud iframe api
           dangerouslySetInnerHTML={{ __html: dummyElement.outerHTML }}
           ref={wrapperRef}
         />
