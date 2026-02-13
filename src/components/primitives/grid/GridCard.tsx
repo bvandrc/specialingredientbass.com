@@ -134,18 +134,21 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
 
   const isOpen = checkIsOpen(id, { initiallyOpen })
 
-  const [scrollPosition, setScrollPosition] = useState(0)
+  const [scrollTop, setScrollTop] = useState(0)
   const [height, setHeight] = useState<number>(0)
 
   const scrollToTop = () => {
     requestAnimationFrame(() => {
-      const topItem = getIsMobile() ? titleRef : cardRef
-      topItem.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      const targetTopItem = getIsMobile() ? titleRef : cardRef
+      targetTopItem.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
     })
   }
 
   const handleTitleClick = useCallback(() => {
-      // scroll immediately if we can
+    // scroll immediately if we can
     if (!isOpen) scrollToTop()
     toggleCard(id)
   }, [isOpen])
@@ -179,7 +182,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
         scrollRegion: contentRef.current,
         isOpen: isOpen && !expandingRef,
       }),
-    [height, scrollPosition, isOpen, expandingRef],
+    [height, scrollTop, isOpen, expandingRef],
   )
 
   return (
@@ -206,7 +209,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
       <div
         className={classNames('collapse-content', { hidden: !isOpen })}
         ref={contentRef}
-        onScroll={(e) => setScrollPosition(e.currentTarget.scrollTop)}
+        onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
         // due to other cards collapsing, may need to scroll again once finished since proper position
         // on page can't be calculated while that collapse animation is occurring.
         onTransitionEnd={(e) => {
@@ -246,18 +249,20 @@ const GetArrows = ({
   )
     return [null, null]
 
-  const ScrollArrow = (
-    props: Omit<FontAwesomeIconProps, 'size' | 'className'>,
-  ) => <FontAwesomeIcon size="2x" className="scroll-arrow" {...props} />
-
   const showUpArrow = !isScrolledToTop(scrollRegion, SCROLL_ARROW.showThreshold)
   const showDownArrow = !isScrolledToBottom(
     scrollRegion,
     SCROLL_ARROW.showThreshold,
   )
 
+  const arrowProps = {
+    size: '2x',
+    className: 'scroll-arrow',
+  } as const satisfies Partial<FontAwesomeIconProps>
+
   const UpArrow = showUpArrow ? (
-    <ScrollArrow
+    <FontAwesomeIcon
+      {...arrowProps}
       icon={faCaretUp}
       onClick={() => {
         const newScrollTop = scrollRegion.scrollTop - SCROLL_ARROW.clickDistance
@@ -276,7 +281,8 @@ const GetArrows = ({
   ) : null
 
   const DownArrow = showDownArrow ? (
-    <ScrollArrow
+    <FontAwesomeIcon
+      {...arrowProps}
       icon={faCaretDown}
       onClick={() => {
         const newScrollTop = scrollRegion.scrollTop + SCROLL_ARROW.clickDistance

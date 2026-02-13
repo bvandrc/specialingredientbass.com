@@ -58,19 +58,17 @@ export const SoundcloudPlayer = ({
   dummyElement.id = id
   dummyElement.allow = 'autoplay'
 
-  const iFrameElement = wrapperRef.current?.firstElementChild
-
   useEffect(() => {
-    if (iFrameElement && !trackInfo) {
-      const widget = window.SC.Widget(id)
-      widget.bind(window.SC.Widget.Events.READY, () => {
-        widget.getCurrentSound((sound) => setTrackInfo(sound))
-      })
-      widget.bind(window.SC.Widget.Events.PLAY, () => setIsPlaying(true))
-      widget.bind(window.SC.Widget.Events.PAUSE, () => setIsPlaying(false))
-      widget.bind(window.SC.Widget.Events.FINISH, () => setIsPlaying(false))
-    }
-  }, [iFrameElement, id, trackInfo])
+    const iframeEl = wrapperRef.current?.firstElementChild
+    if (!iframeEl || trackInfo) return
+    const widget = window.SC.Widget(id)
+    widget.bind(window.SC.Widget.Events.READY, () => {
+      widget.getCurrentSound((sound) => setTrackInfo(sound))
+    })
+    widget.bind(window.SC.Widget.Events.PLAY, () => setIsPlaying(true))
+    widget.bind(window.SC.Widget.Events.PAUSE, () => setIsPlaying(false))
+    widget.bind(window.SC.Widget.Events.FINISH, () => setIsPlaying(false))
+  }, [id, trackInfo])
 
   useEffect(() => {
     onPlayToggle?.(isPlaying)
