@@ -10,7 +10,10 @@ header {
   margin-left: auto;
   margin-right: auto;
   max-height: 200px;
-  max-width: calc(100% - 20px); /* otherwise, extends past viewport when narrow (mobile) */
+  max-width: calc(
+    100% -
+    20px
+  ); /* otherwise, extends past viewport when narrow (mobile) */
   padding: 5px;
 
   /* Appearance - Glow */
@@ -59,7 +62,7 @@ header {
     /* Appearance (Icon */
     font-size: 1.5em;
     background-image: linear-gradient(
-      rgb(0 0 0/30%) 0 0
+      rgb(0 0 0 / 30%) 0 0
     ); /* Make the background dark unless hovered */
 
     svg {
@@ -88,7 +91,7 @@ header {
 
   /* Appearance */
   color: grey;
-  font-family: 'Outfit', sans-serif;
+  font-family: "Outfit", sans-serif;
   line-height: 1.5em;
 }
 
@@ -103,7 +106,7 @@ header {
   /* Appearance */
   color: orange;
   font-weight: bold;
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
   font-size: 1.5em;
   --hover-color-text: darkslateblue;
   text-shadow:

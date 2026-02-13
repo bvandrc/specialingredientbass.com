@@ -6,13 +6,17 @@ import {
   faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import { CircleLink } from './CircleLink'
+import { CircleLink } from './primitives/CircleLink'
 
 export const Header = () => {
   return (
     <header>
       <div id="header-center">
-        <img src="/Logo Outlined.svg" alt="Special Ingredient Bass Mixes" id="header-logo-img" />
+        <img
+          src="/Logo Outlined.svg"
+          alt="Special Ingredient Bass Mixes"
+          id="header-logo-img"
+        />
       </div>
       <div id="header-right">
         <div id="bio" role="region" aria-label="bio">
@@ -66,7 +70,7 @@ export const Header = () => {
             onClick={() => {
               const EMAIL = 'SpecialIngredientBass@gmail.com'
               navigator.clipboard.writeText(EMAIL)
-              alert('Copied to clipboard: ' + EMAIL)
+              alert(`Copied to clipboard: ${EMAIL}`)
             }}
           />
         </div>

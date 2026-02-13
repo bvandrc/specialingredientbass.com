@@ -1,7 +1,7 @@
 .track {
   position: relative;
   margin: 5px 10px;
-  font-family: 'Outfit';
+  font-family: "Outfit";
 
   .album-art {
     vertical-align: middle;
@@ -44,7 +44,7 @@
 .addl-info-row {
   margin-top: 0.2em;
   font-size: 1em;
-  font-family: 'Barlow', sans-serif;
+  font-family: "Barlow", sans-serif;
   text-align: justify;
   color: grey;
   line-height: 1.1em;

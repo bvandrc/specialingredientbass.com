@@ -1,7 +1,9 @@
 import { faFolderOpen } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import spotifyPlaylistInfo from '../../spotify-playlists.json'
-import type { TreeNode } from '../components/Tree'
+import spotifyPlaylistInfo from '../../spotify-playlists.json' with {
+  type: 'json',
+}
+import type { TreeNode } from '../components/primitives/Tree'
 
 const spotifyPlaylistFoldersRaw = [
   {
@@ -132,12 +134,12 @@ const spotifyPlaylistFoldersRaw = [
 
 export function getSpotifyPlaylistFolderTreeNodes(): TreeNode[] {
   return spotifyPlaylistFoldersRaw.map(({ folderName, items }, index) => ({
-    rightElement: index === 0 ? `# tracks` : undefined,
+    rightElement: index === 0 ? '# tracks' : undefined,
     classes: 'folder',
     leftIcon: <FontAwesomeIcon icon={faFolderOpen} />,
     text: folderName,
     nodes: items.map((item) => {
-      const playlistInfo = spotifyPlaylistInfo.find(({ name }) => name == item)
+      const playlistInfo = spotifyPlaylistInfo.find(({ name }) => name === item)
       if (!playlistInfo) throw new Error(`no playlist info with name ${item}`)
 
       let tooltip: React.ReactNode

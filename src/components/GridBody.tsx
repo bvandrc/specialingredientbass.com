@@ -47,9 +47,9 @@ const GridCardData = (): {
           subTitle="OG Late Night Wonky Riddim"
           additionalInfo={
             <>
-              <i>True</i> riddim. That deep & wonky. If you're not a fan of riddim yet, try this one
-              out. Headphones recommended, Lotta wild sounds bouncing around the 3D space in this
-              one.
+              <i>True</i> riddim. That deep & wonky. If you're not a fan of
+              riddim yet, try this one out. Headphones recommended, Lotta wild
+              sounds bouncing around the 3D space in this one.
             </>
           }
         />
@@ -71,8 +71,9 @@ const GridCardData = (): {
           subTitle="Hype Dubstep Journey"
           additionalInfo={
             <>
-              Threw down more of a hype set for Dancefestopia's Yellow Brick Road tour, while still
-              tryna keep it a genre journey. Lotta bangers but we still get swampy and wavey :)
+              Threw down more of a hype set for Dancefestopia's Yellow Brick
+              Road tour, while still tryna keep it a genre journey. Lotta
+              bangers but we still get swampy and wavey :)
             </>
           }
         />
@@ -86,8 +87,8 @@ const GridCardData = (): {
               <a href="https://soundcloud.com/saumiimusic" target="__blank">
                 Saumii <FontAwesomeIcon icon={faExternalLink} size="2xs" />
               </a>{' '}
-              for a sold out crowd at Larimer Lounge, rinsing some of our favorite tracks we've
-              shared over the years of DJing together.
+              for a sold out crowd at Larimer Lounge, rinsing some of our
+              favorite tracks we've shared over the years of DJing together.
             </>
           }
         />
@@ -106,7 +107,9 @@ const GridCardData = (): {
       'https://soundcloud.com/special-ingredient/skeler-x-jojo-x-blackstreet-no-diggity-mashup?in=special-ingredient/sets/mashups-flips',
       'https://soundcloud.com/special-ingredient/akon-love-right-now-na-na-na-x-nit-grit-mashup?in=special-ingredient/sets/mashups-flips',
       'https://soundcloud.com/special-ingredient/ian-snow-revelation-x-travis-scott-kid-cudi-through-the-late-night?in=special-ingredient/sets/mashups-flips',
-    ].map((url, index) => <SoundcloudTrack url={url} albumArtToSide key={index} />),
+    ].map((url, index) => (
+      <SoundcloudTrack url={url} albumArtToSide key={index} />
+    )),
   },
   // {
   //   title: 'Spotify Playlists',
@@ -124,7 +127,7 @@ const GridCardsWrapper = () => {
   const spacerHeight = useMemo(() => {
     if (!expandingRef?.current) return
     return (
-      parseInt(window.getComputedStyle(expandingRef.current).maxHeight) -
+      Number.parseInt(window.getComputedStyle(expandingRef.current).maxHeight) -
       expandingRef.current.offsetHeight
     )
   }, [expandingRef?.current])
@@ -157,7 +160,9 @@ const GridCardsWrapper = () => {
       </Masonry>
       {
         // create a div at the bottom when expanding so can scroll title to the top
-        expandingRef?.current && openIds.length === 0 && <div style={{ height: spacerHeight }} />
+        expandingRef?.current && openIds.length === 0 && (
+          <div style={{ height: spacerHeight }} />
+        )
       }
     </>
   )

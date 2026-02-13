@@ -85,9 +85,17 @@ export const SoundcloudPlayer = ({
   return (
     <div className="sc-player">
       {showAlbumArt && trackInfo?.artwork_url && (
-        <img src={trackInfo.artwork_url} className="album-art" alt="album art" />
+        <img
+          src={trackInfo.artwork_url}
+          className="album-art"
+          alt="album art"
+        />
       )}
-      <div className="sc-player-waveform" role="group" aria-label="soundcloud player">
+      <div
+        className="sc-player-waveform"
+        role="group"
+        aria-label="soundcloud player"
+      >
         {trackInfo && (
           <>
             <span
@@ -103,7 +111,10 @@ export const SoundcloudPlayer = ({
                 className="play-button-icon"
                 icon={isPlaying ? faPauseCircle : faPlayCircle}
               />
-              <FontAwesomeIcon className="play-button-background" icon={faCircle} />
+              <FontAwesomeIcon
+                className="play-button-background"
+                icon={faCircle}
+              />
             </span>
             <span className="sc-stats">
               <span className="sc-stat play-count">
@@ -132,7 +143,9 @@ export const SoundcloudPlayer = ({
           </>
         )}
         <div
-          className={classNames('sc-iframe-wrapper', className, { playing: isPlaying })}
+          className={classNames('sc-iframe-wrapper', className, {
+            playing: isPlaying,
+          })}
           dangerouslySetInnerHTML={{ __html: dummyElement.outerHTML }}
           ref={wrapperRef}
         />

@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { useState } from 'react'
-import data from '../../soundcloud-data.json'
+import data from '../../soundcloud-data.json' with { type: 'json' }
 import { SoundcloudPlayer } from './SoundcloudPlayer'
 
 export interface SoundcloudTrackProps {
@@ -31,7 +31,8 @@ export const SoundcloudTrack = ({
       .replaceAll('[w TRACKLIST]', '')
       .replaceAll('[MASHUP]', '')
 
-  const addlInfo = _additionalInfo === 'GET_FROM_SC' ? info.description : _additionalInfo
+  const addlInfo =
+    _additionalInfo === 'GET_FROM_SC' ? info.description : _additionalInfo
 
   return (
     <div className="track">
@@ -40,7 +41,11 @@ export const SoundcloudTrack = ({
           <img src={albumArtUrl} className="album-art" alt="album art" />
         )}
         <span className="track-title-wrapper" role="heading" aria-level={3}>
-          <p className={classNames('track-title', { 'shadow-cyan': isPlaying })}>{title}</p>
+          <p
+            className={classNames('track-title', { 'shadow-cyan': isPlaying })}
+          >
+            {title}
+          </p>
           {subTitle && <p className="track-subtitle">{subTitle}</p>}
         </span>
       </div>

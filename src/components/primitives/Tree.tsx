@@ -13,10 +13,20 @@ export interface TreeNode extends Partial<TreeNodes> {
   url?: string
 }
 
-const Node = ({ text, tooltip, rightElement, leftIcon, classes, url, nodes }: TreeNode) => {
+const Node = ({
+  text,
+  tooltip,
+  rightElement,
+  leftIcon,
+  classes,
+  url,
+  nodes,
+}: TreeNode) => {
   let contents = (
     <div className={classNames('tree-row', { tooltip: Boolean(tooltip) })}>
-      {leftIcon && <span className={classNames(['fa', leftIcon, 'left-icon'])} />}
+      {leftIcon && (
+        <span className={classNames(['fa', leftIcon, 'left-icon'])} />
+      )}
       {text}
       {tooltip && <span className="tooltiptext">{tooltip}</span>}
       {rightElement && <span className="right-side">{rightElement}</span>}
@@ -52,5 +62,7 @@ export interface TreeProps extends TreeNodes {
 }
 
 export const Tree = ({ nodes, className }: TreeProps) => (
-  <div className={classNames('tree', className)}>{<NodeList nodes={nodes} />}</div>
+  <div className={classNames('tree', className)}>
+    {<NodeList nodes={nodes} />}
+  </div>
 )
