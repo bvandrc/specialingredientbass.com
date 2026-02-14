@@ -22,6 +22,11 @@ fs.writeFileSync(
 export default defineConfig(() => ({
   base: '/',
   plugins: [react()],
+  server: {
+    host: '0.0.0.0',
+    port: 5000,
+    allowedHosts: true,
+  },
   build: {
     target: 'esnext',
     modulePreload: false,
