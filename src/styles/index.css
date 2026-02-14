@@ -1,11 +1,13 @@
-@import "scrollbar.css";
-@import "header.css";
-@import "grid.css";
-@import "sc-track.css";
-@import "sc-player.css";
-@import "tree.css";
-@import "folder-tree.css";
-@import "tooltip.css";
+@import "tailwindcss";
+
+@import "./scrollbar.css";
+@import "./header.css";
+@import "./grid.css";
+@import "./sc-track.css";
+@import "./sc-player.css";
+@import "./tree.css";
+@import "./folder-tree.css";
+@import "./tooltip.css";
 
 /* General */
 
@@ -53,13 +55,6 @@ a:visited {
 
 .display-none {
   display: none;
-}
-
-.circle {
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .soundcloud {

@@ -1,4 +1,5 @@
 import * as fs from 'node:fs'
+import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { getOEmbed } from './src/api/soundcloud'
@@ -21,7 +22,7 @@ fs.writeFileSync(
 
 export default defineConfig(() => ({
   base: '/',
-  plugins: [react()],
+  plugins: [tailwindcss(), react()],
   server: {
     host: '0.0.0.0',
     port: 5000,

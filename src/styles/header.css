@@ -53,13 +53,13 @@ header {
   align-items: center;
   gap: 0.4em;
 
-  .circle {
+  a {
     /* Position (Centered) */
     --circle-size: 2em;
     height: var(--circle-size);
     width: var(--circle-size);
 
-    /* Appearance (Icon */
+    /* Appearance (Icon) */
     font-size: 1.5em;
     background-image: linear-gradient(
       rgb(0 0 0 / 30%) 0 0
