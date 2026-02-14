@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-@import "./scrollbar.css";
 @import "./grid.css";
 @import "./sc-player.css";
 
@@ -86,4 +85,20 @@ a:visited {
 
 .facebook {
   background-color: var(--facebook);
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: darkcyan;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: cyan;
 }
