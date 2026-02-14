@@ -1,5 +1,4 @@
 import { createContext, useCallback, useContext, useState } from 'react'
-import { getIsMobile } from '../../../utils/html-utils'
 import type { GridCardProps } from './GridCard'
 
 type ExpandingRef = React.RefObject<HTMLDivElement> | undefined
@@ -18,18 +17,7 @@ type GridCardsContextValue = {
   setExpandingRef: (ref: ExpandingRef) => void
 }
 
-const GridCardsContext = createContext<GridCardsContextValue | null>({
-  openIds: [],
-  allIds: [],
-  allowMultipleOpen: !getIsMobile(),
-  // biome-ignore lint/suspicious/noEmptyBlockStatements: is fine
-  registerCard: () => {},
-  // biome-ignore lint/suspicious/noEmptyBlockStatements: is fine
-  toggleCard: () => {},
-  checkIsOpen: () => false,
-  expandingRef: undefined,
-  setExpandingRef: () => null,
-})
+const GridCardsContext = createContext<GridCardsContextValue | null>(null)
 
 export function useGridCards() {
   const ctx = useContext(GridCardsContext)
@@ -58,15 +46,18 @@ export function GridCardsProvider({
     [],
   )
 
-  const toggleCard = (id: string) => {
-    if (allowMultipleOpen) {
-      setOpenIds((prev) =>
-        prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
-      )
-    } else {
-      setOpenIds((prev) => (prev.includes(id) ? [] : [id]))
-    }
-  }
+  const toggleCard = useCallback(
+    (id: string) => {
+      if (allowMultipleOpen) {
+        setOpenIds((prev) =>
+          prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+        )
+      } else {
+        setOpenIds((prev) => (prev.includes(id) ? [] : [id]))
+      }
+    },
+    [allowMultipleOpen],
+  )
 
   const checkIsOpen = (
     id: string,
