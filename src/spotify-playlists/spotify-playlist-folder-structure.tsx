@@ -1,5 +1,5 @@
 import { faFolderOpen } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import spotifyPlaylistInfo from '../../spotify-playlists.json' with {
   type: 'json',
 }
@@ -136,7 +136,7 @@ export function getSpotifyPlaylistFolderTreeNodes(): TreeNode[] {
   return spotifyPlaylistFoldersRaw.map(({ folderName, items }, index) => ({
     rightElement: index === 0 ? '# tracks' : undefined,
     classes: 'folder',
-    leftIcon: <FontAwesomeIcon icon={faFolderOpen} />,
+    leftIcon: <Icon icon={faFolderOpen} />,
     text: folderName,
     nodes: items.map((item) => {
       const playlistInfo = spotifyPlaylistInfo.find(({ name }) => name === item)

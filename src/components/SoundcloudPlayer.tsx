@@ -8,7 +8,7 @@ import {
   faPlay,
   faPlayCircle,
 } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 import { useEffect, useId, useRef, useState } from 'react'
 import type { TrackInfo } from '../api/soundcloudWidget'
@@ -109,26 +109,23 @@ export const SoundcloudPlayer = ({
               }}
               onKeyDown={triggerClick}
             >
-              <FontAwesomeIcon
+              <Icon
                 className="play-button-icon"
                 icon={isPlaying ? faPauseCircle : faPlayCircle}
               />
-              <FontAwesomeIcon
-                className="play-button-background"
-                icon={faCircle}
-              />
+              <Icon className="play-button-background" icon={faCircle} />
             </span>
             <span className="sc-stats">
               <span className="sc-stat play-count">
-                <FontAwesomeIcon icon={faPlay} size="xs" />
+                <Icon icon={faPlay} size="xs" />
                 {trackInfo.playback_count.toLocaleString()}
               </span>
               <span className="sc-stat likes-count">
-                <FontAwesomeIcon icon={faHeart} size="xs" />
+                <Icon icon={faHeart} size="xs" />
                 {trackInfo.likes_count.toLocaleString()}
               </span>{' '}
               <span className="sc-stat comment-count">
-                <FontAwesomeIcon icon={faComment} size="xs" />
+                <Icon icon={faComment} size="xs" />
                 {trackInfo.comment_count.toLocaleString()}
               </span>
             </span>
@@ -139,8 +136,8 @@ export const SoundcloudPlayer = ({
               title={EXTERNAL_LINK_LABEL}
               aria-label={EXTERNAL_LINK_LABEL}
             >
-              <FontAwesomeIcon icon={faSoundcloud} />
-              <FontAwesomeIcon icon={faExternalLink} />
+              <Icon icon={faSoundcloud} />
+              <Icon icon={faExternalLink} />
             </a>
           </>
         )}

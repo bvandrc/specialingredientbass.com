@@ -1,5 +1,7 @@
-import type { FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  FontAwesomeIcon as Icon,
+  type FontAwesomeIconProps as IconProps,
+} from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 
 export const CircleLink = ({
@@ -7,14 +9,13 @@ export const CircleLink = ({
   className,
   title,
   ...props
-}: React.AnchorHTMLAttributes<HTMLAnchorElement> &
-  Pick<FontAwesomeIconProps, 'icon'>) => (
+}: React.AnchorHTMLAttributes<HTMLAnchorElement> & Pick<IconProps, 'icon'>) => (
   <a
     target="_blank"
     tabIndex={0}
     {...props}
     className={classNames('circle', className)}
   >
-    <FontAwesomeIcon icon={icon} aria-label={props['aria-label'] ?? title} />
+    <Icon icon={icon} aria-label={props['aria-label'] ?? title} />
   </a>
 )
