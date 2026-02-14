@@ -99,7 +99,7 @@ export const SoundcloudPlayer = ({
           <>
             {/** biome-ignore lint/a11y/useSemanticElements: TODO: change to button, fix css for it */}
             <span
-              className="play-button"
+              className="absolute top-1 left-0 z-1 cursor-pointer hover:saturate-[160%]"
               role="button"
               aria-label={isPlaying ? 'Pause' : 'Play'}
               tabIndex={0}
@@ -110,10 +110,13 @@ export const SoundcloudPlayer = ({
               onKeyDown={triggerClick}
             >
               <Icon
-                className="play-button-icon"
+                className="absolute text-[var(--soundcloud)] bg-none text-4xl"
                 icon={isPlaying ? faPauseCircle : faPlayCircle}
               />
-              <Icon className="play-button-background" icon={faCircle} />
+              <Icon
+                className="absolute top-1 left-1 -z-1 text-white bg-none text-3xl"
+                icon={faCircle}
+              />
             </span>
             <span className="absolute top-3 right-1 z-1 inline-flex items-center gap-1 pointer-events-none">
               <span className="px-1 mb-1 py-0.5 inline-flex gap-2 text-sm text-gray-400 rounded bg-black/60">
