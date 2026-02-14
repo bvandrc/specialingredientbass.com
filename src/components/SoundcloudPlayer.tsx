@@ -115,30 +115,30 @@ export const SoundcloudPlayer = ({
               />
               <Icon className="play-button-background" icon={faCircle} />
             </span>
-            <span className="sc-stats">
-              <span className="sc-stat play-count">
-                <Icon icon={faPlay} size="xs" />
-                {trackInfo.playback_count.toLocaleString()}
+            <span className="absolute top-3 right-1 z-1 inline-flex items-center gap-1 pointer-events-none">
+              <span className="px-1 mb-1 py-0.5 inline-flex gap-2 text-sm text-gray-400 rounded bg-black/60">
+                {[
+                  { icon: faPlay, count: trackInfo.playback_count },
+                  { icon: faHeart, count: trackInfo.likes_count },
+                  { icon: faComment, count: trackInfo.comment_count },
+                ].map(({ icon, count }) => (
+                  <span className="flex items-center gap-1">
+                    <Icon icon={icon} size="xs" />
+                    {count.toLocaleString()}
+                  </span>
+                ))}
               </span>
-              <span className="sc-stat likes-count">
-                <Icon icon={faHeart} size="xs" />
-                {trackInfo.likes_count.toLocaleString()}
-              </span>{' '}
-              <span className="sc-stat comment-count">
-                <Icon icon={faComment} size="xs" />
-                {trackInfo.comment_count.toLocaleString()}
-              </span>
+              <a
+                className="px-1 py-0.5 inline-flex gap-1 text-[var(--soundcloud)]! font-bold text-base rounded  outline-1 outline-[var(--soundcloud)] pointer-events-auto bg-black/55 brightness-75 saturate-90 hover:filter-none"
+                href={url}
+                target="_blank"
+                title={EXTERNAL_LINK_LABEL}
+                aria-label={EXTERNAL_LINK_LABEL}
+              >
+                <Icon icon={faSoundcloud} />
+                <Icon icon={faExternalLink} />
+              </a>
             </span>
-            <a
-              className="sc-external-link"
-              href={url}
-              target="_blank"
-              title={EXTERNAL_LINK_LABEL}
-              aria-label={EXTERNAL_LINK_LABEL}
-            >
-              <Icon icon={faSoundcloud} />
-              <Icon icon={faExternalLink} />
-            </a>
           </>
         )}
         <div
