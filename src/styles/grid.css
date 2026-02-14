@@ -112,6 +112,16 @@
   }
 }
 
+.none-expanded-info {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 400ms ease-in-out;
+
+  &.visible {
+    max-height: 5em;
+  }
+}
+
 .scroll-arrow {
   /* Position */
   margin: auto;

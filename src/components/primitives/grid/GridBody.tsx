@@ -2,6 +2,18 @@ import Masonry from 'react-masonry-css'
 import { useIsMobile } from '../../../hooks/useMobile'
 import { GridCardsProvider, useGridCards } from './GridCardsProvider'
 
+const NoneExpandedInfo = ({
+  children,
+  visible,
+}: {
+  children: React.ReactNode
+  visible: boolean
+}) => (
+  <div className={`none-expanded-info ${visible ? 'visible' : ''}`}>
+    {children}
+  </div>
+)
+
 const GridCardsWrapper = ({
   children,
   noneExpandedInfo,
@@ -10,10 +22,15 @@ const GridCardsWrapper = ({
   noneExpandedInfo?: React.ReactNode
 }) => {
   const { openIds, allIds } = useGridCards()
+  const showInfo = openIds.length === 0 && allIds.length > 0
 
   return (
     <>
-      {openIds.length === 0 && allIds.length > 0 && noneExpandedInfo}
+      {noneExpandedInfo && (
+        <NoneExpandedInfo visible={showInfo}>
+          {noneExpandedInfo}
+        </NoneExpandedInfo>
+      )}
       <Masonry
         breakpointCols={{
           default: 5,
