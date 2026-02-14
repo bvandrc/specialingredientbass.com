@@ -35,10 +35,14 @@ export const SoundcloudTrack = ({
     _additionalInfo === 'GET_FROM_SC' ? info.description : _additionalInfo
 
   return (
-    <div className="track">
-      <div className="top-row">
+    <div className="relative mx-2.5 my-1 font-[Outfit,sans-serif]!">
+      <div className="flex items-start gap-2.5">
         {!albumArtToSide && albumArtUrl && (
-          <img src={albumArtUrl} className="album-art" alt="album art" />
+          <img
+            src={albumArtUrl}
+            className="align-middle self-center h-20 rounded-[var(--border-radius)] max-sm:h-[4.7em]"
+            alt="album art"
+          />
         )}
         <span className={classNames("flex flex-col leading-tight font-normal gap-0.5", { 'text-glow-[cyan]': isPlaying })}>
           <h4
@@ -49,7 +53,11 @@ export const SoundcloudTrack = ({
           {subTitle && <p className="text-lg text-orange-200">{subTitle}</p>}
         </span>
       </div>
-      {addlInfo && <p className="addl-info-row">{addlInfo}</p>}
+      {addlInfo && (
+        <p className="mt-1 text-base font-[Barlow,sans-serif] text-justify text-gray-500 leading-tight [&>a]:text-[darkslateblue]! [&_.fa]:text-[0.8em]">
+          {addlInfo}
+        </p>
+      )}
       <SoundcloudPlayer
         url={url}
         html={info.html}
