@@ -1,4 +1,3 @@
-import { useLayoutEffect, useState } from 'react'
 import Masonry from 'react-masonry-css'
 import { useIsMobile } from '../../../hooks/useMobile'
 import { GridCardsProvider, useGridCards } from './GridCardsProvider'
@@ -10,27 +9,7 @@ const GridCardsWrapper = ({
   children: React.ReactNode
   noneExpandedInfo?: React.ReactNode
 }) => {
-  const { openIds, allIds, expandingRef } = useGridCards()
-  const [spacerHeight, setSpacerHeight] = useState<number | undefined>()
-
-  useLayoutEffect(() => {
-    const el = expandingRef?.current
-    if (!el) return
-
-    const update = () => {
-      const maxHeight = Number.parseInt(
-        window.getComputedStyle(el).maxHeight || '0',
-      )
-      setSpacerHeight(maxHeight - el.offsetHeight)
-    }
-
-    update()
-
-    const ro = new ResizeObserver(update)
-    ro.observe(el)
-
-    return () => ro.disconnect()
-  }, [expandingRef])
+  const { openIds, allIds } = useGridCards()
 
   return (
     <>
@@ -48,14 +27,6 @@ const GridCardsWrapper = ({
       >
         {children}
       </Masonry>
-      {
-        // create a div at the bottom when expanding so can scroll title to the top
-        expandingRef?.current &&
-          openIds.length === 0 &&
-          spacerHeight !== undefined && (
-            <div style={{ height: spacerHeight }} aria-hidden />
-          )
-      }
     </>
   )
 }

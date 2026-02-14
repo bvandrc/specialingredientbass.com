@@ -13,6 +13,7 @@
 
   @media (max-width: 800px) {
     margin-top: 0.5em; /* no glow border, so reduce */
+    padding-bottom: 100vh;
   }
 }
 

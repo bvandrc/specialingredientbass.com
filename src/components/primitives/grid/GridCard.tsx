@@ -27,8 +27,6 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
     toggleCard,
     registerCard,
     checkIsOpen,
-    expandingRef,
-    setExpandingRef,
   } = useGridCards()
 
   useEffect(() => {
@@ -37,8 +35,9 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
 
   const isOpen = checkIsOpen(id, { initiallyOpen })
   const prevIsOpen = useRef<boolean>(isOpen)
+  const isExpandingRef = useRef(false)
 
-  const scrollToTop = () => {
+  const scrollToTop = useCallback(() => {
     requestAnimationFrame(() => {
       const targetTopItem = isMobile ? titleRef : cardRef
       targetTopItem.current?.scrollIntoView({
@@ -46,19 +45,21 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
         block: 'start',
       })
     })
-  }
+  }, [isMobile])
 
   const handleTitleClick = useCallback(() => {
-    // scroll immediately if we can
     if (!isOpen) scrollToTop()
     toggleCard(id)
-  }, [isOpen])
+  }, [isOpen, scrollToTop, toggleCard, id])
 
   useEffect(() => {
-    // only set expanding ref when transitioning from closed → open (so scroll/arrows run after transition)
-    if (isOpen && !prevIsOpen.current) setExpandingRef(cardRef)
+    if (isOpen && !prevIsOpen.current) {
+      isExpandingRef.current = true
+    } else if (!isOpen) {
+      isExpandingRef.current = false
+    }
     prevIsOpen.current = isOpen
-  }, [isOpen, setExpandingRef])
+  }, [isOpen])
 
   return (
     <section className="grid-card" aria-labelledby={titleId} ref={cardRef}>
@@ -71,8 +72,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
       />
       <GridCardBody
         isOpen={isOpen}
-        expandingRef={expandingRef}
-        setExpandingRef={setExpandingRef}
+        isExpandingRef={isExpandingRef}
         scrollToTop={scrollToTop}
       >
         {children}

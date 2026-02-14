@@ -1,8 +1,6 @@
 import { createContext, useCallback, useContext, useState } from 'react'
 import type { GridCardProps } from './GridCard'
 
-type ExpandingRef = React.RefObject<HTMLDivElement> | undefined
-
 type GridCardsContextValue = {
   openIds: string[]
   allIds: string[]
@@ -13,8 +11,6 @@ type GridCardsContextValue = {
     id: string,
     opts: Pick<GridCardProps, 'initiallyOpen'>,
   ) => boolean
-  expandingRef: ExpandingRef
-  setExpandingRef: (ref: ExpandingRef) => void
 }
 
 const GridCardsContext = createContext<GridCardsContextValue | null>(null)
@@ -32,7 +28,6 @@ export function GridCardsProvider({
 }: React.PropsWithChildren<{ allowMultipleOpen: boolean }>) {
   const [openIds, setOpenIds] = useState<string[]>([])
   const [allIds, setAllIds] = useState<string[]>([])
-  const [expandingRef, setExpandingRef] = useState<ExpandingRef>(undefined)
 
   const registerCard = useCallback(
     (id: string, { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) => {
@@ -73,8 +68,6 @@ export function GridCardsProvider({
         registerCard,
         toggleCard,
         checkIsOpen,
-        expandingRef,
-        setExpandingRef,
       }}
     >
       {children}
