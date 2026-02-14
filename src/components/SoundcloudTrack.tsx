@@ -44,12 +44,13 @@ export const SoundcloudTrack = ({
             alt="album art"
           />
         )}
-        <span className={classNames("flex flex-col leading-tight font-normal gap-0.5", { 'text-glow-[cyan]': isPlaying })}>
-          <h4
-            className='text-xl text-white'
-          >
-            {title}
-          </h4>
+        <span
+          className={classNames(
+            'flex flex-col leading-tight font-normal gap-0.5',
+            { 'text-glow-[cyan]': isPlaying },
+          )}
+        >
+          <h4 className="text-xl text-white">{title}</h4>
           {subTitle && <p className="text-lg text-orange-200">{subTitle}</p>}
         </span>
       </div>

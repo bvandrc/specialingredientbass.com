@@ -1,8 +1,4 @@
-import { faFolderOpen } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import spotifyPlaylistInfo from '../../spotify-playlists.json' with {
-  type: 'json',
-}
+export {}
 
 const spotifyPlaylistFoldersRaw = [
   {
@@ -130,4 +126,3 @@ const spotifyPlaylistFoldersRaw = [
     ],
   },
 ] satisfies Array<{ folderName: string; items: string[] }>
-

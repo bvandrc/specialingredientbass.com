@@ -6,8 +6,8 @@ import {
   faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import { CircleLink } from './primitives/CircleLink'
 import classNames from 'classnames'
+import { CircleLink } from './primitives/CircleLink'
 
 const SOCIAL_LINK = classNames(
   'size-11 text-2xl',
@@ -25,10 +25,11 @@ export const Header = () => {
           className="block mx-auto p-2 drop-shadow-[0_0_30px_purple] max-h-[17vh] lg:max-h-[200px]"
         />
       </div>
-      <div
-        className="relative mx-auto text-center lg:absolute lg:right-5 lg:bottom-0 lg:text-right"
-      >
-        <section aria-label="bio" className="my-2 text-gray-500 font-[Outfit,sans-serif] leading-5">
+      <div className="relative mx-auto text-center lg:absolute lg:right-5 lg:bottom-0 lg:text-right">
+        <section
+          aria-label="bio"
+          className="my-2 text-gray-500 font-[Outfit,sans-serif] leading-5"
+        >
           All forms of bass music 🌀
           <br />
           Tracklist in every mix 🎵
