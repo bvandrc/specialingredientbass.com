@@ -78,7 +78,7 @@ export const Header = () => {
             href="https://www.facebook.com/profile.php?id=100087612335247"
           />
           <CircleLink
-            className={classNames(SOCIAL_LINK, 'email')}
+            className={classNames(SOCIAL_LINK, 'bg-slate-500')}
             title="Email"
             icon={faEnvelope}
             onClick={() => {

@@ -40,13 +40,13 @@ export const SoundcloudTrack = ({
         {!albumArtToSide && albumArtUrl && (
           <img src={albumArtUrl} className="album-art" alt="album art" />
         )}
-        <span className="track-title-wrapper">
+        <span className={classNames("flex flex-col leading-tight font-normal gap-0.5", { 'text-glow-[cyan]': isPlaying })}>
           <h4
-            className={classNames('track-title', { 'shadow-cyan': isPlaying })}
+            className='text-xl text-white'
           >
             {title}
           </h4>
-          {subTitle && <p className="track-subtitle">{subTitle}</p>}
+          {subTitle && <p className="text-lg text-orange-200">{subTitle}</p>}
         </span>
       </div>
       {addlInfo && <p className="addl-info-row">{addlInfo}</p>}

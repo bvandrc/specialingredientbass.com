@@ -8,7 +8,6 @@
 @import "./folder-tree.css";
 @import "./tooltip.css";
 
-
 @utility text-glow-* {
   text-shadow:
     0 0 5px --value([*]),
@@ -19,6 +18,14 @@
     0 0 50px --value([*]);
 }
 
+@utility text-glow-* {
+  text-shadow:
+    0 0 5px black,
+    0 0 5px --value([*]),
+    0 0 10px --value([*]),
+    0 0 15px --value([*]),
+    0 0 30px --value([*]);
+}
 
 /* General */
 
@@ -64,9 +71,6 @@ a:visited {
   color: inherit;
 }
 
-.display-none {
-  display: none;
-}
 
 .soundcloud {
   background-color: var(--soundcloud);
@@ -86,18 +90,4 @@ a:visited {
 
 .facebook {
   background-color: var(--facebook);
-}
-
-.email {
-  background-color: grey;
-}
-
-.shadow-cyan {
-  --shadow-color: cyan;
-  text-shadow:
-    0 0 5px black,
-    0 0 5px var(--shadow-color),
-    0 0 10px var(--shadow-color),
-    0 0 15px var(--shadow-color),
-    0 0 30px var(--shadow-color);
 }
