@@ -8,13 +8,11 @@ export const GridCardTitle = ({
   isOpen,
   onClick,
   id,
-  ref,
 }: {
   title: string
   isOpen: boolean
   onClick: React.MouseEventHandler<HTMLDivElement>
   id: string
-  ref: React.RefObject<HTMLDivElement>
 }) => (
   // biome-ignore lint/a11y/useSemanticElements: is fine as Div
   <div
@@ -24,7 +22,6 @@ export const GridCardTitle = ({
     aria-expanded={isOpen}
     onKeyDown={triggerClick}
     onClick={onClick}
-    ref={ref}
   >
     <h2 id={id}>{title}</h2>
     <Icon
