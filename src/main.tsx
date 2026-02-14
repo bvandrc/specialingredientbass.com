@@ -11,6 +11,7 @@ const setAppHeight = () =>
 window.addEventListener('resize', setAppHeight)
 setAppHeight()
 
+// biome-ignore lint/style/noNonNullAssertion: root is always present
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />

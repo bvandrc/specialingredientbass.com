@@ -37,12 +37,13 @@ async function getPaginatedItems<T>(
   return items
 }
 
-async function getAllPlaylists(this: SpotifyApi) {
+function getAllPlaylists(this: SpotifyApi) {
   return this.getPaginatedItems(() => this.currentUser.playlists.playlists(50))
 }
 
 declare module '@spotify/web-api-ts-sdk' {
-  export interface SpotifyApi {
+  // biome-ignore lint/nursery/noShadow: module augmentation requires shadowing
+  interface SpotifyApi {
     getPaginatedItems: typeof getPaginatedItems
     getAllPlaylists: typeof getAllPlaylists
   }
