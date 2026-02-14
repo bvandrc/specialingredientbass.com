@@ -39,6 +39,7 @@ export const GridCardBody = ({
 
   const [scrollTop, setScrollTop] = useState(0)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: need these, but TODO: figure out how to remove
   const [UpArrow, DownArrow] = useMemo(
     () =>
       getArrowBtns({

@@ -27,6 +27,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
     setExpandingRef,
   } = useGridCards()
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: this should only run once. Adding deps makes it mess up. TODO: figure out how to remove.
   useEffect(() => {
     registerCard(id, { initiallyOpen })
   }, [])
@@ -34,7 +35,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const isOpen = checkIsOpen(id, { initiallyOpen })
   const prevIsOpen = useRef<boolean>(isOpen)
 
-  const scrollToTop = () => {
+  const scrollToTop = useCallback(() => {
     requestAnimationFrame(() => {
       // TODO: scroll to a higher point (title? offset by px?) for mobile
       cardRef.current?.scrollIntoView({
@@ -42,13 +43,13 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
         block: 'start',
       })
     })
-  }
+  }, [])
 
   const handleTitleClick = useCallback(() => {
     // scroll immediately if we can
     if (!isOpen) scrollToTop()
     toggleCard(id)
-  }, [isOpen])
+  }, [isOpen, id, toggleCard, scrollToTop])
 
   useEffect(() => {
     // only set expanding ref when transitioning from closed → open (so scroll/arrows run after transition)
