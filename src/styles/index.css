@@ -1,13 +1,24 @@
 @import "tailwindcss";
 
 @import "./scrollbar.css";
-@import "./header.css";
 @import "./grid.css";
 @import "./sc-track.css";
 @import "./sc-player.css";
 @import "./tree.css";
 @import "./folder-tree.css";
 @import "./tooltip.css";
+
+
+@utility text-glow-* {
+  text-shadow:
+    0 0 5px --value([*]),
+    0 0 10px --value([*]),
+    0 0 15px --value([*]),
+    0 0 20px --value([*]),
+    0 0 30px --value([*]),
+    0 0 50px --value([*]);
+}
+
 
 /* General */
 

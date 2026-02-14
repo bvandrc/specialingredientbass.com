@@ -17,12 +17,12 @@ const SOCIAL_LINK = classNames(
 
 export const Header = () => {
   return (
-    <header>
+    <header className="relative block w-full">
       <div id="header-center">
         <img
           src="/Logo Outlined.svg"
           alt="Special Ingredient Bass Mixes"
-          id="header-logo-img"
+          className="block mx-auto p-2 drop-shadow-[0_0_30px_purple] max-h-[17vh] lg:max-h-[200px]"
         />
       </div>
       <div

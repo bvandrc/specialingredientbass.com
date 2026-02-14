@@ -15,7 +15,7 @@ export const MainGridBody = () => {
   return (
     <GridBodyPrimitive
       noneExpandedInfo={
-        <span id="click-below">
+        <span className="block text-center mx-auto pt-2 text-orange-400 text-2xl text-glow-[darkslateblue] font-bold font-[Roboto_Condensed]">
           Click for SoundCloud mixes! <span className="fa fa-arrow-down" />
         </span>
       }

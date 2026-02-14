@@ -49,53 +49,6 @@
   }
 }
 
-.card-title {
-  /* Position */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  top: 0px;
-  margin: 10px;
-  padding: 10px;
-
-  /* Appearance */
-  font-family: "Roboto Condensed", sans-serif;
-  border-radius: var(--border-radius);
-  background-color: darkslateblue;
-  cursor: pointer;
-
-  h2 {
-    margin: 0px 20px; /* space to right for collapse caret */
-    text-align: center;
-  }
-
-  &:hover {
-    --hover-color-text: darkcyan;
-    --hover-color-border: cyan;
-    box-shadow: 0 0 10px 2px var(--hover-color-border);
-    text-shadow:
-      0 0 5px var(--hover-color-text),
-      0 0 10px var(--hover-color-text),
-      0 0 15px var(--hover-color-text),
-      0 0 20px var(--hover-color-text),
-      0 0 30px var(--hover-color-text),
-      0 0 50px var(--hover-color-text);
-  }
-
-  .collapse-caret {
-    position: absolute;
-    right: 10px;
-    transform: rotate(-0deg);
-    transition: transform 0.2s linear;
-    user-select: none;
-
-    &.open {
-      transform: rotate(-180deg);
-    }
-  }
-}
-
 .collapse-content {
   position: relative;
   overflow-y: auto; /* enable vertical scrolling */
