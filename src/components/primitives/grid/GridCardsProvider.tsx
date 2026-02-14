@@ -11,8 +11,8 @@ import type { GridCardProps } from './GridCard'
 export type ExpandingRef = React.RefObject<HTMLDivElement> | undefined
 
 export type GridCardsContextValue = {
-  openIds: string[]
-  allIds: string[]
+  openIds: Set<string>
+  allIds: Set<string>
   allowMultipleOpen: boolean
   registerCard: (id: string, opts: Pick<GridCardProps, 'initiallyOpen'>) => void
   toggleCard: (id: string) => void
@@ -44,7 +44,7 @@ const GridCardsWrapper = ({
 }: GridCardsWrapperProps) => {
   const { openIds, allIds, expandingRef } = useGridCards()
   const [spacerHeight, setSpacerHeight] = useState<number | undefined>()
-  const noneExpanded = openIds.length === 0 && allIds.length > 0
+  const noneExpanded = openIds.size === 0 && allIds.size > 0
 
   useLayoutEffect(() => {
     const el = expandingRef?.current
@@ -88,7 +88,7 @@ const GridCardsWrapper = ({
       {
         // create a div at the bottom when expanding so can scroll title to the top
         expandingRef?.current &&
-          openIds.length === 0 &&
+          openIds.size === 0 &&
           spacerHeight !== undefined && (
             <div style={{ height: spacerHeight }} aria-hidden />
           )
@@ -103,39 +103,47 @@ export function GridCardsProvider({
   noneExpandedInfo,
 }: React.PropsWithChildren<{ allowMultipleOpen: boolean }> &
   Pick<GridCardsWrapperProps, 'noneExpandedInfo'>) {
-  const [openIds, setOpenIds] = useState<string[]>([])
-  const [allIds, setAllIds] = useState<string[]>([])
+  const [openIds, setOpenIds] = useState<Set<string>>(new Set())
+  const [allIds, setAllIds] = useState<Set<string>>(new Set())
   const [expandingRef, setExpandingRef] = useState<ExpandingRef>(undefined)
 
   const registerCard = useCallback(
     (id: string, { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) => {
-      if (!allIds.includes(id)) {
-        setAllIds((prev) => [...prev, id])
+      if (!allIds.has(id)) {
+        setAllIds((prev) => prev.add(id))
       }
-      if (initiallyOpen && !openIds.includes(id)) {
-        setOpenIds((prev) => [...prev, id])
+      if (initiallyOpen && !openIds.has(id)) {
+        setOpenIds((prev) => prev.add(id))
       }
     },
-    [],
+    [allIds, openIds],
   )
 
   const toggleCard = useCallback(
-    (id: string) => {
-      if (allowMultipleOpen) {
-        setOpenIds((prev) =>
-          prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
-        )
-      } else {
-        setOpenIds((prev) => (prev.includes(id) ? [] : [id]))
-      }
-    },
+    (id: string) =>
+      setOpenIds((prev) => {
+        if (allowMultipleOpen) {
+          const next = new Set(prev)
+
+          if (next.has(id)) {
+            next.delete(id)
+          } else {
+            next.add(id)
+          }
+
+          return next
+        } else {
+          if (prev.has(id)) return new Set()
+          return new Set([id])
+        }
+      }),
     [allowMultipleOpen],
   )
 
   const checkIsOpen = (
     id: string,
     { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>,
-  ) => openIds.includes(id) || (!allIds.includes(id) && initiallyOpen)
+  ) => openIds.has(id) || (!allIds.has(id) && initiallyOpen)
 
   return (
     <GridCardsContext.Provider
