@@ -1,7 +1,8 @@
 import { createContext, useCallback, useContext, useState } from 'react'
+import Masonry from 'react-masonry-css'
 import type { GridCardProps } from './GridCard'
 
-type GridCardsContextValue = {
+export type GridCardsContextValue = {
   openIds: string[]
   allIds: string[]
   allowMultipleOpen: boolean
@@ -22,10 +23,51 @@ export function useGridCards() {
   return ctx
 }
 
+interface GridCardsWrapperProps {
+  children: React.ReactNode
+  noneExpandedInfo?: React.ReactNode
+}
+
+const GridCardsWrapper = ({
+  children,
+  noneExpandedInfo,
+}: {
+  children: React.ReactNode
+  noneExpandedInfo?: React.ReactNode
+}) => {
+  const { openIds, allIds } = useGridCards()
+  const showInfo = openIds.length === 0 && allIds.length > 0
+
+  return (
+    <>
+      {noneExpandedInfo && (
+        <div className={`none-expanded-info ${showInfo ? 'visible' : ''}`}>
+          {children}
+        </div>
+      )}
+      <Masonry
+        breakpointCols={{
+          default: 5,
+          2250: 4,
+          1800: 3,
+          1350: 2,
+          900: 1,
+        }}
+        columnClassName="masonry-grid-column"
+        className="main-masonry-grid"
+      >
+        {children}
+      </Masonry>
+    </>
+  )
+}
+
 export function GridCardsProvider({
   children,
   allowMultipleOpen,
-}: React.PropsWithChildren<{ allowMultipleOpen: boolean }>) {
+  noneExpandedInfo,
+}: React.PropsWithChildren<{ allowMultipleOpen: boolean }> &
+  Pick<GridCardsWrapperProps, 'noneExpandedInfo'>) {
   const [openIds, setOpenIds] = useState<string[]>([])
   const [allIds, setAllIds] = useState<string[]>([])
 
@@ -70,7 +112,9 @@ export function GridCardsProvider({
         checkIsOpen,
       }}
     >
-      {children}
+      <GridCardsWrapper noneExpandedInfo={noneExpandedInfo}>
+        {children}
+      </GridCardsWrapper>
     </GridCardsContext.Provider>
   )
 }

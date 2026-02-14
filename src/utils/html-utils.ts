@@ -1,5 +1,3 @@
-const MOBILE_WIDTH = 800
-
 export const isScrolledToTop = (
   element: Pick<HTMLElement, 'scrollTop'>,
   offset = 0,

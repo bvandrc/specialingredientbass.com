@@ -4,56 +4,57 @@ import {
   useEffect,
   useId,
   useRef,
-} from "react";
-import { GridCardBody } from "./GridCardBody";
-import { useGridCards } from "./GridCardsProvider";
-import { GridCardTitle } from "./GridCardTitle";
+} from 'react'
+import { GridCardBody } from './GridCardBody'
+import { useGridCards } from './GridCardsProvider'
+import { GridCardTitle } from './GridCardTitle'
 
 export type GridCardProps = PropsWithChildren<{
-  title: string;
-  initiallyOpen: boolean;
-}>;
+  title: string
+  initiallyOpen: boolean
+}>
 
 export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
-  const id = useId();
-  const titleId = useId();
-  const cardRef = useRef<HTMLDivElement>(null);
+  const id = useId()
+  const titleId = useId()
+  const cardRef = useRef<HTMLDivElement>(null)
 
-  const { toggleCard, registerCard, checkIsOpen, allIds } = useGridCards();
+  const { toggleCard, registerCard, checkIsOpen, allIds } = useGridCards()
 
-  const isLastCard = allIds.length > 0 && allIds[allIds.length - 1] === id;
+  const isLastCard = allIds.length > 0 && allIds.at(-1) === id
 
   useEffect(() => {
-    registerCard(id, { initiallyOpen });
-  }, []);
+    registerCard(id, { initiallyOpen })
+  }, [])
 
-  const isOpen = checkIsOpen(id, { initiallyOpen });
-  const prevIsOpen = useRef<boolean>(isOpen);
-  const isExpandingRef = useRef(false);
+  const isOpen = checkIsOpen(id, { initiallyOpen })
+  const prevIsOpen = useRef<boolean>(isOpen)
+  const isExpandingRef = useRef(false)
 
   const scrollToTop = useCallback(() => {
-    if (isLastCard) return;
+    if (isLastCard) return
     requestAnimationFrame(() => {
+      // TODO: scroll to a higher point (title? offset by px?) for mobile
       cardRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    });
-  }, [isLastCard]);
+        behavior: 'smooth',
+        block: 'start',
+      })
+    })
+  }, [isLastCard])
 
   const handleTitleClick = useCallback(() => {
-    if (!isOpen) scrollToTop();
-    toggleCard(id);
-  }, [isOpen, scrollToTop, toggleCard, id]);
+    if (!isOpen) scrollToTop()
+    toggleCard(id)
+  }, [isOpen, scrollToTop, toggleCard, id])
 
   useEffect(() => {
     if (isOpen && !prevIsOpen.current) {
-      isExpandingRef.current = true;
+      isExpandingRef.current = true
     } else if (!isOpen) {
-      isExpandingRef.current = false;
+      isExpandingRef.current = false
     }
-    prevIsOpen.current = isOpen;
-  }, [isOpen]);
+    prevIsOpen.current = isOpen
+  }, [isOpen])
 
   return (
     <section className="grid-card" aria-labelledby={titleId} ref={cardRef}>
@@ -71,5 +72,5 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
         {children}
       </GridCardBody>
     </section>
-  );
-};
+  )
+}
