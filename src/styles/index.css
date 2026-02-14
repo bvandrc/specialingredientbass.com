@@ -3,8 +3,6 @@
 @import "./scrollbar.css";
 @import "./grid.css";
 @import "./sc-player.css";
-@import "./tree.css";
-@import "./folder-tree.css";
 @import "./tooltip.css";
 
 @utility text-glow-* {
