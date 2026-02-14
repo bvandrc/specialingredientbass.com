@@ -19,9 +19,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const titleId = useId()
   const cardRef = useRef<HTMLDivElement>(null)
 
-  const { toggleCard, registerCard, checkIsOpen, allIds } = useGridCards()
-
-  const isLastCard = allIds.length > 0 && allIds.at(-1) === id
+  const { toggleCard, registerCard, checkIsOpen } = useGridCards()
 
   useEffect(() => {
     registerCard(id, { initiallyOpen })
@@ -31,8 +29,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const prevIsOpen = useRef<boolean>(isOpen)
   const isExpandingRef = useRef(false)
 
-  const scrollToTop = useCallback(() => {
-    if (isLastCard) return
+  const scrollToTop = () =>
     requestAnimationFrame(() => {
       // TODO: scroll to a higher point (title? offset by px?) for mobile
       cardRef.current?.scrollIntoView({
@@ -40,7 +37,6 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
         block: 'start',
       })
     })
-  }, [isLastCard])
 
   const handleTitleClick = useCallback(() => {
     if (!isOpen) scrollToTop()
