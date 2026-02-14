@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import type { GridCardsContextValue } from './GridCardsProvider'
 import { getArrowBtns } from './getArrowBtns'
 
 export const GridCardBody = ({
@@ -8,12 +9,12 @@ export const GridCardBody = ({
   expandingRef,
   setExpandingRef,
   scrollToTop,
-}: React.PropsWithChildren<{
-  isOpen: boolean
-  expandingRef: React.RefObject<HTMLDivElement> | undefined
-  setExpandingRef: (ref: React.RefObject<HTMLDivElement> | undefined) => void
-  scrollToTop: () => void
-}>) => {
+}: React.PropsWithChildren<
+  {
+    isOpen: boolean
+    scrollToTop: () => void
+  } & Pick<GridCardsContextValue, 'expandingRef' | 'setExpandingRef'>
+>) => {
   const contentRef = useRef<HTMLDivElement>(null)
 
   const [height, setHeight] = useState<number>(0)
