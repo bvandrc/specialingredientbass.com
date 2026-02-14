@@ -27,6 +27,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
     setExpandingRef,
   } = useGridCards()
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: this should only run once. Adding deps makes it mess up. TODO: figure out how to remove.
   useEffect(() => {
     registerCard(id, { initiallyOpen })
   }, [])
