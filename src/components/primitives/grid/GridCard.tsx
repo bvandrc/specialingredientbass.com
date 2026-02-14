@@ -27,6 +27,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
     toggleCard,
     registerCard,
     checkIsOpen,
+    allIds,
   } = useGridCards()
 
   useEffect(() => {
@@ -36,8 +37,10 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const isOpen = checkIsOpen(id, { initiallyOpen })
   const prevIsOpen = useRef<boolean>(isOpen)
   const isExpandingRef = useRef(false)
+  const isLastCard = allIds.length > 0 && allIds[allIds.length - 1] === id
 
   const scrollToTop = useCallback(() => {
+    if (isLastCard) return
     requestAnimationFrame(() => {
       const targetTopItem = isMobile ? titleRef : cardRef
       targetTopItem.current?.scrollIntoView({
@@ -45,7 +48,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
         block: 'start',
       })
     })
-  }, [isMobile])
+  }, [isMobile, isLastCard])
 
   const handleTitleClick = useCallback(() => {
     if (!isOpen) scrollToTop()
