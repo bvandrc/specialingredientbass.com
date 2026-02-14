@@ -3,7 +3,6 @@ import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import spotifyPlaylistInfo from '../../spotify-playlists.json' with {
   type: 'json',
 }
-import type { TreeNode } from '../components/primitives/Tree'
 
 const spotifyPlaylistFoldersRaw = [
   {
@@ -132,38 +131,3 @@ const spotifyPlaylistFoldersRaw = [
   },
 ] satisfies Array<{ folderName: string; items: string[] }>
 
-export function getSpotifyPlaylistFolderTreeNodes(): TreeNode[] {
-  return spotifyPlaylistFoldersRaw.map(({ folderName, items }, index) => ({
-    rightElement: index === 0 ? '# tracks' : undefined,
-    classes: 'folder',
-    leftIcon: <Icon icon={faFolderOpen} />,
-    text: folderName,
-    nodes: items.map((item) => {
-      const playlistInfo = spotifyPlaylistInfo.find(({ name }) => name === item)
-      if (!playlistInfo) throw new Error(`no playlist info with name ${item}`)
-
-      let tooltip: React.ReactNode
-      if (playlistInfo.public) {
-        if (playlistInfo.description) {
-          tooltip = playlistInfo.description
-        }
-      } else {
-        tooltip = (
-          <span>
-            {playlistInfo.description}
-            {playlistInfo.description && <br />}
-            <i>- Private Playlist -</i>
-          </span>
-        )
-      }
-
-      return {
-        text: playlistInfo.name,
-        tooltip,
-        rightElement: String(playlistInfo.track_count),
-        url: playlistInfo.public ? playlistInfo.url : undefined,
-        classes: playlistInfo.public ? ['item'] : ['item', 'item-disabled'],
-      } satisfies TreeNode
-    }),
-  }))
-}
