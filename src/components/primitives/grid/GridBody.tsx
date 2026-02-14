@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState } from 'react'
 import Masonry from 'react-masonry-css'
-import { getIsMobile } from '../../../utils/html-utils'
+import { useIsMobile } from '../../../hooks/useMobile'
 import { GridCardsProvider, useGridCards } from './GridCardsProvider'
 
 const GridCardsWrapper = ({
@@ -68,12 +68,15 @@ export const GridBody = ({
   children: React.ReactNode
   noneExpandedInfo?: React.ReactNode
   'aria-label': string
-}) => (
-  <main id="main-body" aria-label={ariaLabel}>
-    <GridCardsProvider allowMultipleOpen={!getIsMobile()}>
-      <GridCardsWrapper noneExpandedInfo={noneExpandedInfo}>
-        {children}
-      </GridCardsWrapper>
-    </GridCardsProvider>
-  </main>
-)
+}) => {
+  const isMobile = useIsMobile()
+  return (
+    <main id="main-body" aria-label={ariaLabel}>
+      <GridCardsProvider allowMultipleOpen={!isMobile}>
+        <GridCardsWrapper noneExpandedInfo={noneExpandedInfo}>
+          {children}
+        </GridCardsWrapper>
+      </GridCardsProvider>
+    </main>
+  )
+}

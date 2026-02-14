@@ -5,7 +5,7 @@ import {
   useId,
   useRef,
 } from 'react'
-import { getIsMobile } from '../../../utils/html-utils'
+import { useIsMobile } from '../../../hooks/useMobile'
 import { GridCardBody } from './GridCardBody'
 import { useGridCards } from './GridCardsProvider'
 import { GridCardTitle } from './GridCardTitle'
@@ -20,6 +20,8 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const titleId = useId()
   const cardRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
+
+  const isMobile = useIsMobile()
 
   const {
     toggleCard,
@@ -38,7 +40,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
 
   const scrollToTop = () => {
     requestAnimationFrame(() => {
-      const targetTopItem = getIsMobile() ? titleRef : cardRef
+      const targetTopItem = isMobile ? titleRef : cardRef
       targetTopItem.current?.scrollIntoView({
         behavior: 'smooth',
         block: 'start',

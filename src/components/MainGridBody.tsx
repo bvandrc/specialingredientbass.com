@@ -1,5 +1,5 @@
 import { GRID_CARD_DATA } from '../constants/grid-card-data'
-import { getIsMobile } from '../utils/html-utils'
+import { useIsMobile } from '../hooks/useMobile'
 import { GridBody as GridBodyPrimitive } from './primitives/grid/GridBody'
 import { GridCard } from './primitives/grid/GridCard'
 import { SoundcloudTrack, type SoundcloudTrackProps } from './SoundcloudTrack'
@@ -10,7 +10,7 @@ export type GridCardsCriteria = {
 }[]
 
 export const MainGridBody = () => {
-  const isMobile = getIsMobile()
+  const isMobile = useIsMobile()
 
   return (
     <GridBodyPrimitive
