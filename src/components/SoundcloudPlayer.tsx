@@ -1,4 +1,7 @@
-import { faSoundcloud } from '@fortawesome/free-brands-svg-icons'
+import {
+  faSoundcloud,
+  type IconDefinition,
+} from '@fortawesome/free-brands-svg-icons'
 import {
   faCircle,
   faComment,
@@ -120,14 +123,19 @@ export const SoundcloudPlayer = ({
             </span>
             <span className="absolute top-3 right-1 z-1 inline-flex items-center gap-1 pointer-events-none">
               <span className="px-1 mb-1 py-0.5 inline-flex gap-2 text-sm text-gray-400 rounded bg-black/60">
-                {[
-                  { icon: faPlay, count: trackInfo.playback_count },
-                  { icon: faHeart, count: trackInfo.likes_count },
-                  { icon: faComment, count: trackInfo.comment_count },
-                ].map(({ icon, count }) => (
-                  <span className="flex items-center gap-1">
+                {(
+                  [
+                    { icon: faPlay, key: 'playback_count' },
+                    { icon: faHeart, key: 'likes_count' },
+                    { icon: faComment, key: 'comment_count' },
+                  ] as const satisfies {
+                    icon: IconDefinition
+                    key: keyof TrackInfo
+                  }[]
+                ).map(({ icon, key }) => (
+                  <span className="flex items-center gap-1" key={key}>
                     <Icon icon={icon} size="xs" />
-                    {count.toLocaleString()}
+                    {trackInfo[key].toLocaleString()}
                   </span>
                 ))}
               </span>
