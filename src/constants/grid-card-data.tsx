@@ -1,5 +1,5 @@
 import { faExternalLink } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import type { GridCardsCriteria } from '../components/MainGridBody'
 
 export const GRID_CARD_DATA: GridCardsCriteria = [
@@ -63,7 +63,7 @@ export const GRID_CARD_DATA: GridCardsCriteria = [
           <>
             Cooked up an extra special bass journey set with{' '}
             <a href="https://soundcloud.com/saumiimusic" target="__blank">
-              Saumii <FontAwesomeIcon icon={faExternalLink} size="2xs" />
+              Saumii <Icon icon={faExternalLink} size="2xs" />
             </a>{' '}
             for a sold out crowd at Larimer Lounge, rinsing some of our favorite
             tracks we've shared over the years of DJing together.

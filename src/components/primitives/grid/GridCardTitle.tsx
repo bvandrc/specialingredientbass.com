@@ -1,5 +1,5 @@
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 import { triggerClick } from '../../../utils/html-utils'
 
@@ -27,7 +27,7 @@ export const GridCardTitle = ({
     ref={ref}
   >
     <h2 id={id}>{title}</h2>
-    <FontAwesomeIcon
+    <Icon
       size="lg"
       icon={faCaretDown}
       className={classNames('collapse-caret', { open: isOpen })}

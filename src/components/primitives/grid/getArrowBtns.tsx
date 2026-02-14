@@ -1,7 +1,7 @@
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 import {
-  FontAwesomeIcon,
-  type FontAwesomeIconProps,
+  FontAwesomeIcon as Icon,
+  type FontAwesomeIconProps as IconProps,
 } from '@fortawesome/react-fontawesome'
 import {
   isScrolledToBottom,
@@ -39,10 +39,10 @@ export const getArrowBtns = ({
   const arrowProps = {
     size: '2x',
     className: 'scroll-arrow',
-  } as const satisfies Partial<FontAwesomeIconProps>
+  } as const satisfies Partial<IconProps>
 
   const UpArrow = showUpArrow ? (
-    <FontAwesomeIcon
+    <Icon
       {...arrowProps}
       icon={faCaretUp}
       onClick={() =>
@@ -56,7 +56,7 @@ export const getArrowBtns = ({
   ) : null
 
   const DownArrow = showDownArrow ? (
-    <FontAwesomeIcon
+    <Icon
       {...arrowProps}
       icon={faCaretDown}
       onClick={() =>
