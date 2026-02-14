@@ -3,7 +3,6 @@
 @import "./scrollbar.css";
 @import "./grid.css";
 @import "./sc-player.css";
-@import "./tooltip.css";
 
 @utility text-glow-* {
   text-shadow:
