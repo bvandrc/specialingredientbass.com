@@ -15,6 +15,7 @@ export const MainGridBody = () => {
 
   return (
     <GridBody
+      data-testid="main-grid-body"
       noneExpandedInfo={
         <span
           className={classNames(

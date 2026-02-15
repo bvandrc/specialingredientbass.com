@@ -48,6 +48,7 @@ export const getArrowBtns = ({
   const UpArrow = showUpArrow ? (
     <Icon
       {...arrowProps}
+      data-testid="up-arrow"
       icon={faCaretUp}
       onClick={() =>
         scrollElement(scrollRegion, {
@@ -62,6 +63,7 @@ export const getArrowBtns = ({
   const DownArrow = showDownArrow ? (
     <Icon
       {...arrowProps}
+      data-testid="down-arrow"
       icon={faCaretDown}
       onClick={() =>
         scrollElement(scrollRegion, {

@@ -51,6 +51,7 @@ export const GridCardBody = ({
     <>
       {isOpen && UpArrow}
       <div
+        data-testid="grid-card-body"
         className={classNames(
           'grid min-h-0 transition-[grid-template-rows] duration-400 ease-in-out', // layout/animation
           isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',

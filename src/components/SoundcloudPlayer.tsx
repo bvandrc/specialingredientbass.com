@@ -43,6 +43,7 @@ const PlayPauseButton = ({
 }) => (
   // biome-ignore lint/a11y/useSemanticElements: TODO: change to button, fix css for it
   <span
+    data-testid="soundcloud-player-play-pause-button"
     className="absolute top-1 left-0 z-1 cursor-pointer hover:saturate-[160%]"
     role="button"
     aria-label={isPlaying ? 'Pause' : 'Play'}
@@ -70,6 +71,7 @@ const StatsAndLink = ({
 }) => (
   <span className="absolute top-2 right-1 z-1 inline-flex items-center gap-1 pointer-events-none">
     <span
+      data-testid="soundcloud-player-stats"
       className={classNames(
         'px-1 py-0.5 inline-flex mb-1 gap-2', // position/layout
         'text-sm text-gray-400 rounded bg-black/60', // appearance
@@ -92,6 +94,7 @@ const StatsAndLink = ({
       ))}
     </span>
     <a
+      data-testid="soundcloud-player-sc-link"
       className={classNames(
         'px-1 py-0.5 inline-flex gap-1', // position/layout
         'text-soundcloud! font-bold text-base rounded outline-1 outline-soundcloud pointer-events-auto bg-black/55 brightness-85 saturate-95 hover:filter-none', // appearance
@@ -161,7 +164,7 @@ export const SoundcloudPlayer = ({
   }, [trackInfo?.artwork_url, setAlbumArtUrl])
 
   return (
-    <div className="flex gap-2">
+    <div data-testid="soundcloud-player" className="flex gap-2">
       {showAlbumArt && trackInfo?.artwork_url && (
         <img
           src={trackInfo.artwork_url}
