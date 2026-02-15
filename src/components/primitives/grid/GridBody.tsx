@@ -12,7 +12,7 @@ export const GridBody = ({
 }) => {
   const isMobile = useIsMobile()
   return (
-    <main id="main-body" aria-label={ariaLabel}>
+    <main className="mx-auto w-full" aria-label={ariaLabel}>
       <GridCardsProvider
         allowMultipleOpen={!isMobile}
         noneExpandedInfo={noneExpandedInfo}
