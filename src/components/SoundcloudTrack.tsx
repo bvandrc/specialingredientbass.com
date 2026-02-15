@@ -35,27 +35,26 @@ export const SoundcloudTrack = ({
     _additionalInfo === 'GET_FROM_SC' ? info.description : _additionalInfo
 
   return (
-    <div className="relative mx-2.5 my-1 font-[Outfit,sans-serif]!">
-      <div className="flex items-start gap-2.5">
+    <div className="relative mx-3 my-1 font-[Outfit]">
+      <div className="flex items-start gap-2">
         {!albumArtToSide && albumArtUrl && (
           <img
             src={albumArtUrl}
-            className="align-middle self-center h-20 rounded-2xl max-sm:h-[4.7em]"
+            className="self-center h-20 rounded-2xl max-md:h-18"
             alt="album art"
           />
         )}
         <span
-          className={classNames(
-            'flex flex-col leading-tight font-normal gap-0.5',
-            { 'text-glow-[cyan]': isPlaying },
-          )}
+          className={classNames('flex flex-col', {
+            'text-glow-med-[cyan]': isPlaying,
+          })}
         >
           <h4 className="text-xl text-white">{title}</h4>
           {subTitle && <p className="text-lg text-orange-200">{subTitle}</p>}
         </span>
       </div>
       {addlInfo && (
-        <p className="mt-1 text-base font-[Barlow] text-justify text-slate-400 leading-tight">
+        <p className="text-base text-justify leading-tight text-slate-400 font-[Barlow]">
           {addlInfo}
         </p>
       )}

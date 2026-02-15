@@ -34,6 +34,79 @@ export interface SoundcloudPlayerProps {
 
 const EXTERNAL_LINK_LABEL = 'This track on SoundCloud.com (new tab)'
 
+const PlayPauseButton = ({
+  isPlaying,
+  onClick,
+}: {
+  isPlaying: boolean
+  onClick: React.MouseEventHandler<HTMLSpanElement>
+}) => (
+  // biome-ignore lint/a11y/useSemanticElements: TODO: change to button, fix css for it
+  <span
+    className="absolute top-1 left-0 z-1 cursor-pointer hover:saturate-[160%]"
+    role="button"
+    aria-label={isPlaying ? 'Pause' : 'Play'}
+    tabIndex={0}
+    onClick={onClick}
+    onKeyDown={triggerClick}
+  >
+    <Icon
+      className="absolute text-soundcloud bg-none text-4xl"
+      icon={isPlaying ? faPauseCircle : faPlayCircle}
+    />
+    <Icon
+      className="absolute top-1 left-1 -z-1 text-white bg-none text-3xl"
+      icon={faCircle}
+    />
+  </span>
+)
+
+const StatsAndLink = ({
+  url,
+  trackInfo,
+}: {
+  url: string
+  trackInfo: TrackInfo
+}) => (
+  <span className="absolute top-2 right-1 z-1 inline-flex items-center gap-1 pointer-events-none">
+    <span
+      className={classNames(
+        'px-1 py-0.5 inline-flex mb-1 gap-2', // position/layout
+        'text-sm text-gray-400 rounded bg-black/60', // appearance
+      )}
+    >
+      {(
+        [
+          { icon: faPlay, key: 'playback_count' },
+          { icon: faHeart, key: 'likes_count' },
+          { icon: faComment, key: 'comment_count' },
+        ] as const satisfies {
+          icon: IconDefinition
+          key: keyof TrackInfo
+        }[]
+      ).map(({ icon, key }) => (
+        <span className="flex items-center gap-1" key={key}>
+          <Icon icon={icon} size="xs" />
+          {trackInfo[key].toLocaleString()}
+        </span>
+      ))}
+    </span>
+    <a
+      className={classNames(
+        'px-1 py-0.5 inline-flex gap-1', // position/layout
+        'text-soundcloud! font-bold text-base rounded outline-1 outline-soundcloud pointer-events-auto bg-black/55 brightness-85 saturate-95 hover:filter-none', // appearance
+      )}
+      href={url}
+      target="_blank"
+      title={EXTERNAL_LINK_LABEL}
+      aria-label={EXTERNAL_LINK_LABEL}
+    >
+      <Icon icon={faSoundcloud} />
+      <Icon icon={faExternalLink} />
+    </a>
+  </span>
+)
+
 export const SoundcloudPlayer = ({
   url,
   html,
@@ -90,66 +163,28 @@ export const SoundcloudPlayer = ({
   return (
     <div className="flex gap-2">
       {showAlbumArt && trackInfo?.artwork_url && (
-        <img src={trackInfo.artwork_url} className="mb-2" alt="album art" />
+        <img
+          src={trackInfo.artwork_url}
+          className="mb-1 rounded-xl h-20"
+          alt="album art"
+        />
       )}
       {/** biome-ignore lint/a11y/useSemanticElements: is fine as Div */}
       <div
-        className="flex items-center h-[100px] w-full relative"
+        className="relative flex items-center w-full"
         role="group"
         aria-label="soundcloud player"
       >
         {trackInfo && (
           <>
-            {/** biome-ignore lint/a11y/useSemanticElements: TODO: change to button, fix css for it */}
-            <span
-              className="absolute top-1 left-0 z-1 cursor-pointer hover:saturate-[160%]"
-              role="button"
-              aria-label={isPlaying ? 'Pause' : 'Play'}
-              tabIndex={0}
+            <PlayPauseButton
+              isPlaying={isPlaying}
               onClick={() => {
                 const widget = window.SC.Widget(id)
                 widget.toggle()
               }}
-              onKeyDown={triggerClick}
-            >
-              <Icon
-                className="absolute text-soundcloud bg-none text-4xl"
-                icon={isPlaying ? faPauseCircle : faPlayCircle}
-              />
-              <Icon
-                className="absolute top-1 left-1 -z-1 text-white bg-none text-3xl"
-                icon={faCircle}
-              />
-            </span>
-            <span className="absolute top-3 right-1 z-1 inline-flex items-center gap-1 pointer-events-none">
-              <span className="px-1 mb-1 py-0.5 inline-flex gap-2 text-sm text-gray-400 rounded bg-black/60">
-                {(
-                  [
-                    { icon: faPlay, key: 'playback_count' },
-                    { icon: faHeart, key: 'likes_count' },
-                    { icon: faComment, key: 'comment_count' },
-                  ] as const satisfies {
-                    icon: IconDefinition
-                    key: keyof TrackInfo
-                  }[]
-                ).map(({ icon, key }) => (
-                  <span className="flex items-center gap-1" key={key}>
-                    <Icon icon={icon} size="xs" />
-                    {trackInfo[key].toLocaleString()}
-                  </span>
-                ))}
-              </span>
-              <a
-                className="px-1 py-0.5 inline-flex gap-1 text-soundcloud! font-bold text-base rounded outline-1 outline-soundcloud pointer-events-auto bg-black/55 brightness-85 saturate-95 hover:filter-none"
-                href={url}
-                target="_blank"
-                title={EXTERNAL_LINK_LABEL}
-                aria-label={EXTERNAL_LINK_LABEL}
-              >
-                <Icon icon={faSoundcloud} />
-                <Icon icon={faExternalLink} />
-              </a>
-            </span>
+            />
+            <StatsAndLink url={url} trackInfo={trackInfo} />
           </>
         )}
         <div
@@ -158,7 +193,7 @@ export const SoundcloudPlayer = ({
             'h-20 overflow-hidden', // Hide bottom of iframe , hide excess iframe
             className,
             isPlaying && 'shadow-[0_0_10px_2px_cyan]',
-            // NOTE: h-90px on hover to slide up if can't see comments
+            // NOTE: increase h on hover or playing to slide up if can't see comments
           )}
         >
           <iframe

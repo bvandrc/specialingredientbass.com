@@ -15,7 +15,7 @@ export const CircleLink = ({
     tabIndex={0}
     {...props}
     className={classNames(
-      'rounded-full flex justify-center items-center',
+      'rounded-full flex justify-center items-center', // make a circle and center the icon
       className,
     )}
   >

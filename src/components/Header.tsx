@@ -10,25 +10,25 @@ import classNames from 'classnames'
 import { CircleLink } from './primitives/CircleLink'
 
 const SOCIAL_LINK = classNames(
-  'size-11 text-2xl',
-  '[background-image:linear-gradient(rgb(0_0_0/30%)_0_0)]',
-  'hover:[background-image:none] hover:shadow-[0_0_20px_yellow]',
+  'size-11 text-2xl', // general appearance
+  '[background-image:linear-gradient(rgb(0_0_0/30%)_0_0)]', //dull the colors when not hovered
+  'hover:[background-image:none] hover:shadow-[0_0_20px_yellow]', // full color on hover; yellow glow too
 )
 
 export const Header = () => {
   return (
     <header className="relative block w-full">
-      <div id="header-center">
+      <div>
         <img
           src="/Logo Outlined.svg"
           alt="Special Ingredient Bass Mixes"
-          className="block mx-auto p-2 drop-shadow-[0_0_30px_purple] max-h-[17vh] lg:max-h-[200px]"
+          className="block mx-auto p-2 max-h-45 lg:max-h-50 drop-shadow-[0_0_30px_purple]"
         />
       </div>
-      <div className="relative mx-auto text-center lg:absolute lg:right-5 lg:bottom-0 lg:text-right">
+      <div className="relative text-center lg:absolute lg:right-5 lg:bottom-0 lg:text-right">
         <section
           aria-label="bio"
-          className="my-2 text-gray-500 font-[Outfit,sans-serif] leading-5"
+          className="my-2 text-gray-500 font-[Outfit] leading-5.25"
         >
           All forms of bass music 🌀
           <br />
@@ -79,7 +79,7 @@ export const Header = () => {
             href="https://www.facebook.com/profile.php?id=100087612335247"
           />
           <CircleLink
-            className={classNames(SOCIAL_LINK, 'bg-slate-500')}
+            className={classNames(SOCIAL_LINK, 'bg-slate-600')}
             title="Email"
             icon={faEnvelope}
             onClick={() => {
