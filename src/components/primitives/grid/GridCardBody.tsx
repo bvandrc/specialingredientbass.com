@@ -54,13 +54,9 @@ export const GridCardBody = ({
       {isOpen && UpArrow}
       <div
         className={classNames(
-          'relative overflow-y-auto', // position/layout
-          '[&::-webkit-scrollbar]:hidden', // appearance
-          'transition-[max-height] duration-400 ease-in-out ', // animation
-          isOpen ? 'max-h-100dvh' : 'max-h-0',
+          'grid min-h-0 transition-[grid-template-rows] duration-400 ease-in-out', // layout/animation
+          isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
         )}
-        ref={contentRef}
-        onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
         // due to other cards collapsing, may need to scroll again once finished since proper position
         // on page can't be calculated while that collapse animation is occurring.
         onTransitionEnd={(e) => {
@@ -72,7 +68,17 @@ export const GridCardBody = ({
           }
         }}
       >
-        {children}
+        <div
+          className={classNames(
+            'relative min-h-0', // position/layout
+            '[&::-webkit-scrollbar]:hidden', // appearance
+            isOpen ? 'overflow-y-auto' : 'overflow-hidden',
+          )}
+          ref={contentRef}
+          onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
+        >
+          {children}
+        </div>
       </div>
       {isOpen && DownArrow}
     </>

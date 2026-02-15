@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useLayoutEffect,
   useState,
 } from 'react'
@@ -132,6 +133,12 @@ export function GridCardsProvider({
       }),
     [allowMultipleOpen],
   )
+
+  useEffect(() => {
+    if (!allowMultipleOpen) {
+      setOpenIds((prev) => (prev.length > 1 ? [prev[0]] : prev))
+    }
+  }, [allowMultipleOpen])
 
   const checkIsOpen = (
     id: string,
