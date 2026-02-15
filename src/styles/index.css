@@ -8,7 +8,7 @@
   --color-facebook: rgb(66, 103, 178);
 }
 
-@utility text-glow-* {
+@utility text-glow-heavy-* {
   text-shadow:
     0 0 5px --value([*]),
     0 0 10px --value([*]),
@@ -18,7 +18,7 @@
     0 0 50px --value([*]);
 }
 
-@utility text-glow-* {
+@utility text-glow-med-* {
   text-shadow:
     0 0 5px black,
     0 0 5px --value([*]),

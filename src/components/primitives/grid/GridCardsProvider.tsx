@@ -87,8 +87,8 @@ const GridCardsWrapper = ({
           1350: 2,
           768: 1, // md: https://tailwindcss.com/docs/responsive-design#overview
         }}
-        columnClassName="p-2 max-sm:p-0"
-        className="flex mt-4 w-auto max-sm:mt-2"
+        columnClassName="p-2 max-md:p-0" // md is when border goes away, so remove padding
+        className="flex mt-2 w-auto max-lg:mt-1" //lg is when header goes to center instead of right
       >
         {children}
       </Masonry>

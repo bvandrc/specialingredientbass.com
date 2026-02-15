@@ -54,7 +54,9 @@ export const GridCardBody = ({
       {isOpen && UpArrow}
       <div
         className={classNames(
-          'relative overflow-y-auto transition-[max-height] duration-400 ease-in-out [&::-webkit-scrollbar]:hidden',
+          'relative overflow-y-auto', // position/layout
+          '[&::-webkit-scrollbar]:hidden', // appearance
+          'transition-[max-height] duration-400 ease-in-out ', // animation
           isOpen ? 'max-h-100dvh' : 'max-h-0',
         )}
         ref={contentRef}
