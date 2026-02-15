@@ -16,7 +16,7 @@ export type GridCardProps = PropsWithChildren<{
 }>
 
 export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
-  const id = useId()
+  const id = title
   const titleId = useId()
   const cardRef = useRef<HTMLDivElement>(null)
 
