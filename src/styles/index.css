@@ -27,29 +27,6 @@
     0 0 30px --value([*]);
 }
 
-
-
-
-body {
-  background-color: black;
-  color: white;
-  font-family: tahoma, sans-serif;
-}
-
-@media (max-width: 800px) {
-  html,
-  body {
-    overflow-x: hidden;
-    margin: 0;
-  }
-}
-
-p {
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 1.2em;
-}
-
 a {
   text-decoration: none;
   cursor: alias;
