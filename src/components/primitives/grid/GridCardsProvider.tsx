@@ -35,53 +35,14 @@ export function useGridCards() {
   return ctx
 }
 
-interface GridCardsWrapperProps {
-  children: React.ReactNode
-  noneExpandedInfo?: React.ReactNode
-}
-
-const GridCardsWrapper = ({
-  children,
-  noneExpandedInfo,
-}: GridCardsWrapperProps) => {
-  const { openIds, allIds } = useGridCards()
-  const noneExpanded = openIds.length === 0 && allIds.length > 0
-
-  return (
-    <>
-      {noneExpandedInfo && (
-        <div
-          className={classNames(
-            'max-h-0 overflow-hidden transition-[max-height] duration-400 ease-in-out',
-            noneExpanded && 'max-h-30 overflow-visible',
-          )}
-        >
-          {noneExpandedInfo}
-        </div>
-      )}
-      <Masonry
-        breakpointCols={{
-          default: 5,
-          2250: 4,
-          1800: 3,
-          1350: 2,
-          768: 1, // md: https://tailwindcss.com/docs/responsive-design#overview
-        }}
-        columnClassName="p-2 max-md:p-0" // md is when border goes away, so remove padding
-        className="flex mt-2 w-auto max-lg:mt-1" //lg is when header goes to center instead of right
-      >
-        {children}
-      </Masonry>
-    </>
-  )
-}
-
 export function GridCardsProvider({
   children,
   allowMultipleOpen,
   noneExpandedInfo,
-}: React.PropsWithChildren<{ allowMultipleOpen: boolean }> &
-  Pick<GridCardsWrapperProps, 'noneExpandedInfo'>) {
+}: React.PropsWithChildren<{
+  allowMultipleOpen: boolean
+  noneExpandedInfo?: React.ReactNode
+}>) {
   const [openIds, setOpenIds] = useState<string[]>([])
   const [allIds, setAllIds] = useState<string[]>([])
   const [expandingRef, setExpandingRef] = useState<ExpandingRef>(undefined)
@@ -118,6 +79,8 @@ export function GridCardsProvider({
     { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>,
   ) => openIds.includes(id) || (!allIds.includes(id) && initiallyOpen)
 
+  const noneExpanded = openIds.length === 0 && allIds.length > 0
+
   return (
     <GridCardsContext.Provider
       value={{
@@ -131,9 +94,29 @@ export function GridCardsProvider({
         setExpandingRef,
       }}
     >
-      <GridCardsWrapper noneExpandedInfo={noneExpandedInfo}>
+      {noneExpandedInfo && (
+        <div
+          className={classNames(
+            'max-h-0 overflow-hidden transition-[max-height] duration-400 ease-in-out',
+            noneExpanded && 'max-h-30 overflow-visible',
+          )}
+        >
+          {noneExpandedInfo}
+        </div>
+      )}
+      <Masonry
+        breakpointCols={{
+          default: 5,
+          2250: 4,
+          1800: 3,
+          1350: 2,
+          768: 1, // md: https://tailwindcss.com/docs/responsive-design#overview
+        }}
+        columnClassName="p-2 max-md:p-0" // md is when border goes away, so remove padding
+        className="flex mt-2 w-auto max-lg:mt-1" //lg is when header goes to center instead of right
+      >
         {children}
-      </GridCardsWrapper>
+      </Masonry>
     </GridCardsContext.Provider>
   )
 }
