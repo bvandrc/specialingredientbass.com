@@ -1,6 +1,7 @@
+import classNames from 'classnames'
 import { GRID_CARD_DATA } from '../constants/grid-card-data'
 import { useIsMobile } from '../hooks/useMobile'
-import { GridBody as GridBodyPrimitive } from './primitives/grid/GridBody'
+import { GridBody } from './primitives/grid/GridBody'
 import { GridCard } from './primitives/grid/GridCard'
 import { SoundcloudTrack, type SoundcloudTrackProps } from './SoundcloudTrack'
 
@@ -13,9 +14,14 @@ export const MainGridBody = () => {
   const isMobile = useIsMobile()
 
   return (
-    <GridBodyPrimitive
+    <GridBody
       noneExpandedInfo={
-        <span id="click-below">
+        <span
+          className={classNames(
+            'block text-center mx-auto pt-2', // position / layout
+            'text-orange-400 text-2xl text-glow-heavy-[darkslateblue] font-bold font-[Roboto_Condensed]', //appearance
+          )}
+        >
           Click for SoundCloud mixes! <span className="fa fa-arrow-down" />
         </span>
       }
@@ -28,6 +34,6 @@ export const MainGridBody = () => {
           ))}
         </GridCard>
       ))}
-    </GridBodyPrimitive>
+    </GridBody>
   )
 }

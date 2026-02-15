@@ -1,3 +1,5 @@
+import classNames from 'classnames'
+import { union, without } from 'es-toolkit'
 import {
   createContext,
   useCallback,
@@ -11,8 +13,8 @@ import type { GridCardProps } from './GridCard'
 export type ExpandingRef = React.RefObject<HTMLDivElement> | undefined
 
 export type GridCardsContextValue = {
-  openIds: Set<string>
-  allIds: Set<string>
+  openIds: string[]
+  allIds: string[]
   allowMultipleOpen: boolean
   registerCard: (id: string, opts: Pick<GridCardProps, 'initiallyOpen'>) => void
   toggleCard: (id: string) => void
@@ -44,7 +46,7 @@ const GridCardsWrapper = ({
 }: GridCardsWrapperProps) => {
   const { openIds, allIds, expandingRef } = useGridCards()
   const [spacerHeight, setSpacerHeight] = useState<number | undefined>()
-  const noneExpanded = openIds.size === 0 && allIds.size > 0
+  const noneExpanded = openIds.length === 0 && allIds.length > 0
 
   useLayoutEffect(() => {
     const el = expandingRef?.current
@@ -68,7 +70,12 @@ const GridCardsWrapper = ({
   return (
     <>
       {noneExpandedInfo && (
-        <div className={`none-expanded-info ${noneExpanded ? 'visible' : ''}`}>
+        <div
+          className={classNames(
+            'max-h-0 overflow-hidden transition-[max-height] duration-400 ease-in-out',
+            noneExpanded && 'max-h-30 overflow-visible',
+          )}
+        >
           {noneExpandedInfo}
         </div>
       )}
@@ -78,20 +85,18 @@ const GridCardsWrapper = ({
           2250: 4,
           1800: 3,
           1350: 2,
-          900: 1,
+          768: 1, // md: https://tailwindcss.com/docs/responsive-design#overview
         }}
-        columnClassName="masonry-grid-column"
-        className="main-masonry-grid"
+        columnClassName="p-2 max-md:p-0" // md is when border goes away, so remove padding
+        className="flex mt-2 w-auto max-lg:mt-1" //lg is when header goes to center instead of right
       >
         {children}
       </Masonry>
       {
         // create a div at the bottom when expanding so can scroll title to the top
-        expandingRef?.current &&
-          openIds.size === 0 &&
-          spacerHeight !== undefined && (
-            <div style={{ height: spacerHeight }} aria-hidden />
-          )
+        expandingRef?.current && noneExpanded && spacerHeight !== undefined && (
+          <div style={{ height: spacerHeight }} aria-hidden />
+        )
       }
     </>
   )
@@ -103,39 +108,27 @@ export function GridCardsProvider({
   noneExpandedInfo,
 }: React.PropsWithChildren<{ allowMultipleOpen: boolean }> &
   Pick<GridCardsWrapperProps, 'noneExpandedInfo'>) {
-  const [openIds, setOpenIds] = useState<Set<string>>(new Set())
-  const [allIds, setAllIds] = useState<Set<string>>(new Set())
+  const [openIds, setOpenIds] = useState<string[]>([])
+  const [allIds, setAllIds] = useState<string[]>([])
   const [expandingRef, setExpandingRef] = useState<ExpandingRef>(undefined)
 
   const registerCard = useCallback(
     (id: string, { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) => {
-      if (!allIds.has(id)) {
-        setAllIds((prev) => prev.add(id))
-      }
-      if (initiallyOpen && !openIds.has(id)) {
-        setOpenIds((prev) => prev.add(id))
+      setAllIds((prev) => union(prev, [id]))
+      if (initiallyOpen) {
+        setOpenIds((prev) => union(prev, [id]))
       }
     },
-    [allIds, openIds],
+    [],
   )
 
   const toggleCard = useCallback(
     (id: string) =>
       setOpenIds((prev) => {
         if (allowMultipleOpen) {
-          const next = new Set(prev)
-
-          if (next.has(id)) {
-            next.delete(id)
-          } else {
-            next.add(id)
-          }
-
-          return next
-        } else {
-          if (prev.has(id)) return new Set()
-          return new Set([id])
+          return prev.includes(id) ? without(prev, id) : union(prev, [id])
         }
+        return prev.includes(id) ? [] : [id]
       }),
     [allowMultipleOpen],
   )
@@ -143,7 +136,7 @@ export function GridCardsProvider({
   const checkIsOpen = (
     id: string,
     { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>,
-  ) => openIds.has(id) || (!allIds.has(id) && initiallyOpen)
+  ) => openIds.includes(id) || (!allIds.includes(id) && initiallyOpen)
 
   return (
     <GridCardsContext.Provider

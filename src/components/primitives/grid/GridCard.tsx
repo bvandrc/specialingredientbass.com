@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import {
   type PropsWithChildren,
   useCallback,
@@ -58,7 +59,15 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   }, [isOpen, setExpandingRef])
 
   return (
-    <section className="grid-card" aria-labelledby={titleId} ref={cardRef}>
+    <section
+      className={classNames(
+        'flex flex-col relative max-h-[calc(100dvh-4em)] mb-4', // layout
+        'border-solid border-2 rounded-2xl border-[darkslateblue] shadow-[0_0_10px_2px_darkslateblue]', // appearance
+        'max-md:border-0 max-md:shadow-none max-md:mb-0', // mobile
+      )}
+      aria-labelledby={titleId}
+      ref={cardRef}
+    >
       <GridCardTitle
         title={title}
         isOpen={isOpen}

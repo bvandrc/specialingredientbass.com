@@ -35,6 +35,16 @@ export const htmlToElement = (html: string) => {
   return template.content.firstChild
 }
 
+export const getElementProps = <T extends HTMLElement>(
+  element: T,
+): React.HTMLAttributes<T> => {
+  return Object.fromEntries(
+    element
+      .getAttributeNames()
+      .map((name) => [name, element.getAttribute(name)]),
+  )
+}
+
 export const triggerClick = (event: React.KeyboardEvent) => {
   if (event.key === 'Enter' || event.key === ' ') {
     event.target?.dispatchEvent(
