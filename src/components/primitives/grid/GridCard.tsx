@@ -71,8 +71,8 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
       data-testid="grid-card"
       className={classNames(
         'flex flex-col relative max-h-[calc(100dvh-4em)] mb-4 overflow-hidden', // layout
-        'border-solid border-2 rounded-2xl border-[darkslateblue] custom-shadow-[darkslateblue]', // appearance
-        'max-md:border-0 max-md:shadow-none max-md:mb-0', // mobile
+        'rounded-2xl border-solid border-1 border-[darkslateblue] inset-ring-1 inset-ring-[darkslateblue]', // appearance
+        'max-md:border-0 max-md:inset-ring-0 max-md:my-3 max-md:mx-1.5', // mobile
       )}
       aria-labelledby={titleId}
       ref={cardRef}

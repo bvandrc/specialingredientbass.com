@@ -18,9 +18,10 @@ export const GridCardTitle = ({
   <div
     data-testid="grid-card-title"
     className={classNames(
-      'flex items-center justify-center relative top-0 m-2 p-2', // position, layout
-      'font-[Roboto_Condensed] rounded-2xl bg-[darkslateblue] cursor-pointer', // appearance
+      'flex items-center justify-center relative top-0 p-1', // position, layout
+      'font-[Roboto_Condensed] bg-[darkslateblue] cursor-pointer rounded-b-2xl', // appearance
       'hover:custom-shadow-[cyan] hover:text-glow-heavy-[darkcyan]', // hover glow
+      'max-md:py-2', // mobile
     )}
     role="button"
     tabIndex={0}

@@ -66,7 +66,7 @@ export const GridCardBody = ({
           className={classNames(
             'relative min-h-0', // position/layout
             '[&::-webkit-scrollbar]:hidden', // appearance
-            isOpen ? 'overflow-y-auto' : 'overflow-hidden',
+            isOpen ? 'overflow-y-auto mb-1' : 'overflow-hidden',
           )}
           ref={contentRef}
           onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
