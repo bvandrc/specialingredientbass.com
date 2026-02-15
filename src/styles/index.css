@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "./grid.css";
 
 @theme {
   --color-soundcloud: rgb(242, 111, 35);

@@ -87,8 +87,8 @@ const GridCardsWrapper = ({
           1350: 2,
           768: 1, // md: https://tailwindcss.com/docs/responsive-design#overview
         }}
-        columnClassName="masonry-grid-column"
-        className="main-masonry-grid"
+        columnClassName="p-2 max-sm:p-0"
+        className="flex mt-4 w-auto max-sm:mt-2"
       >
         {children}
       </Masonry>
