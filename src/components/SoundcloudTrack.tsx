@@ -1,7 +1,10 @@
 import classNames from 'classnames'
+import { keyBy } from 'es-toolkit'
 import { useState } from 'react'
 import data from '../../soundcloud-data.json' with { type: 'json' }
 import { SoundcloudPlayer } from './SoundcloudPlayer'
+
+const dataByUrl = keyBy(data, (d) => d.originalLink)
 
 export interface SoundcloudTrackProps {
   url: string
@@ -18,7 +21,7 @@ export const SoundcloudTrack = ({
   additionalInfo: _additionalInfo,
   albumArtToSide = false,
 }: SoundcloudTrackProps) => {
-  const info = data.find((d) => d.originalLink === url)
+  const info = dataByUrl[url]
   if (!info) throw new Error(`no info found from url ${url}`)
 
   const [isPlaying, onPlayToggle] = useState(false)

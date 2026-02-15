@@ -1,3 +1,4 @@
+import { pick } from 'es-toolkit'
 import fs from 'vite-plugin-fs/browser'
 import { sdk } from './spotify'
 
@@ -7,12 +8,9 @@ sdk.getAllPlaylists().then(async (playlists) => {
   const data = playlists
     .filter(({ owner }) => owner.display_name === display_name)
     .map((pl) => ({
-      name: pl.name,
-      id: pl.id,
+      ...pick(pl, ['name', 'id', 'description', 'public']),
       url: pl.external_urls.spotify,
       track_count: pl.tracks?.total,
-      description: pl.description,
-      public: pl.public,
     }))
   await fs.writeFile('spotify-playlists.json', JSON.stringify(data, null, 2))
 })
