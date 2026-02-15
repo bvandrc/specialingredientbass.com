@@ -19,7 +19,7 @@ export const GridCardTitle = ({
     className={classNames(
       'flex items-center justify-center relative top-0 m-2 p-2', //position, layout
       'font-[Roboto_Condensed] rounded-2xl bg-[darkslateblue] cursor-pointer', //appearance
-      'hover:shadow-[0_0_10px_2px_cyan] hover:text-glow-[darkcyan]', //hover glow
+      'hover:shadow-[0_0_10px_2px_cyan] hover:text-glow-heavy-[darkcyan]', //hover glow
     )}
     role="button"
     tabIndex={0}

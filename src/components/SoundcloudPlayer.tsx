@@ -1,4 +1,7 @@
-import { faSoundcloud } from '@fortawesome/free-brands-svg-icons'
+import {
+  faSoundcloud,
+  type IconDefinition,
+} from '@fortawesome/free-brands-svg-icons'
 import {
   faCircle,
   faComment,
@@ -10,10 +13,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { TrackInfo } from '../api/soundcloudWidget'
 import { setSearchParams } from '../utils/api-utils'
-import { htmlToElement, triggerClick } from '../utils/html-utils'
+import {
+  getElementProps,
+  htmlToElement,
+  triggerClick,
+} from '../utils/html-utils'
 
 export interface SoundcloudPlayerProps {
   url: string
@@ -27,6 +34,79 @@ export interface SoundcloudPlayerProps {
 
 const EXTERNAL_LINK_LABEL = 'This track on SoundCloud.com (new tab)'
 
+const PlayPauseButton = ({
+  isPlaying,
+  onClick,
+}: {
+  isPlaying: boolean
+  onClick: React.MouseEventHandler<HTMLSpanElement>
+}) => (
+  // biome-ignore lint/a11y/useSemanticElements: TODO: change to button, fix css for it
+  <span
+    className="absolute top-1 left-0 z-1 cursor-pointer hover:saturate-[160%]"
+    role="button"
+    aria-label={isPlaying ? 'Pause' : 'Play'}
+    tabIndex={0}
+    onClick={onClick}
+    onKeyDown={triggerClick}
+  >
+    <Icon
+      className="absolute text-soundcloud bg-none text-4xl"
+      icon={isPlaying ? faPauseCircle : faPlayCircle}
+    />
+    <Icon
+      className="absolute top-1 left-1 -z-1 text-white bg-none text-3xl"
+      icon={faCircle}
+    />
+  </span>
+)
+
+const StatsAndLink = ({
+  url,
+  trackInfo,
+}: {
+  url: string
+  trackInfo: TrackInfo
+}) => (
+  <span className="absolute top-2 right-1 z-1 inline-flex items-center gap-1 pointer-events-none">
+    <span
+      className={classNames(
+        'px-1 py-0.5 inline-flex mb-1 gap-2', // position/layout
+        'text-sm text-gray-400 rounded bg-black/60', // appearance
+      )}
+    >
+      {(
+        [
+          { icon: faPlay, key: 'playback_count' },
+          { icon: faHeart, key: 'likes_count' },
+          { icon: faComment, key: 'comment_count' },
+        ] as const satisfies {
+          icon: IconDefinition
+          key: keyof TrackInfo
+        }[]
+      ).map(({ icon, key }) => (
+        <span className="flex items-center gap-1" key={key}>
+          <Icon icon={icon} size="xs" />
+          {trackInfo[key].toLocaleString()}
+        </span>
+      ))}
+    </span>
+    <a
+      className={classNames(
+        'px-1 py-0.5 inline-flex gap-1', // position/layout
+        'text-soundcloud! font-bold text-base rounded outline-1 outline-soundcloud pointer-events-auto bg-black/55 brightness-85 saturate-95 hover:filter-none', // appearance
+      )}
+      href={url}
+      target="_blank"
+      title={EXTERNAL_LINK_LABEL}
+      aria-label={EXTERNAL_LINK_LABEL}
+    >
+      <Icon icon={faSoundcloud} />
+      <Icon icon={faExternalLink} />
+    </a>
+  </span>
+)
+
 export const SoundcloudPlayer = ({
   url,
   html,
@@ -37,30 +117,30 @@ export const SoundcloudPlayer = ({
   showAlbumArt = false,
 }: SoundcloudPlayerProps) => {
   const id = useId()
-  const wrapperRef = useRef<HTMLDivElement>(null)
+  const iframeRef = useRef<HTMLIFrameElement>(null)
   const [trackInfo, setTrackInfo] = useState<TrackInfo>()
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
 
-  const dummyElement = htmlToElement(html) as HTMLIFrameElement
-  dummyElement.title = title
-  const iframeUrl = new URL(dummyElement.src)
-  setSearchParams(iframeUrl, {
-    auto_play: false,
-    hide_related: true,
-    show_comments: true,
-    show_user: false,
-    show_reposts: true,
-    show_teaser: false,
-    visual: false, // true =  artwork behind waveform, false = artwork to left
-    show_artwork: false,
-  })
-  dummyElement.src = iframeUrl.href
-  dummyElement.id = id
-  dummyElement.allow = 'autoplay'
+  const [iframeProps, iframeUrl] = useMemo(() => {
+    // Parse the embed HTML to extract all iframe attributes
+    const iframeElTemp = htmlToElement(html) as HTMLIFrameElement
+    const iframeProps_ = getElementProps(iframeElTemp)
+    const iframeUrl_ = new URL(iframeElTemp.src)
+    setSearchParams(iframeUrl_, {
+      auto_play: false,
+      hide_related: true,
+      show_comments: true,
+      show_user: false,
+      show_reposts: true,
+      show_teaser: false,
+      visual: false, // true = artwork behind waveform, false = artwork to left
+      show_artwork: false,
+    })
+    return [iframeProps_, iframeUrl_]
+  }, [html])
 
   useEffect(() => {
-    const iframeEl = wrapperRef.current?.firstElementChild
-    if (!iframeEl || trackInfo) return
+    if (!iframeRef.current || trackInfo) return
     const widget = window.SC.Widget(id)
     widget.bind(window.SC.Widget.Events.READY, () => {
       widget.getCurrentSound((sound) => setTrackInfo(sound))
@@ -81,74 +161,55 @@ export const SoundcloudPlayer = ({
   }, [trackInfo?.artwork_url, setAlbumArtUrl])
 
   return (
-    <div className="sc-player">
+    <div className="flex gap-2">
       {showAlbumArt && trackInfo?.artwork_url && (
         <img
           src={trackInfo.artwork_url}
-          className="album-art"
+          className="mb-1 rounded-xl h-20"
           alt="album art"
         />
       )}
       {/** biome-ignore lint/a11y/useSemanticElements: is fine as Div */}
       <div
-        className="sc-player-waveform"
+        className="relative flex items-center w-full"
         role="group"
         aria-label="soundcloud player"
       >
         {trackInfo && (
           <>
-            {/** biome-ignore lint/a11y/useSemanticElements: TODO: change to button, fix css for it */}
-            <span
-              className="play-button"
-              role="button"
-              aria-label={isPlaying ? 'Pause' : 'Play'}
-              tabIndex={0}
+            <PlayPauseButton
+              isPlaying={isPlaying}
               onClick={() => {
                 const widget = window.SC.Widget(id)
                 widget.toggle()
               }}
-              onKeyDown={triggerClick}
-            >
-              <Icon
-                className="play-button-icon"
-                icon={isPlaying ? faPauseCircle : faPlayCircle}
-              />
-              <Icon className="play-button-background" icon={faCircle} />
-            </span>
-            <span className="sc-stats">
-              <span className="sc-stat play-count">
-                <Icon icon={faPlay} size="xs" />
-                {trackInfo.playback_count.toLocaleString()}
-              </span>
-              <span className="sc-stat likes-count">
-                <Icon icon={faHeart} size="xs" />
-                {trackInfo.likes_count.toLocaleString()}
-              </span>{' '}
-              <span className="sc-stat comment-count">
-                <Icon icon={faComment} size="xs" />
-                {trackInfo.comment_count.toLocaleString()}
-              </span>
-            </span>
-            <a
-              className="sc-external-link"
-              href={url}
-              target="_blank"
-              title={EXTERNAL_LINK_LABEL}
-              aria-label={EXTERNAL_LINK_LABEL}
-            >
-              <Icon icon={faSoundcloud} />
-              <Icon icon={faExternalLink} />
-            </a>
+            />
+            <StatsAndLink url={url} trackInfo={trackInfo} />
           </>
         )}
         <div
-          className={classNames('sc-iframe-wrapper', className, {
-            playing: isPlaying,
-          })}
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: just do it to set HTML from soundcoud iframe api
-          dangerouslySetInnerHTML={{ __html: dummyElement.outerHTML }}
-          ref={wrapperRef}
-        />
+          className={classNames(
+            'relative w-full rounded-2xl',
+            'h-20 overflow-hidden', // Hide bottom of iframe , hide excess iframe
+            className,
+            isPlaying && 'shadow-[0_0_10px_2px_cyan]',
+            // NOTE: increase h on hover or playing to slide up if can't see comments
+          )}
+        >
+          <iframe
+            {...iframeProps}
+            ref={iframeRef}
+            id={id}
+            title={title}
+            src={iframeUrl.href}
+            allow="autoplay"
+            className={classNames(
+              'relative -top-[60px] -left-px w-[calc(100%+2px)]', // hide top of iframe, hide 1 px left because is not black, hide eight px because is not black
+              'invert hue-rotate-180', // invert colors to be white-on-black
+              className,
+            )}
+          />
+        </div>
       </div>
     </div>
   )
