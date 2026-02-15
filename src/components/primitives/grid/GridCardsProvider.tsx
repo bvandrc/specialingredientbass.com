@@ -1,10 +1,10 @@
 import classNames from 'classnames'
+import { union, without } from 'es-toolkit'
 import {
   createContext,
   useCallback,
   useContext,
   useLayoutEffect,
-  useMemo,
   useState,
 } from 'react'
 import Masonry from 'react-masonry-css'
@@ -67,14 +67,15 @@ const GridCardsWrapper = ({
     return () => ro.disconnect()
   }, [expandingRef])
 
-
   return (
     <>
       {noneExpandedInfo && (
-        <div className={classNames(
-          'max-h-0 overflow-hidden transition-[max-height] duration-400 ease-in-out',
-          noneExpanded && 'max-h-30 overflow-visible',
-        )}>
+        <div
+          className={classNames(
+            'max-h-0 overflow-hidden transition-[max-height] duration-400 ease-in-out',
+            noneExpanded && 'max-h-30 overflow-visible',
+          )}
+        >
           {noneExpandedInfo}
         </div>
       )}
@@ -93,11 +94,9 @@ const GridCardsWrapper = ({
       </Masonry>
       {
         // create a div at the bottom when expanding so can scroll title to the top
-        expandingRef?.current &&
-        noneExpanded &&
-          spacerHeight !== undefined && (
-            <div style={{ height: spacerHeight }} aria-hidden />
-          )
+        expandingRef?.current && noneExpanded && spacerHeight !== undefined && (
+          <div style={{ height: spacerHeight }} aria-hidden />
+        )
       }
     </>
   )
@@ -115,9 +114,9 @@ export function GridCardsProvider({
 
   const registerCard = useCallback(
     (id: string, { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) => {
-      setAllIds((prev) => (prev.includes(id) ? prev : [...prev, id]))
+      setAllIds((prev) => union(prev, [id]))
       if (initiallyOpen) {
-        setOpenIds((prev) => (prev.includes(id) ? prev : [...prev, id]))
+        setOpenIds((prev) => union(prev, [id]))
       }
     },
     [],
@@ -127,9 +126,7 @@ export function GridCardsProvider({
     (id: string) =>
       setOpenIds((prev) => {
         if (allowMultipleOpen) {
-          return prev.includes(id)
-            ? prev.filter((x) => x !== id)
-            : [...prev, id]
+          return prev.includes(id) ? without(prev, id) : union(prev, [id])
         }
         return prev.includes(id) ? [] : [id]
       }),
