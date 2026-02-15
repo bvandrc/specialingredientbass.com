@@ -8,11 +8,9 @@ export const GridCardBody = ({
   isOpen,
   expandingRef,
   setExpandingRef,
-  scrollToTop,
 }: React.PropsWithChildren<
   {
     isOpen: boolean
-    scrollToTop: () => void
   } & Pick<GridCardsContextValue, 'expandingRef' | 'setExpandingRef'>
 >) => {
   const contentRef = useRef<HTMLDivElement>(null)
@@ -57,13 +55,8 @@ export const GridCardBody = ({
           'grid min-h-0 transition-[grid-template-rows] duration-400 ease-in-out', // layout/animation
           isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
         )}
-        // due to other cards collapsing, may need to scroll again once finished since proper position
-        // on page can't be calculated while that collapse animation is occurring.
         onTransitionEnd={(e) => {
           if (e.target === e.currentTarget) {
-            if (isOpen && expandingRef?.current) {
-              scrollToTop()
-            }
             setExpandingRef(undefined)
           }
         }}

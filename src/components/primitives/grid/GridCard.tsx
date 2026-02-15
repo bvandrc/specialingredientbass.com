@@ -36,27 +36,35 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const isOpen = checkIsOpen(id, { initiallyOpen })
   const prevIsOpen = useRef<boolean>(isOpen)
 
-  const scrollToTop = useCallback(() => {
-    requestAnimationFrame(() => {
-      // TODO: scroll to a higher point (title? offset by px?) for mobile
-      cardRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
-    })
-  }, [])
-
   const handleTitleClick = useCallback(() => {
-    // scroll immediately if we can
-    if (!isOpen) scrollToTop()
+    if (!isOpen) {
+      // scroll to the top of the card
+      cardRef.current?.scrollIntoView({ block: 'start', behavior: 'instant' })
+    }
     toggleCard(id)
-  }, [isOpen, id, toggleCard, scrollToTop])
+  }, [isOpen, id, toggleCard])
 
   useEffect(() => {
     // only set expanding ref when transitioning from closed → open (so scroll/arrows run after transition)
     if (isOpen && !prevIsOpen.current) setExpandingRef(cardRef)
     prevIsOpen.current = isOpen
   }, [isOpen, setExpandingRef])
+
+  // Pin the card title to the viewport top during the expand transition
+  const isExpanding = expandingRef === cardRef
+
+  useEffect(() => {
+    if (!isExpanding) return
+
+    let frameId: number
+    const scroll = () => {
+      cardRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' })
+      frameId = requestAnimationFrame(scroll)
+    }
+    frameId = requestAnimationFrame(scroll)
+
+    return () => cancelAnimationFrame(frameId)
+  }, [isExpanding])
 
   return (
     <section
@@ -78,7 +86,6 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
         isOpen={isOpen}
         expandingRef={expandingRef}
         setExpandingRef={setExpandingRef}
-        scrollToTop={scrollToTop}
       >
         {children}
       </GridCardBody>
