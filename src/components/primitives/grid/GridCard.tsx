@@ -70,7 +70,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
     <section
       data-testid="grid-card"
       className={classNames(
-        'flex flex-col relative max-h-[calc(100dvh-4em)] mb-4', // layout
+        'flex flex-col relative max-h-[calc(100dvh-4em)] mb-4 overflow-hidden', // layout
         'border-solid border-2 rounded-2xl border-[darkslateblue] custom-shadow-[darkslateblue]', // appearance
         'max-md:border-0 max-md:shadow-none max-md:mb-0', // mobile
       )}

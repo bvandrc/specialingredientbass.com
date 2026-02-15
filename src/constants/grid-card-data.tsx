@@ -11,7 +11,7 @@ const InlineLink = ({
 }) => (
   <a
     href={href}
-    target="__blank"
+    target="_blank"
     className="inline-flex items-center text-sky-700!"
   >
     {children}

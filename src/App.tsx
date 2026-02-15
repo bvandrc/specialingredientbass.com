@@ -9,11 +9,9 @@ import './api/soundcloudWidget'
 import { Header } from './components/Header'
 import { MainGridBody } from './components/MainGridBody'
 
-export const App = () => {
-  return (
-    <>
-      {<Header />}
-      {<MainGridBody />}
-    </>
-  )
-}
+export const App = () => (
+  <>
+    <Header />
+    <MainGridBody />
+  </>
+)
