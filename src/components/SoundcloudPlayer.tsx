@@ -14,7 +14,8 @@ import {
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
-import type { TrackInfo } from '../api/soundcloudWidget'
+import type { TrackInfo } from 'soundcloud-widget'
+import SoundcloudWidget from 'soundcloud-widget'
 import { setSearchParams } from '../utils/api-utils'
 import {
   getElementProps,
@@ -144,13 +145,13 @@ export const SoundcloudPlayer = ({
 
   useEffect(() => {
     if (!iframeRef.current || trackInfo) return
-    const widget = window.SC.Widget(id)
-    widget.bind(window.SC.Widget.Events.READY, () => {
-      widget.getCurrentSound((sound) => setTrackInfo(sound))
+    const widget = new SoundcloudWidget(id)
+    widget.on(SoundcloudWidget.events.READY, () => {
+      widget.getCurrentSound().then((sound) => setTrackInfo(sound))
     })
-    widget.bind(window.SC.Widget.Events.PLAY, () => setIsPlaying(true))
-    widget.bind(window.SC.Widget.Events.PAUSE, () => setIsPlaying(false))
-    widget.bind(window.SC.Widget.Events.FINISH, () => setIsPlaying(false))
+    widget.on(SoundcloudWidget.events.PLAY, () => setIsPlaying(true))
+    widget.on(SoundcloudWidget.events.PAUSE, () => setIsPlaying(false))
+    widget.on(SoundcloudWidget.events.FINISH, () => setIsPlaying(false))
   }, [id, trackInfo])
 
   useEffect(() => {
@@ -183,7 +184,7 @@ export const SoundcloudPlayer = ({
             <PlayPauseButton
               isPlaying={isPlaying}
               onClick={() => {
-                const widget = window.SC.Widget(id)
+                const widget = new SoundcloudWidget(id)
                 widget.toggle()
               }}
             />

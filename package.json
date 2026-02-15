@@ -43,7 +43,8 @@
     "merge-refs": "^1",
     "react": "^18",
     "react-dom": "^18",
-    "react-masonry-css": "^1"
+    "react-masonry-css": "^1",
+    "soundcloud-widget": "^0.2.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3",
