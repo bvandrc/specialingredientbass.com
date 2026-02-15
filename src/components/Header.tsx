@@ -49,31 +49,31 @@ export const Header = () => {
           className="flex justify-center items-center gap-1 lg:justify-end"
         >
           <CircleLink
-            className={classNames(SOCIAL_LINK, 'soundcloud')}
+            className={classNames(SOCIAL_LINK, 'bg-soundcloud')}
             title="SoundCloud"
             icon={faSoundcloud}
             href="https://www.soundcloud.com/special-ingredient"
           />
           <CircleLink
-            className={classNames(SOCIAL_LINK, 'twitter')}
+            className={classNames(SOCIAL_LINK, 'bg-twitter')}
             title="Twitter"
             icon={faTwitter}
             href="https://www.twitter.com/dj_smoothbrain"
           />
           <CircleLink
-            className={classNames(SOCIAL_LINK, 'instagram')}
+            className={classNames(SOCIAL_LINK, 'bg-instagram')}
             title="Instagram"
             icon={faInstagram}
             href="https://www.instagram.com/special_ingredient_bass"
           />
           <CircleLink
-            className={classNames(SOCIAL_LINK, 'reddit')}
+            className={classNames(SOCIAL_LINK, 'bg-reddit')}
             title="Reddit"
             icon={faReddit}
             href="https://www.reddit.com/user/SpecialIngredient"
           />
           <CircleLink
-            className={classNames(SOCIAL_LINK, 'facebook')}
+            className={classNames(SOCIAL_LINK, 'bg-facebook')}
             title="Facebook"
             icon={faFacebook}
             href="https://www.facebook.com/profile.php?id=100087612335247"

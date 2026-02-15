@@ -113,7 +113,7 @@ export const SoundcloudPlayer = ({
               onKeyDown={triggerClick}
             >
               <Icon
-                className="absolute text-[var(--soundcloud)] bg-none text-4xl"
+                className="absolute text-soundcloud bg-none text-4xl"
                 icon={isPlaying ? faPauseCircle : faPlayCircle}
               />
               <Icon
@@ -140,7 +140,7 @@ export const SoundcloudPlayer = ({
                 ))}
               </span>
               <a
-                className="px-1 py-0.5 inline-flex gap-1 text-[var(--soundcloud)]! font-bold text-base rounded  outline-1 outline-[var(--soundcloud)] pointer-events-auto bg-black/55 brightness-85 saturate-95 hover:filter-none"
+                className="px-1 py-0.5 inline-flex gap-1 text-soundcloud! font-bold text-base rounded outline-1 outline-soundcloud pointer-events-auto bg-black/55 brightness-85 saturate-95 hover:filter-none"
                 href={url}
                 target="_blank"
                 title={EXTERNAL_LINK_LABEL}
