@@ -1,41 +1,30 @@
-@import "scrollbar.css";
-@import "header.css";
-@import "grid.css";
-@import "sc-track.css";
-@import "sc-player.css";
+@import "tailwindcss";
 
-/* General */
-
-:root {
-  --app-height: 100%;
-  --border-radius: 20px;
-
-  /* Colors */
-  --soundcloud: rgb(242, 111, 35);
-  --twitter: rgb(29, 161, 242);
-  --instagram: rgb(193, 53, 132);
-  --reddit: rgb(255, 86, 0);
-  --facebook: rgb(66, 103, 178);
+@theme {
+  --color-soundcloud: rgb(242, 111, 35);
+  --color-twitter: rgb(29, 161, 242);
+  --color-instagram: rgb(193, 53, 132);
+  --color-reddit: rgb(255, 86, 0);
+  --color-facebook: rgb(66, 103, 178);
 }
 
-body {
-  background-color: black;
-  color: white;
-  font-family: tahoma, sans-serif;
+@utility text-glow-heavy-* {
+  text-shadow:
+    0 0 5px --value([*]),
+    0 0 10px --value([*]),
+    0 0 15px --value([*]),
+    0 0 20px --value([*]),
+    0 0 30px --value([*]),
+    0 0 50px --value([*]);
 }
 
-@media (max-width: 800px) {
-  html,
-  body {
-    overflow-x: hidden;
-    margin: 0;
-  }
-}
-
-p {
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 1.2em;
+@utility text-glow-med-* {
+  text-shadow:
+    0 0 5px black,
+    0 0 5px --value([*]),
+    0 0 10px --value([*]),
+    0 0 15px --value([*]),
+    0 0 30px --value([*]);
 }
 
 a {
@@ -48,47 +37,19 @@ a:visited {
   color: inherit;
 }
 
-.display-none {
-  display: none;
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-.circle {
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-.soundcloud {
-  background-color: var(--soundcloud);
+::-webkit-scrollbar-thumb {
+  background: darkcyan;
+  border-radius: 10px;
 }
 
-.twitter {
-  background-color: var(--twitter);
-}
-
-.instagram {
-  background-color: var(--instagram);
-}
-
-.reddit {
-  background-color: var(--reddit);
-}
-
-.facebook {
-  background-color: var(--facebook);
-}
-
-.email {
-  background-color: grey;
-}
-
-.shadow-cyan {
-  --shadow-color: cyan;
-  text-shadow:
-    0 0 5px black,
-    0 0 5px var(--shadow-color),
-    0 0 10px var(--shadow-color),
-    0 0 15px var(--shadow-color),
-    0 0 30px var(--shadow-color);
+::-webkit-scrollbar-thumb:hover {
+  background: cyan;
 }
