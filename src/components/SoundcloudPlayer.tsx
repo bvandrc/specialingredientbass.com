@@ -44,7 +44,7 @@ const PlayPauseButton = ({
   // biome-ignore lint/a11y/useSemanticElements: TODO: change to button, fix css for it
   <span
     data-testid="soundcloud-player-play-pause-button"
-    className="absolute top-1 left-0 z-1 cursor-pointer hover:saturate-[160%]"
+    className="absolute top-1 left-0 z-1 cursor-pointer hover:saturate-160"
     role="button"
     aria-label={isPlaying ? 'Pause' : 'Play'}
     tabIndex={0}
@@ -195,7 +195,6 @@ export const SoundcloudPlayer = ({
             'relative w-full rounded-2xl',
             'h-20 overflow-hidden', // Hide bottom of iframe , hide excess iframe
             className,
-            isPlaying && 'shadow-[0_0_10px_2px_cyan]',
             // NOTE: increase h on hover or playing to slide up if can't see comments
           )}
         >

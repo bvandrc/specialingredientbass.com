@@ -27,6 +27,10 @@
     0 0 30px --value([*]);
 }
 
+@utility custom-shadow-* {
+  box-shadow: 0 0 10px 2px --value([*]);
+}
+
 a {
   text-decoration: none;
   cursor: alias;

@@ -39,7 +39,10 @@ export const SoundcloudTrack = ({
 
   return (
     <div
-      className="relative mx-3 my-1 font-[Outfit]"
+      className={classNames(
+        'relative mx-3 my-1 rounded-xl font-[Outfit]',
+        isPlaying && 'custom-shadow-[cyan]',
+      )}
       data-testid="soundcloud-track"
     >
       {!albumArtToSide && albumArtUrl && (
@@ -53,7 +56,9 @@ export const SoundcloudTrack = ({
         />
       )}
       <div
-        className={classNames('pb-0.5', { 'text-glow-med-[cyan]': isPlaying })}
+        className={classNames('pb-0.5', {
+          'text-glow-med-[cyan]': isPlaying,
+        })}
       >
         <h4 data-testid="soundcloud-track-title" className="text-xl text-white">
           {title}
