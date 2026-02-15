@@ -38,37 +38,53 @@ export const SoundcloudTrack = ({
     _additionalInfo === 'GET_FROM_SC' ? info.description : _additionalInfo
 
   return (
-    <div className="relative mx-3 my-1 font-[Outfit]">
-      <div className="flex items-start gap-2">
-        {!albumArtToSide && albumArtUrl && (
-          <img
-            src={albumArtUrl}
-            className="self-center h-20 rounded-2xl max-md:h-18"
-            alt="album art"
-          />
+    <div
+      className="relative mx-3 my-1 font-[Outfit]"
+      data-testid="soundcloud-track"
+    >
+      {!albumArtToSide && albumArtUrl && (
+        <img
+          src={albumArtUrl}
+          className={classNames(
+            'float-left mr-2 h-20 rounded-2xl max-md:h-18',
+            addlInfo && '-mb-1',
+          )}
+          alt="album art"
+        />
+      )}
+      <div
+        className={classNames('pb-0.5', { 'text-glow-med-[cyan]': isPlaying })}
+      >
+        <h4 data-testid="soundcloud-track-title" className="text-xl text-white">
+          {title}
+        </h4>
+        {subTitle && (
+          <p
+            data-testid="soundcloud-track-subtitle"
+            className="text-lg text-orange-200"
+          >
+            {subTitle}
+          </p>
         )}
-        <span
-          className={classNames('flex flex-col', {
-            'text-glow-med-[cyan]': isPlaying,
-          })}
-        >
-          <h4 className="text-xl text-white">{title}</h4>
-          {subTitle && <p className="text-lg text-orange-200">{subTitle}</p>}
-        </span>
       </div>
       {addlInfo && (
-        <p className="text-base text-justify leading-tight text-slate-400 font-[Barlow]">
+        <p
+          data-testid="soundcloud-track-additional-info"
+          className="text-base text-justify hyphens-auto text-pretty -tracking-wide leading-tight text-slate-400 font-[Barlow]"
+        >
           {addlInfo}
         </p>
       )}
-      <SoundcloudPlayer
-        url={url}
-        html={info.html}
-        title={title}
-        setAlbumArtUrl={setAlbumArtUrl}
-        onPlayToggle={onPlayToggle}
-        showAlbumArt={albumArtToSide}
-      />
+      <div className="clear-left">
+        <SoundcloudPlayer
+          url={url}
+          html={info.html}
+          title={title}
+          setAlbumArtUrl={setAlbumArtUrl}
+          onPlayToggle={onPlayToggle}
+          showAlbumArt={albumArtToSide}
+        />
+      </div>
     </div>
   )
 }

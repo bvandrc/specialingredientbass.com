@@ -68,6 +68,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
 
   return (
     <section
+      data-testid="grid-card"
       className={classNames(
         'flex flex-col relative max-h-[calc(100dvh-4em)] mb-4', // layout
         'border-solid border-2 rounded-2xl border-[darkslateblue] shadow-[0_0_10px_2px_darkslateblue]', // appearance

@@ -16,6 +16,7 @@ export const GridCardTitle = ({
 }) => (
   // biome-ignore lint/a11y/useSemanticElements: is fine as Div
   <div
+    data-testid="grid-card-title"
     className={classNames(
       'flex items-center justify-center relative top-0 m-2 p-2', //position, layout
       'font-[Roboto_Condensed] rounded-2xl bg-[darkslateblue] cursor-pointer', //appearance
@@ -27,16 +28,21 @@ export const GridCardTitle = ({
     onKeyDown={triggerClick}
     onClick={onClick}
   >
-    <h2 id={id} className="mx-5 text-center text-2xl font-bold">
+    <h2
+      id={id}
+      className="mx-5 text-center text-2xl font-bold"
+      data-testid="grid-card-title-text"
+    >
       {title}
     </h2>
     <Icon
+      data-testid="grid-card-title-collapse-caret"
       size="lg"
       icon={faCaretDown}
       className={classNames(
-        'absolute right-4 select-none', //position, appearance
+        'absolute right-4 select-none', // position, appearance
         'transition-transform duration-200 ease-linear', //animation
-        isOpen ? 'rotate-[180deg]' : 'rotate-[360deg]',
+        isOpen ? 'rotate-180' : 'rotate-360',
       )}
       aria-hidden
     />

@@ -15,11 +15,12 @@ export const MainGridBody = () => {
 
   return (
     <GridBody
+      data-testid="main-grid-body"
       noneExpandedInfo={
         <span
           className={classNames(
             'block text-center mx-auto pt-2', // position / layout
-            'text-orange-400 text-2xl text-glow-heavy-[darkslateblue] font-bold font-[Roboto_Condensed]', //appearance
+            'text-orange-400 text-2xl text-glow-heavy-[darkslateblue] font-bold font-[Roboto_Condensed]', // appearance
           )}
         >
           Click for SoundCloud mixes! <span className="fa fa-arrow-down" />
