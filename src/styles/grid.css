@@ -64,33 +64,3 @@
   }
 }
 
-.none-expanded-info {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 400ms ease-in-out;
-
-  &.visible {
-    max-height: 7em;
-    overflow: unset;
-  }
-}
-
-.scroll-arrow {
-  /* Position */
-  margin: auto;
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  display: block;
-
-  /* Appearance */
-  width: 100px;
-  height: 30px;
-  background-color: darkslateblue;
-  opacity: 0.8;
-  border-radius: 10px;
-  text-align: center;
-  cursor: pointer;
-  user-select: none;
-}

@@ -38,7 +38,8 @@ export const getArrowBtns = ({
 
   const arrowProps = {
     size: '2x',
-    className: 'scroll-arrow',
+    className:
+      'm-auto absolute left-0 right-0 z-10 block w-[100px] h-[30px] bg-[darkslateblue] opacity-80 rounded-lg text-center cursor-pointer select-none',
   } as const satisfies Partial<IconProps>
 
   const UpArrow = showUpArrow ? (
