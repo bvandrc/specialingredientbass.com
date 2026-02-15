@@ -13,10 +13,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { TrackInfo } from '../api/soundcloudWidget'
 import { setSearchParams } from '../utils/api-utils'
-import { htmlToElement, triggerClick } from '../utils/html-utils'
+import {
+  getElementProps,
+  htmlToElement,
+  triggerClick,
+} from '../utils/html-utils'
 
 export interface SoundcloudPlayerProps {
   url: string
@@ -40,30 +44,30 @@ export const SoundcloudPlayer = ({
   showAlbumArt = false,
 }: SoundcloudPlayerProps) => {
   const id = useId()
-  const wrapperRef = useRef<HTMLDivElement>(null)
+  const iframeRef = useRef<HTMLIFrameElement>(null)
   const [trackInfo, setTrackInfo] = useState<TrackInfo>()
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
 
-  const dummyElement = htmlToElement(html) as HTMLIFrameElement
-  dummyElement.title = title
-  const iframeUrl = new URL(dummyElement.src)
-  setSearchParams(iframeUrl, {
-    auto_play: false,
-    hide_related: true,
-    show_comments: true,
-    show_user: false,
-    show_reposts: true,
-    show_teaser: false,
-    visual: false, // true =  artwork behind waveform, false = artwork to left
-    show_artwork: false,
-  })
-  dummyElement.src = iframeUrl.href
-  dummyElement.id = id
-  dummyElement.allow = 'autoplay'
+  const [iframeProps, iframeUrl] = useMemo(() => {
+    // Parse the embed HTML to extract all iframe attributes
+    const iframeElTemp = htmlToElement(html) as HTMLIFrameElement
+    const iframeProps_ = getElementProps(iframeElTemp)
+    const iframeUrl_ = new URL(iframeElTemp.src)
+    setSearchParams(iframeUrl_, {
+      auto_play: false,
+      hide_related: true,
+      show_comments: true,
+      show_user: false,
+      show_reposts: true,
+      show_teaser: false,
+      visual: false, // true = artwork behind waveform, false = artwork to left
+      show_artwork: false,
+    })
+    return [iframeProps_, iframeUrl_]
+  }, [html])
 
   useEffect(() => {
-    const iframeEl = wrapperRef.current?.firstElementChild
-    if (!iframeEl || trackInfo) return
+    if (!iframeRef.current || trackInfo) return
     const widget = window.SC.Widget(id)
     widget.bind(window.SC.Widget.Events.READY, () => {
       widget.getCurrentSound((sound) => setTrackInfo(sound))
@@ -84,17 +88,13 @@ export const SoundcloudPlayer = ({
   }, [trackInfo?.artwork_url, setAlbumArtUrl])
 
   return (
-    <div className="sc-player">
+    <div className="flex gap-2">
       {showAlbumArt && trackInfo?.artwork_url && (
-        <img
-          src={trackInfo.artwork_url}
-          className="album-art"
-          alt="album art"
-        />
+        <img src={trackInfo.artwork_url} className="mb-2" alt="album art" />
       )}
       {/** biome-ignore lint/a11y/useSemanticElements: is fine as Div */}
       <div
-        className="sc-player-waveform"
+        className="flex items-center h-[100px] w-full relative"
         role="group"
         aria-label="soundcloud player"
       >
@@ -140,7 +140,7 @@ export const SoundcloudPlayer = ({
                 ))}
               </span>
               <a
-                className="px-1 py-0.5 inline-flex gap-1 text-[var(--soundcloud)]! font-bold text-base rounded  outline-1 outline-[var(--soundcloud)] pointer-events-auto bg-black/55 brightness-75 saturate-90 hover:filter-none"
+                className="px-1 py-0.5 inline-flex gap-1 text-[var(--soundcloud)]! font-bold text-base rounded  outline-1 outline-[var(--soundcloud)] pointer-events-auto bg-black/55 brightness-85 saturate-95 hover:filter-none"
                 href={url}
                 target="_blank"
                 title={EXTERNAL_LINK_LABEL}
@@ -153,13 +153,28 @@ export const SoundcloudPlayer = ({
           </>
         )}
         <div
-          className={classNames('sc-iframe-wrapper', className, {
-            playing: isPlaying,
-          })}
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: just do it to set HTML from soundcoud iframe api
-          dangerouslySetInnerHTML={{ __html: dummyElement.outerHTML }}
-          ref={wrapperRef}
-        />
+          className={classNames(
+            'relative w-full rounded-xl',
+            'h-20 overflow-hidden', // Hide bottom of iframe , hide excess iframe
+            className,
+            isPlaying && 'shadow-[0_0_10px_2px_cyan]',
+            // NOTE: h-90px on hover to slide up if can't see comments
+          )}
+        >
+          <iframe
+            {...iframeProps}
+            ref={iframeRef}
+            id={id}
+            title={title}
+            src={iframeUrl.href}
+            allow="autoplay"
+            className={classNames(
+              'relative -top-[60px] -left-px w-[calc(100%+2px)]', // hide top of iframe, hide 1 px left because is not black, hide eight px because is not black
+              'invert hue-rotate-180', // invert colors to be white-on-black
+              className,
+            )}
+          />
+        </div>
       </div>
     </div>
   )

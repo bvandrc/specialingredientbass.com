@@ -55,7 +55,7 @@ export const SoundcloudTrack = ({
         </span>
       </div>
       {addlInfo && (
-        <p className="mt-1 text-base font-[Barlow,sans-serif] text-justify text-gray-500 leading-tight [&>a]:text-[darkslateblue]! [&_.fa]:text-[0.8em]">
+        <p className="mt-1 text-base font-[Barlow] text-justify text-slate-400 leading-tight">
           {addlInfo}
         </p>
       )}

@@ -1,8 +1,6 @@
 @import "tailwindcss";
 
 @import "./grid.css";
-@import "./sc-player.css";
-
 @utility text-glow-* {
   text-shadow:
     0 0 5px --value([*]),
@@ -85,6 +83,7 @@ a:visited {
 .facebook {
   background-color: var(--facebook);
 }
+
 ::-webkit-scrollbar {
   width: 10px;
 }
