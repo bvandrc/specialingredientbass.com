@@ -154,7 +154,7 @@ export const SoundcloudPlayer = ({
         )}
         <div
           className={classNames(
-            'relative w-full rounded-xl',
+            'relative w-full rounded-2xl',
             'h-20 overflow-hidden', // Hide bottom of iframe , hide excess iframe
             className,
             isPlaying && 'shadow-[0_0_10px_2px_cyan]',

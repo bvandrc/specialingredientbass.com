@@ -28,12 +28,8 @@
     0 0 30px --value([*]);
 }
 
-/* General */
 
-:root {
-  --app-height: 100%;
-  --border-radius: 20px;
-}
+
 
 body {
   background-color: black;

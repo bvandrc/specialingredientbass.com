@@ -40,7 +40,7 @@ export const SoundcloudTrack = ({
         {!albumArtToSide && albumArtUrl && (
           <img
             src={albumArtUrl}
-            className="align-middle self-center h-20 rounded-xl max-sm:h-[4.7em]"
+            className="align-middle self-center h-20 rounded-2xl max-sm:h-[4.7em]"
             alt="album art"
           />
         )}

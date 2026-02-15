@@ -53,7 +53,10 @@ export const GridCardBody = ({
     <>
       {isOpen && UpArrow}
       <div
-        className={classNames('collapse-content', { hidden: !isOpen })}
+        className={classNames(
+          'relative overflow-y-auto transition-[max-height] duration-400 ease-in-out [&::-webkit-scrollbar]:hidden',
+          isOpen ? 'max-h-100dvh' : 'max-h-0',
+        )}
         ref={contentRef}
         onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
         // due to other cards collapsing, may need to scroll again once finished since proper position
