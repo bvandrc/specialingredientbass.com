@@ -9,7 +9,11 @@ const InlineLink = ({
   href: string
   children: React.ReactNode
 }) => (
-  <a href={href} target="__blank" className="inline-flex items-center text-sky-700!">
+  <a
+    href={href}
+    target="__blank"
+    className="inline-flex items-center text-sky-700!"
+  >
     {children}
     <Icon icon={faExternalLink} size="2xs" className="ml-1" />
   </a>
