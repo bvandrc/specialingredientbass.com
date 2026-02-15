@@ -6,6 +6,27 @@ import { SoundcloudPlayer } from './SoundcloudPlayer'
 
 const dataByUrl = keyBy(data, (d) => d.originalLink)
 
+const AlbumArt = ({
+  className,
+  url,
+}: {
+  className: string
+  url: string | undefined
+}) => (
+  <div
+    className={classNames(
+      'float-left mr-2 size-20 rounded-2xl overflow-hidden max-md:size-18',
+      className,
+    )}
+  >
+    {url ? (
+      <img src={url} className="w-full h-full" alt="album art" />
+    ) : (
+      <div className="w-full h-full bg-gray-900/80" />
+    )}
+  </div>
+)
+
 export interface SoundcloudTrackProps {
   url: string
   title?: string
@@ -45,16 +66,13 @@ export const SoundcloudTrack = ({
       )}
       data-testid="soundcloud-track"
     >
-      {!albumArtToSide && albumArtUrl && (
-        <img
-          src={albumArtUrl}
-          className={classNames(
-            'float-left mr-2 h-20 rounded-2xl max-md:h-18',
-            addlInfo && '-mb-1',
-          )}
-          alt="album art"
+      {!albumArtToSide && (
+        <AlbumArt
+          url={albumArtUrl}
+          className={classNames(addlInfo && '-mb-1')}
         />
       )}
+
       <div
         className={classNames('pb-0.5', {
           'text-glow-med-[cyan]': isPlaying,
