@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { GRID_CARD_DATA } from '../constants/grid-card-data'
+import { GRID_CARD_DATA } from '../data/grid-card-data'
 import { useIsMobile } from '../hooks/useMobile'
 import { GridBody } from './primitives/grid/GridBody'
 import { GridCard } from './primitives/grid/GridCard'

@@ -10,7 +10,7 @@ const AlbumArt = ({
   className,
   url,
 }: {
-  className: string
+  className?: string
   url: string | undefined
 }) => (
   <div
@@ -66,25 +66,22 @@ export const SoundcloudTrack = ({
       )}
       data-testid="soundcloud-track"
     >
-      {!albumArtToSide && (
-        <AlbumArt
-          url={albumArtUrl}
-          className={classNames(addlInfo && '-mb-1')}
-        />
-      )}
-
+      {!albumArtToSide && <AlbumArt url={albumArtUrl} />}
       <div
         className={classNames('pb-0.5', {
           'text-glow-med-[cyan]': isPlaying,
         })}
       >
-        <h4 data-testid="soundcloud-track-title" className="text-xl text-white">
+        <h4
+          data-testid="soundcloud-track-title"
+          className="text-lg text-gray-200 leading-none mb-1"
+        >
           {title}
         </h4>
         {subTitle && (
           <p
             data-testid="soundcloud-track-subtitle"
-            className="text-lg text-orange-200"
+            className="text-lg text-orange-300/90 leading-[1.1] my-1"
           >
             {subTitle}
           </p>
@@ -93,7 +90,7 @@ export const SoundcloudTrack = ({
       {addlInfo && (
         <p
           data-testid="soundcloud-track-additional-info"
-          className="text-base text-justify hyphens-auto text-pretty -tracking-wide leading-tight text-slate-400 font-[Barlow]"
+          className="text-base text-sm text-justify text-pretty -tracking-wide leading-tight text-slate-400 font-[Barlow]" // hyphens-auto
         >
           {addlInfo}
         </p>

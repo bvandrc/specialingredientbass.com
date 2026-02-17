@@ -4,17 +4,15 @@ import type { GridCardsCriteria } from '../components/MainGridBody'
 
 const InlineLink = ({
   href,
+  text,
   children,
-}: {
-  href: string
-  children: React.ReactNode
-}) => (
+}: React.PropsWithChildren<{ href: string; text?: string }>) => (
   <a
     href={href}
     target="_blank"
     className="inline-flex items-center text-sky-700!"
   >
-    {children}
+    {text ?? children}
     <Icon icon={faExternalLink} size="2xs" className="ml-1" />
   </a>
 )
@@ -52,8 +50,13 @@ export const GRID_CARD_DATA: GridCardsCriteria = [
         url: 'https://soundcloud.com/special-ingredient/subwoofer-sauce-vol-1?in=special-ingredient/sets/heavier-dubstep',
         title: 'Subwoofer Sauce Vol. 1',
         subTitle: 'OG Late Night Wonky Riddim',
-        additionalInfo:
-          "True riddim. That deep & wonky. If you're not a fan of riddim yet, try this one out. Headphones recommended, Lotta wild sounds bouncing around the 3D space in this one.",
+        additionalInfo: (
+          <>
+            True riddim. That deep & wonky. If you're not a fan of riddim yet,
+            try this one out. Headphones recommended, Lotta wild sounds bouncing
+            around the 3D space in this one.
+          </>
+        ),
       },
       {
         url: 'https://soundcloud.com/special-ingredient/aged-cheddar-mix-vol-1?in=special-ingredient/sets/heavier-dubstep',
@@ -69,8 +72,26 @@ export const GRID_CARD_DATA: GridCardsCriteria = [
         url: 'https://soundcloud.com/special-ingredient/live-set-dft-yellow-brick-road-tour?in=special-ingredient/sets/heavier-dubstep',
         title: 'Live Set @ DFT Yellow Brick Road Tour',
         subTitle: 'Hype Dubstep Journey',
-        additionalInfo:
-          "Threw down more of a hype set for Dancefestopia's Yellow Brick Road tour, while still tryna keep it a genre journey. Lotta bangers but we still get swampy and wavey :)",
+        additionalInfo: (
+          <>
+            Threw down more of a hype set for Dancefestopia's Yellow Brick Road
+            tour, while still tryna keep it a genre journey. Lotta bangers but
+            we still get swampy and wavey :)
+          </>
+        ),
+      },
+      {
+        url: 'https://soundcloud.com/special-ingredient/electric-infinity-set?in=special-ingredient/sets/heavier-dubstep',
+        title: 'Electric Infinity Set',
+        subTitle: 'Bass Flips Dancefloor Journey',
+        additionalInfo: (
+          <>
+            A very special wedding reception set for the Music Box in San Diego
+            for 2 of the best fest homies throwing the most lit wedding of all
+            time. Tried to tick many genre boxes while maximizing flips. Enjoy
+            the journey :)
+          </>
+        ),
       },
       {
         url: 'https://soundcloud.com/special-ingredient/special-ingredient-b2b-saumii-larimer-lounge-1-26-2023?in=special-ingredient/sets/heavier-dubstep',
@@ -79,9 +100,10 @@ export const GRID_CARD_DATA: GridCardsCriteria = [
         additionalInfo: (
           <>
             Cooked up an extra special bass journey set with{' '}
-            <InlineLink href="https://soundcloud.com/saumiimusic">
-              Saumii
-            </InlineLink>{' '}
+            <InlineLink
+              href="https://soundcloud.com/saumiimusic"
+              text="Saumii"
+            />{' '}
             for a sold out crowd at Larimer Lounge, rinsing some of our favorite
             tracks we've shared over the years of DJing together.
           </>
@@ -91,6 +113,7 @@ export const GRID_CARD_DATA: GridCardsCriteria = [
         url: 'https://soundcloud.com/special-ingredient/bass-kitchen-mix-rage-dubstep-mix-briddim-riddim?in=special-ingredient/sets/heavier-dubstep',
         title: 'Bass Kitchen Vol. 1',
         subTitle: 'Briddim, Riddim, Heavy Dubstep',
+        additionalInfo: 'My first mix, lol',
       },
     ],
   },

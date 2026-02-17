@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { getOEmbed } from './src/api/soundcloud'
 
-const gridCardDataCode = fs.readFileSync('./src/constants/grid-card-data.tsx')
+const gridCardDataCode = fs.readFileSync('./src/data/grid-card-data.tsx')
 const scUrlMatches = gridCardDataCode
   .toString()
   .matchAll(/https:\/\/soundcloud\.com\/.*?(?=['"])/g)
