@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bvandercar-vt/specialingredientbass.com.git"
+    "url": "git+https://github.com/bvandrc/specialingredientbass.com.git"
   },
   "keywords": [
     "bass",
@@ -27,7 +27,7 @@
   "author": "Blake Vandercar",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/bvandercar-vt/specialingredientbass.com/issues"
+    "url": "https://github.com/bvandrc/specialingredientbass.com/issues"
   },
   "dependencies": {
     "@fontsource/barlow": "^5",
