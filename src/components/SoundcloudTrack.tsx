@@ -72,12 +72,12 @@ export const SoundcloudTrack = ({
           'text-glow-med-[cyan]': isPlaying,
         })}
       >
-        <h4
+        <h3
           data-testid="soundcloud-track-title"
           className="text-lg text-gray-200 leading-none mb-1"
         >
           {title}
-        </h4>
+        </h3>
         {subTitle && (
           <p
             data-testid="soundcloud-track-subtitle"
