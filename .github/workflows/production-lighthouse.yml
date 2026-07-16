@@ -9,7 +9,7 @@ on:
       target_url:
         description: URL to audit
         required: false
-        default: https://SpecialIngredientBass.com/
+        default: https://specialingredientbass.com/
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
@@ -27,7 +27,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
 
     env:
-      PLAYWRIGHT_BASE_URL: ${{ github.event.inputs.target_url || 'https://SpecialIngredientBass.com/' }}
+      PLAYWRIGHT_BASE_URL: ${{ github.event.inputs.target_url || 'https://specialingredientbass.com/' }}
 
     steps:
       - name: Wait 15 minutes for the deploy to propagate

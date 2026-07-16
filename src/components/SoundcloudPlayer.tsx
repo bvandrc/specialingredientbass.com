@@ -205,7 +205,7 @@ export const SoundcloudPlayer = ({
             id={id}
             title={title}
             src={iframeUrl.href}
-            allow="autoplay"
+            allow="autoplay; encrypted-media"
             className={classNames(
               'relative -top-[60px] -left-px w-[calc(100%+2px)]', // hide top of iframe, hide 1 px left because is not black, hide eight px because is not black
               'invert hue-rotate-180', // invert colors to be white-on-black

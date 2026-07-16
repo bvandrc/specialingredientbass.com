@@ -62,7 +62,7 @@ export default defineConfig({
       ...LIGHTHOUSE_PROJECT,
       name: 'lighthouse:production',
       use: {
-        baseURL: 'https://SpecialIngredientBass.com/',
+        baseURL: 'https://specialingredientbass.com/',
       },
     },
   ],

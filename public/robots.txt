@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://SpecialIngredientBass.com/sitemap.xml
+Sitemap: https://specialingredientbass.com/sitemap.xml
