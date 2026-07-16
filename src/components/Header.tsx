@@ -23,7 +23,9 @@ export const Header = () => {
           data-testid="header-logo"
           src="/Logo Outlined.svg"
           alt="Special Ingredient Bass Mixes"
-          className="block mx-auto p-2 max-h-45 lg:max-h-50 drop-shadow-[0_0_30px_purple]"
+          width={480}
+          height={261}
+          className="block mx-auto p-2 w-auto h-auto max-h-45 lg:max-h-50 drop-shadow-[0_0_30px_purple]"
         />
       </h1>
       <div
