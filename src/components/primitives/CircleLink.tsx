@@ -13,12 +13,13 @@ export const CircleLink = ({
   <a
     target="_blank"
     tabIndex={0}
+    title={title}
     {...props}
     className={classNames(
       'rounded-full flex justify-center items-center', // make a circle and center the icon
       className,
     )}
   >
-    <Icon icon={icon} aria-label={props['aria-label'] ?? title} />
+    <Icon icon={icon} />
   </a>
 )

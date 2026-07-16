@@ -69,6 +69,8 @@ export const GridCardBody = ({
             isOpen ? 'overflow-y-auto mb-1 py-1' : 'overflow-hidden',
           )}
           ref={contentRef}
+          // scrollable region must be keyboard-accessible (a11y); only when open
+          tabIndex={isOpen ? 0 : -1}
           onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
         >
           {children}
