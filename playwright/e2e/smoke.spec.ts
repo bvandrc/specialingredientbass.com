@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { SELECTORS } from '../support/constants'
 
 test('home page loads', async ({ page }) => {
   await page.goto('/')
@@ -8,15 +9,15 @@ test('home page loads', async ({ page }) => {
     page.getByRole('img', { name: 'Special Ingredient Bass Mixes' }),
   ).toBeVisible()
   await expect(
-    page.getByRole('button', { name: 'Wave / Downtempo / Psydub' }),
+    page.getByTestId(SELECTORS.FIRST_GRID_CARD_TITLE).first(),
   ).toBeVisible()
 
   // SoundCloud players load in the mix grid
-  const players = page.getByTestId('soundcloud-player')
+  const players = page.getByTestId(SELECTORS.SOUNDCLOUD_PLAYER)
   await expect(players.first()).toBeVisible({ timeout: 15_000 })
 
   await expect(
-    page.getByTestId('soundcloud-player-play-pause-button').first(),
+    page.getByTestId(SELECTORS.SOUNDCLOUD_PLAYER_PLAY_PAUSE_BUTTON).first(),
   ).toBeAttached({
     timeout: 15_000,
   })

@@ -11,11 +11,19 @@ import {
 } from '../../../utils/html-utils'
 
 const SCROLL_ARROW = {
-  clickDistance: 150, // distance scrolled when arrow clicked
-  magnetDistance: 100, // when new scroll is within this distance from top/bottom, just scroll all the way to top/bottom
-  distanceFromEdge: 5, // pixels
-  showThreshold: 50, // distance from top or bottom to show arrow
+  CLICK_DISTANCE: 150, // distance scrolled when arrow clicked
+  MAGNET_DISTANCE: 100, // when new scroll is within this distance from top/bottom, just scroll all the way to top/bottom
+  DISTANCE_FROM_EDGE: 5, // pixels
+  SHOW_THRESHOLD: 50, // distance from top or bottom to show arrow
 } as const
+
+const ARROW_PROPS = {
+  size: '2x',
+  className: classNames(
+    'm-auto absolute left-0 right-0 z-10 block w-20 h-15', // position/layout
+    'bg-[darkslateblue] opacity-80 rounded-lg text-center cursor-pointer select-none', // appearance
+  ),
+} as const satisfies Partial<IconProps>
 
 export const getArrowBtns = ({
   scrollRegion,
@@ -27,52 +35,47 @@ export const getArrowBtns = ({
   if (
     !scrollRegion ||
     !isOpen ||
-    scrollRegion.offsetHeight < SCROLL_ARROW.showThreshold * 2
+    scrollRegion.offsetHeight < SCROLL_ARROW.SHOW_THRESHOLD * 2
   )
     return [null, null]
 
-  const showUpArrow = !isScrolledToTop(scrollRegion, SCROLL_ARROW.showThreshold)
+  const showUpArrow = !isScrolledToTop(
+    scrollRegion,
+    SCROLL_ARROW.SHOW_THRESHOLD,
+  )
   const showDownArrow = !isScrolledToBottom(
     scrollRegion,
-    SCROLL_ARROW.showThreshold,
+    SCROLL_ARROW.SHOW_THRESHOLD,
   )
-
-  const arrowProps = {
-    size: '2x',
-    className: classNames(
-      'm-auto absolute left-0 right-0 z-10 block w-20 h-15', // position/layout
-      'bg-[darkslateblue] opacity-80 rounded-lg text-center cursor-pointer select-none', // appearance
-    ),
-  } as const satisfies Partial<IconProps>
 
   const UpArrow = showUpArrow ? (
     <Icon
-      {...arrowProps}
+      {...ARROW_PROPS}
       data-testid="up-arrow"
       icon={faCaretUp}
       onClick={() =>
         scrollElement(scrollRegion, {
-          delta: -SCROLL_ARROW.clickDistance,
-          magnetDistance: SCROLL_ARROW.magnetDistance,
+          delta: -SCROLL_ARROW.CLICK_DISTANCE,
+          magnetDistance: SCROLL_ARROW.MAGNET_DISTANCE,
         })
       }
-      style={{ top: scrollRegion.offsetTop + SCROLL_ARROW.distanceFromEdge }}
+      style={{ top: scrollRegion.offsetTop + SCROLL_ARROW.DISTANCE_FROM_EDGE }}
     />
   ) : null
 
   const DownArrow = showDownArrow ? (
     <Icon
-      {...arrowProps}
+      {...ARROW_PROPS}
       data-testid="down-arrow"
       icon={faCaretDown}
       onClick={() =>
         scrollElement(scrollRegion, {
-          delta: SCROLL_ARROW.clickDistance,
-          magnetDistance: SCROLL_ARROW.magnetDistance,
+          delta: SCROLL_ARROW.CLICK_DISTANCE,
+          magnetDistance: SCROLL_ARROW.MAGNET_DISTANCE,
         })
       }
       style={{
-        bottom: SCROLL_ARROW.distanceFromEdge,
+        bottom: SCROLL_ARROW.DISTANCE_FROM_EDGE,
       }}
     />
   ) : null
