@@ -33,9 +33,7 @@ export async function checkA11y(
     (v) =>
       !v.impact ||
       // TODO: fix
-      (['minor', 'moderate'] satisfies ImpactValue[] as ImpactValue[]).includes(
-        v.impact,
-      ),
+      (['minor'] satisfies ImpactValue[] as ImpactValue[]).includes(v.impact),
   )
 
   expect(failing, formatViolations(failing)).toEqual([])
