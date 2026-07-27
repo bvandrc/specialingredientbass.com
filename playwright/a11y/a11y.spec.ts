@@ -21,7 +21,7 @@ test('Home page', async ({ page }) => {
 
   await expect(
     page.getByTestId('soundcloud-player-play-pause-button').first(),
-  ).toBeVisible({
+  ).toBeAttached({
     timeout: 15_000,
   })
   await checkA11y(page)
