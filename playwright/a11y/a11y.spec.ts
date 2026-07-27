@@ -10,13 +10,21 @@ test('Home page', async ({ page }) => {
     name: 'Wave / Downtempo / Psydub',
   })
 
-  await test.step('Page', async () => {
-    // SoundCloud players render in the mix grid
-    await expect(page.getByTestId('soundcloud-player').first()).toBeAttached({
-      timeout: 15_000,
-    })
-    await checkA11y(page)
+  // initial check
+  await checkA11y(page)
+
+  // SoundCloud players render in the mix grid
+  await expect(page.getByTestId('soundcloud-player').first()).toBeVisible({
+    timeout: 15_000,
   })
+  await checkA11y(page)
+
+  await expect(
+    page.getByTestId('soundcloud-player-play-pause-button').first(),
+  ).toBeAttached({
+    timeout: 15_000,
+  })
+  await checkA11y(page)
 
   await test.step('Toggled grid card', async () => {
     const wasExpanded = await firstCardTitle.getAttribute('aria-expanded')
@@ -25,6 +33,7 @@ test('Home page', async ({ page }) => {
       'aria-expanded',
       wasExpanded === 'true' ? 'false' : 'true',
     )
+    // TODO: wait for toggled
     await checkA11y(page)
   })
 })

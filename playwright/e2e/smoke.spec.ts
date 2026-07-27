@@ -14,4 +14,10 @@ test('home page loads', async ({ page }) => {
   // SoundCloud players load in the mix grid
   const players = page.getByTestId('soundcloud-player')
   await expect(players.first()).toBeVisible({ timeout: 15_000 })
+
+  await expect(
+    page.getByTestId('soundcloud-player-play-pause-button').first(),
+  ).toBeAttached({
+    timeout: 15_000,
+  })
 })
