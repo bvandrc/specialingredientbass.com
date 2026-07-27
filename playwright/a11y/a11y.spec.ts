@@ -12,7 +12,7 @@ test('Home page', async ({ page }) => {
 
   await test.step('Page', async () => {
     // SoundCloud players render in the mix grid
-    await expect(page.getByTestId('soundcloud-player').first()).toBeAttached({
+    await expect(page.getByTestId('soundcloud-player').first()).toBeVisible({
       timeout: 15_000,
     })
     await checkA11y(page)
