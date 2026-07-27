@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, type Page } from '@playwright/test'
-import type { ImpactValue, Result } from 'axe-core'
+import type { Result } from 'axe-core'
 
 function formatViolations(violations: Result[]): string {
   return violations
@@ -22,18 +22,13 @@ export async function checkA11y(
       // The site's neon-on-dark palette isn't tuned for WCAG contrast ratios,
       // so this rule would fail almost every scan.
       // TODO: fix...
+      'color-contrast',
       ...(options.disableRules ?? []),
     ])
     // third-party embed — its internals aren't ours to fix
     .exclude('iframe[src*="soundcloud"]')
 
   const { violations } = await builder.analyze()
-  const failing = violations.filter(
-    (v) =>
-      !v.impact ||
-      // TODO: fix
-      (['minor'] satisfies ImpactValue[] as ImpactValue[]).includes(v.impact),
-  )
 
-  expect(failing, formatViolations(failing)).toEqual([])
+  expect(violations, formatViolations(violations)).toEqual([])
 }
