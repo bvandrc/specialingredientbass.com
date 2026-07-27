@@ -42,7 +42,6 @@ function getAllPlaylists(this: SpotifyApi) {
 }
 
 declare module '@spotify/web-api-ts-sdk' {
-  // biome-ignore lint/nursery/noShadow: module augmentation requires shadowing
   interface SpotifyApi {
     getPaginatedItems: typeof getPaginatedItems
     getAllPlaylists: typeof getAllPlaylists

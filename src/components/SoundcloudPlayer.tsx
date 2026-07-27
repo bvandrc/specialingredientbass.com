@@ -104,6 +104,7 @@ const StatsAndLink = ({
       target="_blank"
       title={EXTERNAL_LINK_LABEL}
       aria-label={EXTERNAL_LINK_LABEL}
+      rel="noopener"
     >
       <Icon icon={faSoundcloud} />
       <Icon icon={faExternalLink} />
@@ -165,7 +166,11 @@ export const SoundcloudPlayer = ({
   }, [trackInfo?.artwork_url, setAlbumArtUrl])
 
   return (
-    <div data-testid="soundcloud-player" className="flex gap-2">
+    <div
+      data-testid="soundcloud-player"
+      className="flex gap-2"
+      data-loaded={!!trackInfo}
+    >
       {showAlbumArt && trackInfo?.artwork_url && (
         <img
           src={trackInfo.artwork_url}
@@ -207,7 +212,7 @@ export const SoundcloudPlayer = ({
             src={iframeUrl.href}
             allow="autoplay; encrypted-media"
             className={classNames(
-              'relative -top-[60px] -left-px w-[calc(100%+2px)]', // hide top of iframe, hide 1 px left because is not black, hide eight px because is not black
+              'relative -top-15 -left-px w-[calc(100%+2px)]', // hide top of iframe, hide 1 px left because is not black, hide eight px because is not black
               'invert hue-rotate-180', // invert colors to be white-on-black
               className,
             )}

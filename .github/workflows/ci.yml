@@ -13,23 +13,31 @@ concurrency:
 
 jobs:
   lint:
-    name: Lint
+    name: Lint & Type Check
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v7
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
       - name: Setup Node
         uses: actions/setup-node@v7
         with:
-          cache: yarn
+          cache: pnpm
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
-      - name: Linting
-        run: yarn lint
+      - name: Check package.json key order
+        uses: bvandrc/lint-package-json@v1
+
+      - name: Lint & Type Check
+        run: pnpm run check
 
   test:
     name: Test (${{ matrix.suite }})
@@ -47,25 +55,30 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v7
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
       - name: Setup Node
         uses: actions/setup-node@v7
         with:
-          cache: yarn
+          cache: pnpm
 
       - name: Cache Playwright browsers
         uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build project
-        run: yarn build
+        run: pnpm build
 
       - name: Start server
-        run: yarn preview:ci &
+        run: pnpm preview:ci &
 
       - name: Wait for server to be ready
         uses: jtalk/url-health-check-action@v5
@@ -79,7 +92,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests
-        run: yarn test:${{ matrix.suite }}
+        run: pnpm test:${{ matrix.suite }}
 
       - name: Upload results on failure
         uses: actions/upload-artifact@v7

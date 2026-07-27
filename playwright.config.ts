@@ -31,7 +31,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   reporter: [
-    ['list'],
+    ['list', { printSteps: true }],
     [
       'html',
       {

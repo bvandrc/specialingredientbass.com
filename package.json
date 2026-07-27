@@ -1,46 +1,46 @@
 {
   "name": "specialingredientbass.com",
-  "private": true,
   "version": "1.0.0",
-  "type": "module",
+  "private": true,
   "description": "Special Ingredient Bass Music",
+  "keywords": [
+    "bass",
+    "music"
+  ],
   "homepage": "specialingredientbass.com",
+  "bugs": {
+    "url": "https://github.com/bvandrc/specialingredientbass.com/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bvandrc/specialingredientbass.com.git"
+  },
+  "author": "Blake Vandercar",
+  "license": "ISC",
+  "type": "module",
   "scripts": {
     "__c0": "====================[ Build & Development ]======================",
-    "start": "yarn dev",
+    "start": "pnpm dev",
     "dev": "vite --open",
     "build": "vite build",
-    "preview": "yarn build && vite preview --open",
+    "preview": "pnpm build && vite preview --open",
     "preview:ci": "vite preview --strictPort",
     "__c1": "====================[ Linting & Type Checking ]==================",
-    "lint": "yarn lint:fix && yarn ts:check && yarn pw:ts:check",
-    "lint:fix": "npx biome check . --fix",
+    "check": "pnpm format && pnpm ts:check && pnpm pw:ts:check",
+    "format": "npx biome check . --fix",
     "ts:check": "tsc",
     "pw:ts:check": "tsc --project playwright/tsconfig.json",
     "__c2": "====================[ Playwright Testing ]=======================",
-    "test:e2e": "yarn pw:run --project=e2e",
-    "test:a11y": "yarn pw:run --project=a11y --project=a11y:mobile",
-    "test:lighthouse": "yarn pw:run --project=lighthouse",
-    "test:lighthouse:production": "yarn pw:run --project=lighthouse:production",
+    "test:e2e": "pnpm pw:run --project=e2e",
+    "test:a11y": "pnpm pw:run --project=a11y --project=a11y:mobile",
+    "test:lighthouse": "pnpm pw:run --project=lighthouse",
+    "test:lighthouse:production": "pnpm pw:run --project=lighthouse:production",
     "pw:run": "playwright test",
     "pw:open": "playwright test --ui",
     "pw:report": "playwright show-report playwright/results/html",
     "__c3": "====================[ Misc ]=====================================",
     "sandbox": "npx tsx ./sandbox.ts",
     "generate-playlist-json": "vite --open --config ./spotify-tools/vite.config.ts ./spotify-tools"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bvandrc/specialingredientbass.com.git"
-  },
-  "keywords": [
-    "bass",
-    "music"
-  ],
-  "author": "Blake Vandercar",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/bvandrc/specialingredientbass.com/issues"
   },
   "dependencies": {
     "@fontsource/barlow": "^5",
@@ -61,7 +61,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4",
-    "@biomejs/biome": "2.3",
+    "@biomejs/biome": "^2",
     "@playwright/test": "^1",
     "@spotify/web-api-ts-sdk": "^1.2",
     "@tailwindcss/vite": "^4",
