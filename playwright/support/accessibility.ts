@@ -22,7 +22,6 @@ export async function checkA11y(
       // The site's neon-on-dark palette isn't tuned for WCAG contrast ratios,
       // so this rule would fail almost every scan.
       // TODO: fix...
-      'color-contrast',
       ...(options.disableRules ?? []),
     ])
     // third-party embed — its internals aren't ours to fix
