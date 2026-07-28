@@ -1,0 +1,2 @@
+minimumReleaseAgeExclude:
+  - lighthouse-audit-utils@1.0.0 # TODO: remove once aged

@@ -2,11 +2,11 @@ import { rm } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import { test as baseTest, chromium } from '@playwright/test'
-import desktopConfig from 'lighthouse/core/config/desktop-config.js'
+import { type Config, desktopConfig } from 'lighthouse'
 import {
-  playAudit,
-  type playwrightLighthouseConfig,
-} from 'playwright-lighthouse'
+  type LighthouseThresholds,
+  runAudit as runLighthouse,
+} from 'lighthouse-audit-utils'
 
 const BASE_LIGHTHOUSE_PORT = 9222
 
@@ -15,6 +15,7 @@ const BASE_THRESHOLDS = {
   accessibility: 100,
   'best-practices': 100,
   seo: 100,
+  'agentic-browsing': 95,
 }
 
 const SKIPPED_AUDITS = [
@@ -33,7 +34,7 @@ type LighthouseFixtures = {
   runAudit: (options?: {
     /** Report name prefix; lets multiple audits in one test keep separate reports. */
     name?: string
-    thresholdOverrides?: playwrightLighthouseConfig['thresholds']
+    thresholdOverrides?: Exclude<LighthouseThresholds, number>
   }) => Promise<void>
 }
 
@@ -54,24 +55,28 @@ export const lighthouseTest = baseTest.extend<
 >({
   runAudit: async ({ page, lighthousePort: port }, use, testInfo) => {
     await use(async ({ name, thresholdOverrides } = {}) => {
-      const runAudit = async (
-        label: string,
-        config?: playwrightLighthouseConfig['config'],
-      ) => {
-        await playAudit({
-          config: {
-            extends: 'lighthouse:default',
-            ...config,
-            settings: { ...config?.settings, skipAudits: SKIPPED_AUDITS },
+      const runAudit = async (label: string, config?: Config) => {
+        const reportName = name ? `${name}-${label}` : label
+
+        await runLighthouse({
+          lighthouseArgs: {
+            url: page.url(),
+            flags: {
+              port,
+              disableStorageReset: true,
+              output: ['html', 'json'],
+            },
+            config: {
+              extends: 'lighthouse:default',
+              ...config,
+              settings: { ...config?.settings, skipAudits: SKIPPED_AUDITS },
+            },
           },
-          page,
-          port,
-          thresholds: { ...BASE_THRESHOLDS, ...thresholdOverrides },
           reports: {
-            formats: { html: true, json: true },
             directory: testInfo.outputPath('lighthouse'),
-            name: name ? `${name}-${label}` : label,
+            name: reportName,
           },
+          thresholds: { ...BASE_THRESHOLDS, ...thresholdOverrides },
         })
       }
 
