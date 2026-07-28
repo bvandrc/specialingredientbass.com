@@ -4,6 +4,7 @@ import {
   useCallback,
   useEffect,
   useId,
+  useLayoutEffect,
   useRef,
 } from 'react'
 import { GridCardBody } from './GridCardBody'
@@ -29,7 +30,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   } = useGridCards()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: this should only run once. Adding deps makes it mess up. TODO: figure out how to remove.
-  useEffect(() => {
+  useLayoutEffect(() => {
     registerCard(id, { initiallyOpen })
   }, [])
 
