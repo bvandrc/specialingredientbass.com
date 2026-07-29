@@ -48,11 +48,8 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
-      - name: Cache Playwright browsers
-        uses: actions/cache@v6
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+      - name: Setup Playwright
+        uses: ./.github/actions/setup-playwright
 
       - name: Build project
         run: pnpm build
@@ -67,9 +64,6 @@ jobs:
           max-attempts: 30
           retry-delay: 1s
           retry-all: true
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests
         run: pnpm test:${{ matrix.suite }}
