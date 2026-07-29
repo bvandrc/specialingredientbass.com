@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { SELECTORS } from '../support/constants/selectors'
 
 test('home page loads', async ({ page }) => {
   await page.goto('/')
@@ -12,12 +13,10 @@ test('home page loads', async ({ page }) => {
   ).toBeVisible()
 
   // SoundCloud players load in the mix grid
-  const players = page.getByTestId('soundcloud-player')
+  const players = page.locator(SELECTORS.SOUNDCLOUD.PLAYER.SELF)
   await expect(players.first()).toBeVisible({ timeout: 15_000 })
 
   await expect(
-    page.getByTestId('soundcloud-player-play-pause-button').first(),
-  ).toBeAttached({
-    timeout: 15_000,
-  })
+    page.locator(SELECTORS.SOUNDCLOUD.PLAYER.PLAY_PAUSE_BUTTON).first(),
+  ).toBeAttached({ timeout: 15_000 })
 })

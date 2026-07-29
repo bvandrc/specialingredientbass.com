@@ -18,6 +18,7 @@ export const MainGridBody = () => {
       data-testid="main-grid-body"
       noneExpandedInfo={
         <span
+          data-testid="soundcloud-mixes-prompt"
           className={classNames(
             'block text-center mx-auto pt-2', // position / layout
             'text-orange-400 text-2xl text-glow-heavy-[darkslateblue] font-bold font-[Roboto_Condensed]', // appearance
