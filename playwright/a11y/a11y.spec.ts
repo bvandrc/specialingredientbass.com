@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
-import { checkA11y } from '../support/accessibility'
 import { SELECTORS } from '../support/constants/selectors'
+import { checkA11y } from './accessibility'
 
 // One "workflow" test: the page as loaded (cards open on desktop, collapsed
 // on mobile), then with the first grid card toggled — scanned once each.
