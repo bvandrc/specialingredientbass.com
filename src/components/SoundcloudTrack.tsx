@@ -20,7 +20,13 @@ const AlbumArt = ({
     )}
   >
     {url ? (
-      <img src={url} className="w-full h-full" alt="album art" width={80} height={80} />
+      <img
+        src={url}
+        className="w-full h-full"
+        alt="album art"
+        width={80}
+        height={80}
+      />
     ) : (
       <div className="w-full h-full bg-gray-900/80" />
     )}
