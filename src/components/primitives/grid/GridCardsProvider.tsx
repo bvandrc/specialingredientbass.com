@@ -98,8 +98,8 @@ export function GridCardsProvider({
         <div
           data-testid="none-expanded-info"
           className={classNames(
-            'max-h-0 overflow-hidden transition-[max-height] duration-400 ease-in-out',
-            noneExpanded && 'max-h-30 overflow-visible',
+            'transition-[opacity,visibility] duration-400 ease-in-out',
+            noneExpanded ? 'opacity-100 visible' : 'opacity-0 invisible',
           )}
         >
           {noneExpandedInfo}
