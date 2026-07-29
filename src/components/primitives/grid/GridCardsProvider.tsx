@@ -1,4 +1,3 @@
-import classNames from 'classnames'
 import { union, without } from 'es-toolkit'
 import {
   createContext,
@@ -94,16 +93,8 @@ export function GridCardsProvider({
         setExpandingRef,
       }}
     >
-      {noneExpandedInfo && (
-        <div
-          data-testid="none-expanded-info"
-          className={classNames(
-            'max-h-0 overflow-hidden transition-[max-height] duration-400 ease-in-out',
-            noneExpanded && 'max-h-30 overflow-visible',
-          )}
-        >
-          {noneExpandedInfo}
-        </div>
+      {noneExpandedInfo && noneExpanded && (
+        <div data-testid="none-expanded-info">{noneExpandedInfo}</div>
       )}
       <Masonry
         breakpointCols={{
