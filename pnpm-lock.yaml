@@ -95,7 +95,7 @@ importers:
         version: 13.4.1(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))
       lighthouse-audit-utils:
         specifier: ^1
-        version: 1.0.0(lighthouse@13.4.1(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1)))
+        version: 1.2.0(@playwright/test@1.62.0)(lighthouse@13.4.1(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1)))
       prettier:
         specifier: ^3
         version: 3.9.6
@@ -933,8 +933,8 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
-  electron-to-chromium@1.5.396:
-    resolution: {integrity: sha512-yHiw2Y3C3H9U6TMbOfoWK/BPreiOPXRfTWPBwQBoZG6/8TB6eOPnsy5oaRYuatR7Fw2SJ4kKforgufeo7fq0EQ==}
+  electron-to-chromium@1.5.397:
+    resolution: {integrity: sha512-khGTy9U9x02KEtsKM8vx5A62BsRmcOsIgDpWr1ImE32Ax8GxHGPHZf+Eu9H8zOOyHJnB0jTbseyTHbq2XCT8yw==}
 
   emoji-regex@10.6.0:
     resolution: {integrity: sha512-toUI84YS5YmxW219erniWD0CIVOo46xGKColeNQRgOzDorgBi1v4D71/OFzgD9GO2UGKIv1C3Sp8DAn0+j5w7A==}
@@ -1162,11 +1162,15 @@ packages:
   legacy-javascript@0.0.1:
     resolution: {integrity: sha512-lPyntS4/aS7jpuvOlitZDFifBCb4W8L/3QU0PLbUTUj+zYah8rfVjYic88yG7ZKTxhS5h9iz7duT8oUXKszLhg==}
 
-  lighthouse-audit-utils@1.0.0:
-    resolution: {integrity: sha512-TCC3V8aXwc30cLGyqLS5p/8QeC1OuFzjiLTHEvH981L1NS44tquFr/TJFDF8i4cgv784UFOQarRvRzGP+zuD4Q==}
+  lighthouse-audit-utils@1.2.0:
+    resolution: {integrity: sha512-Mr1J57Ld5lvVMJaHk6aIFTDc46mqEOOtMw7aZxqdfea2aPi6H+R+zSfsObgCN7f3s1m50fVJ967bRKJVqSd5vA==}
     engines: {node: '>=22'}
     peerDependencies:
+      '@playwright/test': ^1
       lighthouse: ^12 || ^13
+    peerDependenciesMeta:
+      '@playwright/test':
+        optional: true
 
   lighthouse-logger@2.0.2:
     resolution: {integrity: sha512-vWl2+u5jgOQuZR55Z1WM0XDdrJT6mzMP8zHUct7xTlWhuQs+eV0g+QL0RQdFjT54zVmbhLCP8vIVpy1wGn/gCg==}
@@ -2300,7 +2304,7 @@ snapshots:
     dependencies:
       baseline-browser-mapping: 2.11.5
       caniuse-lite: 1.0.30001806
-      electron-to-chromium: 1.5.396
+      electron-to-chromium: 1.5.397
       node-releases: 2.0.51
       update-browserslist-db: 1.2.3(browserslist@4.28.7)
 
@@ -2432,7 +2436,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  electron-to-chromium@1.5.396: {}
+  electron-to-chromium@1.5.397: {}
 
   emoji-regex@10.6.0: {}
 
@@ -2664,9 +2668,11 @@ snapshots:
 
   legacy-javascript@0.0.1: {}
 
-  lighthouse-audit-utils@1.0.0(lighthouse@13.4.1(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))):
+  lighthouse-audit-utils@1.2.0(@playwright/test@1.62.0)(lighthouse@13.4.1(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))):
     dependencies:
       lighthouse: 13.4.1(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))
+    optionalDependencies:
+      '@playwright/test': 1.62.0
 
   lighthouse-logger@2.0.2:
     dependencies:
