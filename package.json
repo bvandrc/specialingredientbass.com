@@ -53,11 +53,10 @@
     "@fortawesome/react-fontawesome": "^3",
     "classnames": "^2",
     "es-toolkit": "^1",
-    "merge-refs": "^2",
     "react": "^18",
     "react-dom": "^18",
     "react-masonry-css": "^1",
-    "soundcloud-widget": "^0.2.1"
+    "soundcloud-widget": "^0.2"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4",
@@ -69,14 +68,10 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@vitejs/plugin-react": "^6",
-    "autoprefixer": "^10",
     "axe-core": "^4",
-    "dotenv": "^16",
     "lighthouse": "^13",
     "lighthouse-audit-utils": "^1",
-    "prettier": "^3",
     "tailwindcss": "^4",
-    "type-fest": "^5",
     "typescript": "^7",
     "vite": "^8",
     "vite-plugin-fs": "^1"
