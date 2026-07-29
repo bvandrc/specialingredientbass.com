@@ -2,24 +2,29 @@
  * @fileoverview Mobile device detection hook based on viewport width.
  */
 
-import { useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const MOBILE_BREAKPOINT = 768
-
-const getIsMobile = () =>
-  typeof window !== 'undefined' &&
-  window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`).matches
+const MOBILE_QUERY = `(max-width: ${MOBILE_BREAKPOINT - 1}px)`
 
 export const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState<boolean>(getIsMobile)
+  const [isMobile, setIsMobile] = useState(
+    () => window.matchMedia(MOBILE_QUERY).matches,
+  )
 
-  useLayoutEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
-    const onChange = () => setIsMobile(mql.matches)
-    mql.addEventListener('change', onChange)
+  useEffect(() => {
+    const mql = window.matchMedia(MOBILE_QUERY)
+    const onChange = (event: MediaQueryListEvent) => {
+      setIsMobile(event.matches)
+    }
     setIsMobile(mql.matches)
+    mql.addEventListener('change', onChange)
     return () => mql.removeEventListener('change', onChange)
   }, [])
 
   return isMobile
 }
+
+export const isTouchDevice = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(pointer: coarse)').matches
