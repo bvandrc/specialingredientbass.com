@@ -57,19 +57,10 @@ jobs:
       - name: Setup Playwright
         uses: ./.github/actions/setup-playwright
 
-      - name: Build project
-        run: pnpm build
-
-      - name: Start server
-        run: pnpm preview:ci &
-
-      - name: Wait for server to be ready
-        uses: jtalk/url-health-check-action@v5
+      - name: Build and serve
+        uses: ./.github/actions/build-and-serve
         with:
-          url: http://localhost:${{ env.PORT }}/
-          max-attempts: 30
-          retry-delay: 1s
-          retry-all: true
+          port: ${{ env.PORT }}
 
       - name: Run Playwright tests
         run: pnpm test:${{ matrix.suite }}
@@ -97,19 +88,10 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
-      - name: Build project
-        run: pnpm build
-
-      - name: Start server
-        run: pnpm preview:ci &
-
-      - name: Wait for server to be ready
-        uses: jtalk/url-health-check-action@v5
+      - name: Build and serve
+        uses: ./.github/actions/build-and-serve
         with:
-          url: http://localhost:${{ env.PORT }}/
-          max-attempts: 30
-          retry-delay: 1s
-          retry-all: true
+          port: ${{ env.PORT }}
 
       - name: ZAP Baseline Security Scan
         uses: zaproxy/action-baseline@v0.14.0
