@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en" class="max-md:overflow-x-hidden max-md:m-0">
   <head>
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VSJMFQV9LJ"></script>
-    <!-- External file (not inline) so the CSP script-src below needs no 'unsafe-inline'. -->
-    <script src="/ga-init.js"></script>
+    <!-- Charset must be declared first (within the first 1024 bytes of the
+         document, per the HTML spec) so browsers never need to guess the
+         encoding while parsing everything above it. -->
+    <meta charset="utf-8" />
 
     <!-- Security: restricts what this page may load/execute/embed. Kept in a
          <meta> tag (rather than a response header) since this is a static
@@ -17,8 +17,12 @@
       content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.sndcdn.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; frame-src https://w.soundcloud.com; object-src 'none'; base-uri 'self';"
     />
 
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VSJMFQV9LJ"></script>
+    <!-- External file (not inline) so the CSP script-src above needs no 'unsafe-inline'. -->
+    <script src="/ga-init.js"></script>
+
     <!-- Basic -->
-    <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Special Ingredient Bass Mixes" />
