@@ -28,6 +28,17 @@ export default defineConfig(() => ({
     port: 5000,
     allowedHosts: true,
   } as const,
+  // GitHub Pages (this site's production host) can't set custom response
+  // headers, so these only take effect for local/CI preview — but CI's ZAP
+  // scan runs against this preview server, so it's what keeps that scan green.
+  preview: {
+    headers: {
+      'X-Frame-Options': 'DENY',
+      'X-Content-Type-Options': 'nosniff',
+      'Permissions-Policy':
+        'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
+    },
+  },
   build: {
     target: 'esnext',
     modulePreload: false,
