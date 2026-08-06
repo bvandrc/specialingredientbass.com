@@ -17,11 +17,6 @@
       content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.sndcdn.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; frame-src https://w.soundcloud.com; object-src 'none'; base-uri 'self'; form-action 'self';"
     />
 
-    <!-- Google Analytics loader. The init call (gtag('js', ...) / gtag('config', ...))
-         lives in src/lib/analytics.ts, bundled into the app's own script — that
-         way it's covered by script-src 'self' with no 'unsafe-inline' or hash needed. -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VSJMFQV9LJ"></script>
-
     <!-- Basic -->
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
