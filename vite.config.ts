@@ -23,6 +23,11 @@ fs.writeFileSync(
 export default defineConfig(() => ({
   base: '/',
   plugins: [tailwindcss(), react()],
+  // soundcloud-widget references the bare Node global `global` at module
+  // top level; this rewrites it to the browser's globalThis at build time.
+  define: {
+    global: 'globalThis',
+  },
   server: {
     host: '0.0.0.0',
     port: 5000,
