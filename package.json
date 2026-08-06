@@ -55,7 +55,7 @@
     "es-toolkit": "^1",
     "react": "^18",
     "react-dom": "^18",
-    "react-ga4": "^3.0.1",
+    "react-ga4": "^3",
     "react-masonry-css": "^1",
     "soundcloud-widget": "^0.2"
   },
