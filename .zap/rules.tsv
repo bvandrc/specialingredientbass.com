@@ -1,0 +1,8 @@
+10017	IGNORE	(Cross-Domain JavaScript Source File Inclusion) — the only cross-origin script is Google's own gtag.js loader; content is dynamic so SRI isn't viable, and CSP script-src already pins it to https://www.googletagmanager.com.
+10049	IGNORE	(Storable/Cacheable Content) — static assets are deliberately cached; nothing else serves dynamic per-user content.
+10055	IGNORE	(CSP: Meta Policy Invalid Directive) — frame-ancestors is spec-ignored when CSP is delivered via a <meta> tag (no server to send it as a header on this static host); the X-Frame-Options header set on the preview server covers the same clickjacking risk for what CI actually tests.
+10094	IGNORE	(Base64 Disclosure) — heuristic match on base64-looking strings in JS/CSS bundles; false-positive prone, not an actual secret leak.
+10109	IGNORE	(Modern Web Application) — informational only; confirms the app is an SPA, not a finding to act on.
+90003	IGNORE	(Sub Resource Integrity Attribute Missing) — needs a Vite SRI plugin to hash-sign build output; a build-tooling change, not a header fix.
+90004	IGNORE	(Cross-Origin-Embedder-Policy Header Missing or Invalid) — GitHub Pages can't set custom response headers, and COEP would break the SoundCloud/analytics cross-origin embeds this site relies on.
+90005	IGNORE	(Sec-Fetch-Dest Header is Missing) — this is a request header the browser sends; not something the server can set.

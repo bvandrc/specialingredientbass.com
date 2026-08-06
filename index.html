@@ -1,21 +1,20 @@
 <!doctype html>
 <html lang="en" class="max-md:overflow-x-hidden max-md:m-0">
   <head>
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VSJMFQV9LJ"></script>
-    <script>
-      window.global ||= window; 
-      window.dataLayer = window.dataLayer || []
-      function gtag() {
-        // biome-ignore lint/complexity/noArguments: suggested implementation by Google.
-        dataLayer.push(arguments)
-      }
-      gtag('js', new Date())
-      gtag('config', 'G-VSJMFQV9LJ')
-    </script>
+    <meta charset="utf-8" />
+
+    <!-- Security: restricts what this page may load/execute/embed. Kept in a
+         <meta> tag (rather than a response header) since this is a static
+         site with no server, so hosts serving it always send it regardless
+         of platform. Note frame-ancestors/report-uri/sandbox are ignored
+         when CSP is delivered this way — those need a real header, which
+         GitHub Pages doesn't support setting. -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.sndcdn.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; frame-src https://w.soundcloud.com; object-src 'none'; base-uri 'self'; form-action 'self';"
+    />
 
     <!-- Basic -->
-    <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Special Ingredient Bass Mixes" />

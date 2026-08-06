@@ -1,0 +1,28 @@
+name: Build and serve
+description: Build the app, start it, and wait until it responds.
+
+inputs:
+  port:
+    description: Port the server listens on
+    required: false
+    default: '4173'
+
+runs:
+  using: composite
+
+  steps:
+    - name: Build project
+      run: pnpm build
+      shell: bash
+
+    - name: Start server
+      run: pnpm preview:ci &
+      shell: bash
+
+    - name: Wait for server to be ready
+      uses: jtalk/url-health-check-action@v5
+      with:
+        url: http://localhost:${{ inputs.port }}/
+        max-attempts: 30
+        retry-delay: 1s
+        retry-all: true
