@@ -14,13 +14,24 @@
          GitHub Pages doesn't support setting. -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.sndcdn.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; frame-src https://w.soundcloud.com; object-src 'none'; base-uri 'self'; form-action 'self';"
+      content="default-src 'self'; script-src 'self' https://www.googletagmanager.com 'sha256-MoEuvo4XOjSixD8zfFCyvIuPbmhN5/UpblQpEcilrj4='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.sndcdn.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; frame-src https://w.soundcloud.com; object-src 'none'; base-uri 'self'; form-action 'self';"
     />
 
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VSJMFQV9LJ"></script>
-    <!-- External file (not inline) so the CSP script-src above needs no 'unsafe-inline'. -->
-    <script src="/ga-init.js"></script>
+    <!-- Content is hashed and allowlisted in script-src above (instead of
+         'unsafe-inline'), so this exact text must not change without
+         updating that hash. -->
+    <script>
+      window.global ||= window
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        // biome-ignore lint/complexity/noArguments: suggested implementation by Google.
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', 'G-VSJMFQV9LJ')
+    </script>
 
     <!-- Basic -->
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
