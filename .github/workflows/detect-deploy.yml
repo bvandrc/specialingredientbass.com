@@ -1,0 +1,38 @@
+name: Check for New Deploy
+
+on:
+  workflow_run:
+    workflows: ["Deploy"]
+    types: [completed]
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  detect-deploy:
+    name: Check for new deploy, trigger workflows if deployed
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10 # must be longer than detect-deploy max-seconds
+
+    steps:
+      - name: Detect new deploy
+        id: detect-deploy
+        uses: bvandrc/detect-deploy@v1
+        with:
+          url: https://specialingredientbass.com/
+          interval-seconds: 20
+          max-seconds: 300 # 5 minutes
+
+      - name: Trigger Production Lighthouse workflow
+        if: steps.detect-deploy.outputs.deployed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        # Needs `actions: write` above, and Settings → Actions → Workflow Permissions must allow write.
+        run: gh workflow run production-lighthouse.yml --ref main --repo ${{ github.repository }}
