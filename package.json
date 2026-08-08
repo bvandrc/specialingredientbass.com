@@ -57,7 +57,8 @@
     "react-dom": "^18",
     "react-ga4": "^3",
     "react-masonry-css": "^1",
-    "soundcloud-widget": "^0.2"
+    "soundcloud-widget": "^0.2",
+    "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4",

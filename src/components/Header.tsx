@@ -7,6 +7,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import classNames from 'classnames'
+import { useCopyToClipboard } from 'usehooks-ts'
 import { CircleLink } from './primitives/CircleLink'
 
 const SOCIAL_LINK = classNames(
@@ -16,6 +17,7 @@ const SOCIAL_LINK = classNames(
 )
 
 export const Header = () => {
+  const [, copyToClipboard] = useCopyToClipboard()
   return (
     <header className="relative block w-full">
       <h1>
@@ -88,10 +90,11 @@ export const Header = () => {
             className={classNames(SOCIAL_LINK, 'bg-slate-600')}
             title="Email"
             icon={faEnvelope}
-            onClick={() => {
+            onClick={async () => {
               const EMAIL = 'SpecialIngredientBass@gmail.com'
-              navigator.clipboard.writeText(EMAIL)
-              alert(`Copied to clipboard: ${EMAIL}`)
+              if (await copyToClipboard(EMAIL)) {
+                alert(`Copied to clipboard: ${EMAIL}`)
+              }
             }}
           />
         </div>

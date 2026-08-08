@@ -1,5 +1,6 @@
 import classNames from 'classnames'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
+import { useResizeObserver } from 'usehooks-ts'
 import type { GridCardsContextValue } from './GridCardsProvider'
 import { getArrowBtns } from './getArrowBtns'
 
@@ -15,25 +16,10 @@ export const GridCardBody = ({
 >) => {
   const contentRef = useRef<HTMLDivElement>(null)
 
-  const [height, setHeight] = useState<number>(0)
-
-  useEffect(() => {
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        setHeight(entry.contentRect.height)
-      }
-    })
-
-    if (contentRef.current) {
-      observer.observe(contentRef.current)
-    }
-
-    return () => {
-      if (contentRef.current) {
-        observer.unobserve(contentRef.current)
-      }
-    }
-  }, [])
+  const { height = 0 } = useResizeObserver({
+    ref: contentRef,
+    box: 'content-box',
+  })
 
   const [scrollTop, setScrollTop] = useState(0)
 
