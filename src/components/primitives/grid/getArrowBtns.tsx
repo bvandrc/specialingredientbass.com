@@ -1,8 +1,5 @@
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
-import {
-  FontAwesomeIcon as Icon,
-  type FontAwesomeIconProps as IconProps,
-} from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 import {
   isScrolledToBottom,
@@ -16,6 +13,11 @@ const SCROLL_ARROW = {
   distanceFromEdge: 5, // pixels
   showThreshold: 50, // distance from top or bottom to show arrow
 } as const
+
+const ARROW_CLASS = classNames(
+  'm-auto absolute left-0 right-0 z-10 flex items-center justify-center w-20 h-15', // position/layout
+  'bg-[darkslateblue] opacity-80 rounded-lg cursor-pointer select-none', // appearance
+)
 
 export const getArrowBtns = ({
   scrollRegion,
@@ -37,44 +39,37 @@ export const getArrowBtns = ({
     SCROLL_ARROW.showThreshold,
   )
 
-  const arrowProps = {
-    size: '2x',
-    className: classNames(
-      'm-auto absolute left-0 right-0 z-10 block w-20 h-15', // position/layout
-      'bg-[darkslateblue] opacity-80 rounded-lg text-center cursor-pointer select-none', // appearance
-    ),
-  } as const satisfies Partial<IconProps>
+  const scrollBy = (delta: number) =>
+    scrollElement(scrollRegion, {
+      delta,
+      magnetDistance: SCROLL_ARROW.magnetDistance,
+    })
 
   const UpArrow = showUpArrow ? (
-    <Icon
-      {...arrowProps}
+    <button
+      type="button"
       data-testid="up-arrow"
-      icon={faCaretUp}
-      onClick={() =>
-        scrollElement(scrollRegion, {
-          delta: -SCROLL_ARROW.clickDistance,
-          magnetDistance: SCROLL_ARROW.magnetDistance,
-        })
-      }
+      className={ARROW_CLASS}
+      aria-label="Scroll up"
+      onClick={() => scrollBy(-SCROLL_ARROW.clickDistance)}
       style={{ top: scrollRegion.offsetTop + SCROLL_ARROW.distanceFromEdge }}
-    />
+    >
+      <Icon size="2x" icon={faCaretUp} aria-hidden />
+    </button>
   ) : null
 
   const DownArrow = showDownArrow ? (
-    <Icon
-      {...arrowProps}
+    <button
+      type="button"
       data-testid="down-arrow"
-      icon={faCaretDown}
-      onClick={() =>
-        scrollElement(scrollRegion, {
-          delta: SCROLL_ARROW.clickDistance,
-          magnetDistance: SCROLL_ARROW.magnetDistance,
-        })
-      }
-      style={{
-        bottom: SCROLL_ARROW.distanceFromEdge,
-      }}
-    />
+      className={ARROW_CLASS}
+      aria-label="Scroll down"
+      onClick={() => scrollBy(SCROLL_ARROW.clickDistance)}
+      style={{ bottom: SCROLL_ARROW.distanceFromEdge }}
+    >
+      <Icon size="2x" icon={faCaretDown} aria-hidden />
+    </button>
   ) : null
+
   return [UpArrow, DownArrow]
 }

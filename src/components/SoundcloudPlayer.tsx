@@ -17,11 +17,7 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { TrackInfo } from 'soundcloud-widget'
 import SoundcloudWidget from 'soundcloud-widget'
 import { setSearchParams } from '../utils/api-utils'
-import {
-  getElementProps,
-  htmlToElement,
-  triggerClick,
-} from '../utils/html-utils'
+import { htmlToElement, triggerClick } from '../utils/html-utils'
 
 export interface SoundcloudPlayerProps {
   url: string
@@ -123,13 +119,13 @@ export const SoundcloudPlayer = ({
 }: SoundcloudPlayerProps) => {
   const id = useId()
   const iframeRef = useRef<HTMLIFrameElement>(null)
+  const widgetRef = useRef<SoundcloudWidget | null>(null)
   const [trackInfo, setTrackInfo] = useState<TrackInfo>()
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
 
-  const [iframeProps, iframeUrl] = useMemo(() => {
-    // Parse the embed HTML to extract all iframe attributes
+  const iframeUrl = useMemo(() => {
+    // The embed HTML is only useful for the widget URL it points at.
     const iframeElTemp = htmlToElement(html) as HTMLIFrameElement
-    const iframeProps_ = getElementProps(iframeElTemp)
     const iframeUrl_ = new URL(iframeElTemp.src)
     setSearchParams(iframeUrl_, {
       auto_play: false,
@@ -141,19 +137,27 @@ export const SoundcloudPlayer = ({
       visual: false, // true = artwork behind waveform, false = artwork to left
       show_artwork: false,
     })
-    return [iframeProps_, iframeUrl_]
+    return iframeUrl_
   }, [html])
 
   useEffect(() => {
-    if (!iframeRef.current || trackInfo) return
-    const widget = new SoundcloudWidget(id)
+    const iframe = iframeRef.current
+    if (!iframe) return
+    const widget = new SoundcloudWidget(iframe)
+    widgetRef.current = widget
     widget.on(SoundcloudWidget.events.READY, () => {
       widget.getCurrentSound().then((sound) => setTrackInfo(sound))
     })
     widget.on(SoundcloudWidget.events.PLAY, () => setIsPlaying(true))
     widget.on(SoundcloudWidget.events.PAUSE, () => setIsPlaying(false))
     widget.on(SoundcloudWidget.events.FINISH, () => setIsPlaying(false))
-  }, [id, trackInfo])
+
+    // No unbind on cleanup: the widget talks to the iframe's contentWindow,
+    // which is gone by then (it throws). The listeners die with the iframe.
+    return () => {
+      widgetRef.current = null
+    }
+  }, [])
 
   useEffect(() => {
     onPlayToggle?.(isPlaying)
@@ -188,10 +192,7 @@ export const SoundcloudPlayer = ({
           <>
             <PlayPauseButton
               isPlaying={isPlaying}
-              onClick={() => {
-                const widget = new SoundcloudWidget(id)
-                widget.toggle()
-              }}
+              onClick={() => widgetRef.current?.toggle()}
             />
             <StatsAndLink url={url} trackInfo={trackInfo} />
           </>
@@ -205,11 +206,13 @@ export const SoundcloudPlayer = ({
           )}
         >
           <iframe
-            {...iframeProps}
             ref={iframeRef}
             id={id}
             title={title}
             src={iframeUrl.href}
+            // the grid renders one iframe per mix; only fetch what's on screen
+            loading="lazy"
+            scrolling="no"
             allow="autoplay; encrypted-media"
             className={classNames(
               'relative -top-15 -left-px w-[calc(100%+2px)]', // hide top of iframe, hide 1 px left because is not black, hide eight px because is not black

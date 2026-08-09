@@ -39,14 +39,12 @@
     "pw:open": "playwright test --ui",
     "pw:report": "playwright show-report playwright/results/html",
     "__c3": "====================[ Misc ]=====================================",
-    "sandbox": "npx tsx ./sandbox.ts",
     "generate-playlist-json": "vite --open --config ./spotify-tools/vite.config.ts ./spotify-tools"
   },
   "dependencies": {
     "@fontsource/barlow": "^5",
     "@fontsource/outfit": "^5",
     "@fontsource/roboto-condensed": "^5",
-    "@fortawesome/fontawesome-free": "^7",
     "@fortawesome/fontawesome-svg-core": "^7",
     "@fortawesome/free-brands-svg-icons": "^7",
     "@fortawesome/free-solid-svg-icons": "^7",

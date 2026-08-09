@@ -1,6 +1,6 @@
 type ApiMethod = 'GET' | 'PUT' | 'POST'
 
-type SearchParams = Record<string, string | number | boolean>
+type SearchParams = Record<string, string | number | boolean | undefined>
 
 export function setSearchParams(url: URL, params: SearchParams = {}) {
   for (const [key, val] of Object.entries(params)) {

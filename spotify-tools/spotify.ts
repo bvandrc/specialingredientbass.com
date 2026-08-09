@@ -29,6 +29,7 @@ async function getPaginatedItems<T>(
 
   while (response.next) {
     const next = response.next.split(ROOT_URL)[1]
+    if (!next) break // `next` came from a different host than the API root
     response = (await this.makeRequest('GET', next)) as typeof response
 
     items = items.concat(response.items)

@@ -8,10 +8,6 @@ export const isScrolledToBottom = (
   offset = 0,
 ) => element.scrollTop > element.scrollHeight - element.offsetHeight - offset
 
-export const isScrollableY = (
-  element: Pick<HTMLElement, 'scrollHeight' | 'clientHeight'>,
-) => element.scrollHeight > element.clientHeight
-
 export const scrollElement = (
   el: HTMLElement | null,
   { delta, magnetDistance }: { delta: number; magnetDistance: number },
@@ -19,8 +15,14 @@ export const scrollElement = (
   if (!el) return
   const newScrollTop = el.scrollTop + delta
   const atTop = isScrolledToTop({ scrollTop: newScrollTop }, magnetDistance)
+  // Spreading `el` would drop scrollHeight/offsetHeight — they're prototype
+  // accessors, not own properties — so name them explicitly.
   const atBottom = isScrolledToBottom(
-    { ...el, scrollTop: newScrollTop },
+    {
+      scrollTop: newScrollTop,
+      scrollHeight: el.scrollHeight,
+      offsetHeight: el.offsetHeight,
+    },
     magnetDistance,
   )
   el.scrollTo({
@@ -35,20 +37,11 @@ export const htmlToElement = (html: string) => {
   return template.content.firstChild
 }
 
-export const getElementProps = <T extends HTMLElement>(
-  element: T,
-): React.HTMLAttributes<T> => {
-  return Object.fromEntries(
-    element
-      .getAttributeNames()
-      .map((name) => [name, element.getAttribute(name)]),
-  )
-}
-
-export const triggerClick = (event: React.KeyboardEvent) => {
+/** Makes a `role="button"` element respond to Enter/Space like a real button. */
+export const triggerClick = (event: React.KeyboardEvent<HTMLElement>) => {
   if (event.key === 'Enter' || event.key === ' ') {
-    event.target?.dispatchEvent(
-      new MouseEvent('click', { ...event, view: undefined }),
-    )
+    // Space would otherwise scroll the page.
+    event.preventDefault()
+    event.currentTarget.click()
   }
 }
