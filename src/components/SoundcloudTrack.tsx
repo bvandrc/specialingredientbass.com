@@ -65,8 +65,6 @@ export const SoundcloudTrack = ({
   const addlInfo =
     _additionalInfo === 'GET_FROM_SC' ? info.description : _additionalInfo
 
-  const albumArtUrl = getAlbumArtUrl(info.thumbnail_url)
-
   return (
     <div
       className={classNames(
@@ -75,7 +73,7 @@ export const SoundcloudTrack = ({
       )}
       data-testid="soundcloud-track"
     >
-      {!albumArtToSide && <AlbumArt url={albumArtUrl} />}
+      {!albumArtToSide && <AlbumArt url={getAlbumArtUrl(info.thumbnail_url)} />}
       <div
         className={classNames('pb-0.5', {
           'text-glow-med-[cyan]': isPlaying,
@@ -110,7 +108,7 @@ export const SoundcloudTrack = ({
           iframeSrc={info.iframeSrc}
           title={title}
           onPlayToggle={onPlayToggle}
-          albumArtUrl={albumArtUrl}
+          albumArtUrl={getAlbumArtUrl(info.thumbnail_url)}
           showAlbumArt={albumArtToSide}
         />
       </div>
