@@ -1,8 +1,4 @@
-import {
-  faCaretDown,
-  faCaretUp,
-  type IconDefinition,
-} from '@fortawesome/free-solid-svg-icons'
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 import {
@@ -19,11 +15,6 @@ const SCROLL_ARROW = {
 } as const
 
 type ArrowDirection = 'up' | 'down'
-
-const ARROW_ICONS = {
-  up: faCaretUp,
-  down: faCaretDown,
-} as const satisfies Record<ArrowDirection, IconDefinition>
 
 const ScrollArrow = ({
   direction,
@@ -52,7 +43,11 @@ const ScrollArrow = ({
     }
     {...props}
   >
-    <Icon size="2x" icon={ARROW_ICONS[direction]} aria-hidden />
+    <Icon
+      size="2x"
+      icon={direction === 'up' ? faCaretUp : faCaretDown}
+      aria-hidden
+    />
   </button>
 )
 
