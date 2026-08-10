@@ -17,7 +17,7 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { TrackInfo } from 'soundcloud-widget'
 import SoundcloudWidget from 'soundcloud-widget'
 import { setSearchParams } from '../utils/api-utils'
-import { htmlToElement, triggerClick } from '../utils/html-utils'
+import { htmlToElement } from '../utils/html-utils'
 
 export interface SoundcloudPlayerProps {
   url: string
@@ -36,17 +36,14 @@ const PlayPauseButton = ({
   onClick,
 }: {
   isPlaying: boolean
-  onClick: React.MouseEventHandler<HTMLSpanElement>
+  onClick: React.MouseEventHandler<HTMLButtonElement>
 }) => (
-  // biome-ignore lint/a11y/useSemanticElements: TODO: change to button, fix css for it
-  <span
+  <button
+    type="button"
     data-testid="soundcloud-player-play-pause-button"
     className="absolute top-1 left-0 z-1 cursor-pointer hover:saturate-160"
-    role="button"
     aria-label={isPlaying ? 'Pause' : 'Play'}
-    tabIndex={0}
     onClick={onClick}
-    onKeyDown={triggerClick}
   >
     <Icon
       className="absolute text-soundcloud bg-none text-4xl"
@@ -56,7 +53,7 @@ const PlayPauseButton = ({
       className="absolute top-1 left-1 -z-1 text-white bg-none text-3xl"
       icon={faCircle}
     />
-  </span>
+  </button>
 )
 
 const StatsAndLink = ({

@@ -18,8 +18,7 @@ export const scrollElement = (
   const atBottom = isScrolledToBottom(
     {
       scrollTop: newScrollTop,
-      // NOTE: don't spread to get these, these are prototype accessors, not
-      // own properties.
+      // NOTE: don't spread to get these, these are prototype accessors, not own properties.
       scrollHeight: el.scrollHeight,
       offsetHeight: el.offsetHeight,
     },
@@ -35,13 +34,4 @@ export const htmlToElement = (html: string) => {
   const template = document.createElement('template')
   template.innerHTML = html.trim()
   return template.content.firstChild
-}
-
-/** Makes a `role="button"` element respond to Enter/Space like a real button. */
-export const triggerClick = (event: React.KeyboardEvent<HTMLElement>) => {
-  if (event.key === 'Enter' || event.key === ' ') {
-    // Space would otherwise scroll the page.
-    event.preventDefault()
-    event.currentTarget.click()
-  }
 }

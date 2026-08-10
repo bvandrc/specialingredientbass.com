@@ -27,19 +27,29 @@ const ARROW_ICONS = {
 
 const ScrollArrow = ({
   direction,
+  scrollRegion,
   ...props
-}: { direction: ArrowDirection } & Pick<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  'onClick' | 'style'
->) => (
+}: {
+  direction: ArrowDirection
+  scrollRegion: HTMLDivElement
+} & Pick<React.ButtonHTMLAttributes<HTMLButtonElement>, 'style'>) => (
   <button
     type="button"
     data-testid={`${direction}-arrow`}
     className={classNames(
-      'm-auto absolute left-0 right-0 z-10 flex items-center justify-center w-20 h-15', // position/layout
+      // w-fit so the button hugs the icon: FontAwesome's own svg rules win
+      // over width/height utilities, so sizing the button instead would
+      // scale the pill without scaling the caret.
+      'm-auto absolute left-0 right-0 z-10 flex w-fit', // position/layout
       'bg-[darkslateblue] opacity-80 rounded-lg cursor-pointer select-none', // appearance
     )}
     aria-label={`Scroll ${direction}`}
+    onClick={() =>
+      scrollElement(scrollRegion, {
+        delta: SCROLL_ARROW.clickDistance * (direction === 'up' ? -1 : 1),
+        magnetDistance: SCROLL_ARROW.magnetDistance,
+      })
+    }
     {...props}
   >
     <Icon size="2x" icon={ARROW_ICONS[direction]} aria-hidden />
@@ -66,16 +76,10 @@ export const getArrowBtns = ({
     SCROLL_ARROW.showThreshold,
   )
 
-  const scrollBy = (delta: number) =>
-    scrollElement(scrollRegion, {
-      delta,
-      magnetDistance: SCROLL_ARROW.magnetDistance,
-    })
-
   const UpArrow = showUpArrow ? (
     <ScrollArrow
       direction="up"
-      onClick={() => scrollBy(-SCROLL_ARROW.clickDistance)}
+      scrollRegion={scrollRegion}
       style={{ top: scrollRegion.offsetTop + SCROLL_ARROW.distanceFromEdge }}
     />
   ) : null
@@ -83,7 +87,7 @@ export const getArrowBtns = ({
   const DownArrow = showDownArrow ? (
     <ScrollArrow
       direction="down"
-      onClick={() => scrollBy(SCROLL_ARROW.clickDistance)}
+      scrollRegion={scrollRegion}
       style={{ bottom: SCROLL_ARROW.distanceFromEdge }}
     />
   ) : null

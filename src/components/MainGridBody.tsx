@@ -26,7 +26,12 @@ export const MainGridBody = () => {
             'text-orange-400 text-2xl text-glow-heavy-[darkslateblue] font-bold font-[Roboto_Condensed]', // appearance
           )}
         >
-          Click for SoundCloud mixes! <Icon icon={faArrowDown} aria-hidden />
+          Click for SoundCloud mixes!{' '}
+          <Icon
+            icon={faArrowDown}
+            className="icon-glow-heavy-[darkslateblue]"
+            aria-hidden
+          />
         </span>
       }
       aria-label="DJ Mixes"
