@@ -54,45 +54,6 @@ const ScrollArrow = ({
   </button>
 )
 
-const getArrowBtns = ({
-  scrollRegion,
-  isOpen,
-}: {
-  scrollRegion: HTMLDivElement | null
-  isOpen: boolean
-}) => {
-  if (
-    !scrollRegion ||
-    !isOpen ||
-    scrollRegion.offsetHeight < SCROLL_ARROW.showThreshold * 2
-  )
-    return [null, null]
-
-  const showUpArrow = !isScrolledToTop(scrollRegion, SCROLL_ARROW.showThreshold)
-  const showDownArrow = !isScrolledToBottom(
-    scrollRegion,
-    SCROLL_ARROW.showThreshold,
-  )
-
-  const UpArrow = showUpArrow ? (
-    <ScrollArrow
-      direction="up"
-      scrollRegion={scrollRegion}
-      style={{ top: scrollRegion.offsetTop + SCROLL_ARROW.distanceFromEdge }}
-    />
-  ) : null
-
-  const DownArrow = showDownArrow ? (
-    <ScrollArrow
-      direction="down"
-      scrollRegion={scrollRegion}
-      style={{ bottom: SCROLL_ARROW.distanceFromEdge }}
-    />
-  ) : null
-
-  return [UpArrow, DownArrow]
-}
-
 /** Scroll arrows for a scrollable region. Spread `scrollRegionProps` onto the element they should scroll. */
 export const useArrowBtns = ({ isOpen }: { isOpen: boolean }) => {
   const contentRef = useRef<HTMLDivElement>(null)
@@ -104,10 +65,42 @@ export const useArrowBtns = ({ isOpen }: { isOpen: boolean }) => {
   const [scrollTop, setScrollTop] = useState(0)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: need these, but TODO: figure out how to remove
-  const [UpArrow, DownArrow] = useMemo(
-    () => getArrowBtns({ scrollRegion: contentRef.current, isOpen }),
-    [height, scrollTop, isOpen],
-  )
+  const [UpArrow, DownArrow] = useMemo(() => {
+    const scrollRegion = contentRef.current
+    if (
+      !scrollRegion ||
+      !isOpen ||
+      scrollRegion.offsetHeight < SCROLL_ARROW.showThreshold * 2
+    )
+      return [null, null]
+
+    const showUpArrow = !isScrolledToTop(
+      scrollRegion,
+      SCROLL_ARROW.showThreshold,
+    )
+    const showDownArrow = !isScrolledToBottom(
+      scrollRegion,
+      SCROLL_ARROW.showThreshold,
+    )
+
+    const upArrow = showUpArrow ? (
+      <ScrollArrow
+        direction="up"
+        scrollRegion={scrollRegion}
+        style={{ top: scrollRegion.offsetTop + SCROLL_ARROW.distanceFromEdge }}
+      />
+    ) : null
+
+    const downArrow = showDownArrow ? (
+      <ScrollArrow
+        direction="down"
+        scrollRegion={scrollRegion}
+        style={{ bottom: SCROLL_ARROW.distanceFromEdge }}
+      />
+    ) : null
+
+    return [upArrow, downArrow]
+  }, [height, scrollTop, isOpen])
 
   return {
     UpArrow,
