@@ -35,6 +35,7 @@ const ScrollArrow = ({
       'bg-[darkslateblue] opacity-80 rounded-lg cursor-pointer select-none', // appearance
     )}
     aria-label={`Scroll ${direction}`}
+    aria-controls={scrollRegion.id}
     onClick={() =>
       scrollElement(scrollRegion, {
         delta: SCROLL_ARROW.clickDistance * (direction === 'up' ? -1 : 1),

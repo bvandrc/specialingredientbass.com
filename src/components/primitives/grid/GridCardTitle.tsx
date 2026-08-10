@@ -11,9 +11,8 @@ export const GridCardTitle = ({
 }: {
   title: string
   isOpen: boolean
-  onClick: React.MouseEventHandler<HTMLButtonElement>
   id: string
-}) => (
+} & Pick<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>) => (
   <h2 id={id} data-testid="grid-card-title-text">
     <button
       type="button"

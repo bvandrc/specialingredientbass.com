@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { useMemo, useRef, useState } from 'react'
+import { useId, useMemo, useRef, useState } from 'react'
 import { useResizeObserver } from 'usehooks-ts'
 import type { GridCardsContextValue } from './GridCardsProvider'
 import { getArrowBtns } from './getArrowBtns'
@@ -15,6 +15,8 @@ export const GridCardBody = ({
   } & Pick<GridCardsContextValue, 'expandingRef' | 'setExpandingRef'>
 >) => {
   const contentRef = useRef<HTMLDivElement>(null)
+  // the scroll arrows point at this via aria-controls
+  const scrollRegionId = useId()
 
   const { height = 0 } = useResizeObserver({
     ref: contentRef,
@@ -55,6 +57,7 @@ export const GridCardBody = ({
             isOpen ? 'overflow-y-auto mb-1 py-1' : 'overflow-hidden',
           )}
           ref={contentRef}
+          id={scrollRegionId}
           // scrollable region must be keyboard-accessible (a11y); only when open
           tabIndex={isOpen ? 0 : -1}
           onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
