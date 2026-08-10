@@ -23,7 +23,7 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
-      - name: Check package.json key order
+      - name: Lint package.json
         uses: bvandrc/lint-package-json@v2
 
       - name: Lint & Type Check
