@@ -6,6 +6,10 @@ import { SoundcloudPlayer } from './SoundcloudPlayer'
 
 const dataByUrl = keyBy(data, (d) => d.originalUrl)
 
+/** oEmbed hands back the 500px crop; the slot is 80px. */
+const getAlbumArtUrl = (thumbnailUrl: string) =>
+  thumbnailUrl.replace('-t500x500.', '-t250x250.')
+
 const AlbumArt = ({ className, url }: { className?: string; url: string }) => (
   <div
     className={classNames(
@@ -42,6 +46,10 @@ export const SoundcloudTrack = ({
   const info = dataByUrl[url]
 
   const [isPlaying, onPlayToggle] = useState(false)
+  // seeded from the build-time thumbnail so art paints before the widget loads
+  const [albumArtUrl, setAlbumArtUrl] = useState(
+    info ? getAlbumArtUrl(info.thumbnail_url) : '',
+  )
 
   if (!info) {
     console.error(`No SoundCloud data found for ${url}`)
@@ -57,8 +65,6 @@ export const SoundcloudTrack = ({
 
   const addlInfo =
     _additionalInfo === 'GET_FROM_SC' ? info.description : _additionalInfo
-
-  const albumArtUrl = info.thumbnail_url
 
   return (
     <div
@@ -103,7 +109,9 @@ export const SoundcloudTrack = ({
           iframeSrc={info.iframeSrc}
           title={title}
           onPlayToggle={onPlayToggle}
-          albumArtUrl={albumArtToSide ? albumArtUrl : undefined}
+          albumArtUrl={albumArtUrl}
+          setAlbumArtUrl={setAlbumArtUrl}
+          showAlbumArt={albumArtToSide}
         />
       </div>
     </div>

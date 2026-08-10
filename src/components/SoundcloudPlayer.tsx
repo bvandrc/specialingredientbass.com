@@ -25,11 +25,25 @@ export interface SoundcloudPlayerProps {
   title: string
   className?: string
   onPlayToggle?: (isPlaying: boolean) => void
-  /** Renders artwork beside the player when set. */
-  albumArtUrl?: string
+  albumArtUrl: string
+  /** Called when the widget reports different artwork than `albumArtUrl`. */
+  setAlbumArtUrl?: (url: string) => void
+  showAlbumArt?: boolean
 }
 
 const EXTERNAL_LINK_LABEL = 'This track on SoundCloud.com (new tab)'
+
+/**
+ * Artwork identity: the filename without its size suffix. oEmbed and the widget
+ * hand back different crops of the same image, and a track with no art of its
+ * own gets an `avatars-…` URL rather than `artworks-…`.
+ */
+const getArtworkId = (url: string) =>
+  url
+    .split('?')[0]
+    ?.split('/')
+    .pop()
+    ?.replace(/-[^-]+\.\w+$/, '')
 
 // Tuned against the crop below — the widget's own layout has to match what the
 // container reveals, so these belong to the player rather than to its callers.
@@ -124,6 +138,8 @@ export const SoundcloudPlayer = ({
   className,
   onPlayToggle,
   albumArtUrl,
+  setAlbumArtUrl,
+  showAlbumArt = false,
 }: SoundcloudPlayerProps) => {
   const id = useId()
   const iframeRef = useRef<HTMLIFrameElement>(null)
@@ -160,13 +176,22 @@ export const SoundcloudPlayer = ({
     onPlayToggle?.(isPlaying)
   }, [isPlaying, onPlayToggle])
 
+  // the build-time thumbnail goes stale if the artwork changed since; prefer
+  // whatever the widget reports, but only when it's actually a different image
+  useEffect(() => {
+    const fromWidget = trackInfo?.artwork_url
+    if (!fromWidget) return
+    if (getArtworkId(fromWidget) === getArtworkId(albumArtUrl)) return
+    setAlbumArtUrl?.(fromWidget)
+  }, [trackInfo?.artwork_url, albumArtUrl, setAlbumArtUrl])
+
   return (
     <div
       data-testid="soundcloud-player"
       className="flex gap-2"
       data-loaded={!!trackInfo}
     >
-      {albumArtUrl && (
+      {showAlbumArt && albumArtUrl && (
         <img
           src={albumArtUrl}
           className="mb-1 rounded-xl h-20"
