@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
-import { omit } from 'es-toolkit'
+import { pick } from 'es-toolkit'
 import { defineConfig } from 'vite'
 import { getIframeSrc, getOEmbed, SC_PLAYER_HEIGHT } from './src/api/soundcloud'
 
@@ -23,8 +23,8 @@ const scTracks = await Promise.all(
     return {
       originalLink: url,
       iframeSrc: getIframeSrc(oEmbed.html),
-      // the player URL is all we needed it for
-      ...omit(oEmbed, ['html']),
+      // the rest of the oEmbed response is unused, and this file ships in the bundle
+      ...pick(oEmbed, ['title', 'description']),
     }
   }),
 )
