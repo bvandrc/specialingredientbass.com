@@ -15,16 +15,14 @@ React site for DJ Special Ingredient, deployed to GitHub Pages by
 - **Generated data**: `soundcloud-data.json` is rewritten on every Vite start
   and build by `vite.config.ts`, which pulls the SoundCloud URLs out of
   `src/data/grid-card-data.tsx` and calls the oEmbed API.
-  If the oEmbed call fails, the committed file is reused so dev/build still
-  work offline. `spotify-playlists.json` comes from
-  `pnpm generate-playlist-json`. Don't hand-edit either — add the track URL to
-  `grid-card-data.tsx` instead.
+  `spotify-playlists.json` comes from `pnpm generate-playlist-json`. Don't
+  hand-edit either — add the track URL to `grid-card-data.tsx` instead.
 
 ## Commands
 
 - `pnpm dev` — dev server on port 5000. `pnpm build`, `pnpm preview`. Both dev
-  and build call the SoundCloud oEmbed API while loading the Vite config; when
-  it's unreachable they fall back to the committed `soundcloud-data.json`.
+  and build call the SoundCloud oEmbed API while loading the Vite config, so
+  they need network access.
 - `pnpm format` — Biome check/fix. `pnpm check` — the full gate: format plus
   `tsc` for the app and for `playwright/tsconfig.json`. Run before every
   commit; it's what CI runs.
