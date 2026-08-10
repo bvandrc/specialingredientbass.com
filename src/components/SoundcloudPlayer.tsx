@@ -31,6 +31,19 @@ export interface SoundcloudPlayerProps {
 
 const EXTERNAL_LINK_LABEL = 'This track on SoundCloud.com (new tab)'
 
+// Tuned against the crop below — the widget's own layout has to match what the
+// container reveals, so these belong to the player rather than to its callers.
+const WIDGET_PARAMS = {
+  auto_play: false,
+  hide_related: true,
+  show_comments: true,
+  show_user: false,
+  show_reposts: true,
+  show_teaser: false,
+  visual: false, // true = artwork behind waveform, false = artwork to left
+  show_artwork: false,
+} as const
+
 const PlayPauseButton = ({
   isPlaying,
   onClick,
@@ -121,16 +134,7 @@ export const SoundcloudPlayer = ({
 
   const iframeUrl = useMemo(() => {
     const iframeUrl_ = new URL(iframeSrc)
-    setSearchParams(iframeUrl_, {
-      auto_play: false,
-      hide_related: true,
-      show_comments: true,
-      show_user: false,
-      show_reposts: true,
-      show_teaser: false,
-      visual: false, // true = artwork behind waveform, false = artwork to left
-      show_artwork: false,
-    })
+    setSearchParams(iframeUrl_, WIDGET_PARAMS)
     return iframeUrl_
   }, [iframeSrc])
 
