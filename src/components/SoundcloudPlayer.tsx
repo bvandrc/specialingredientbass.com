@@ -25,9 +25,8 @@ export interface SoundcloudPlayerProps {
   title: string
   className?: string
   onPlayToggle?: (isPlaying: boolean) => void
+  /** Seeds the artwork; replaced if the widget reports a different image. */
   albumArtUrl: string
-  /** Called when the widget reports different artwork than `albumArtUrl`. */
-  setAlbumArtUrl?: (url: string) => void
   showAlbumArt?: boolean
 }
 
@@ -138,7 +137,6 @@ export const SoundcloudPlayer = ({
   className,
   onPlayToggle,
   albumArtUrl,
-  setAlbumArtUrl,
   showAlbumArt = false,
 }: SoundcloudPlayerProps) => {
   const id = useId()
@@ -146,6 +144,7 @@ export const SoundcloudPlayer = ({
   const widgetRef = useRef<SoundcloudWidget | null>(null)
   const [trackInfo, setTrackInfo] = useState<TrackInfo>()
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
+  const [artworkUrl, setArtworkUrl] = useState(albumArtUrl)
 
   const iframeUrl = useMemo(() => {
     const iframeUrl_ = new URL(iframeSrc)
@@ -176,14 +175,15 @@ export const SoundcloudPlayer = ({
     onPlayToggle?.(isPlaying)
   }, [isPlaying, onPlayToggle])
 
-  // the build-time thumbnail goes stale if the artwork changed since; prefer
-  // whatever the widget reports, but only when it's actually a different image
+  // the seeded thumbnail goes stale if the artwork changed since the last build;
+  // prefer what the widget reports, but only when it's actually a different image
   useEffect(() => {
     const fromWidget = trackInfo?.artwork_url
     if (!fromWidget) return
-    if (getArtworkId(fromWidget) === getArtworkId(albumArtUrl)) return
-    setAlbumArtUrl?.(fromWidget)
-  }, [trackInfo?.artwork_url, albumArtUrl, setAlbumArtUrl])
+    setArtworkUrl((current) =>
+      getArtworkId(fromWidget) === getArtworkId(current) ? current : fromWidget,
+    )
+  }, [trackInfo?.artwork_url])
 
   return (
     <div
@@ -191,9 +191,9 @@ export const SoundcloudPlayer = ({
       className="flex gap-2"
       data-loaded={!!trackInfo}
     >
-      {showAlbumArt && albumArtUrl && (
+      {showAlbumArt && artworkUrl && (
         <img
-          src={albumArtUrl}
+          src={artworkUrl}
           className="mb-1 rounded-xl h-20"
           alt="album art"
         />
