@@ -36,8 +36,7 @@ const PlayPauseButton = ({
   onClick,
 }: {
   isPlaying: boolean
-  onClick: React.MouseEventHandler<HTMLButtonElement>
-}) => (
+} & Pick<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>) => (
   <button
     type="button"
     data-testid="soundcloud-player-play-pause-button"
