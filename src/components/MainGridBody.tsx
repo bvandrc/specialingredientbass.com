@@ -26,7 +26,7 @@ export const MainGridBody = () => {
             'text-orange-400 text-2xl text-glow-heavy-[darkslateblue] font-bold font-[Roboto_Condensed]', // appearance
           )}
         >
-          Click below for SoundCloud mixes!{' '}
+          Click below for SoundCloud mixes!
           <Icon
             icon={faArrowDown}
             className="icon-glow-heavy-[darkslateblue]"
