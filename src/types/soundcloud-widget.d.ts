@@ -24,6 +24,20 @@ declare module 'soundcloud-widget' {
     waveform_url: string
   }
 
+  export interface WidgetInstance {
+    play(): void
+    pause(): void
+    toggle(): void
+    on(eventName: string, listener: () => void): void
+    bind(eventName: string, listener: () => void): void
+    removeListener(eventName: string): void
+    unbind(eventName: string): void
+    load(url: string, options?: Record<string, unknown>): Promise<void>
+    getCurrentSound(): Promise<TrackInfo>
+    getPosition(): Promise<number>
+    getVolume(): Promise<number>
+  }
+
   class SoundcloudWidget {
     constructor(el: HTMLIFrameElement | string)
     play(): void
