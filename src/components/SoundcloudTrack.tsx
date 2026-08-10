@@ -10,7 +10,7 @@ const dataByUrl = keyBy(data, (d) => d.originalUrl)
  * oEmbed hands back the 500px crop for an 80px slot. `large` is 100px — the
  * smallest of SoundCloud's fixed variants that still covers it.
  */
-const getAlbumArtUrl = (thumbnailUrl: string) =>
+const transformAlbumArtUrl = (thumbnailUrl: string) =>
   thumbnailUrl.replace('-t500x500.', '-large.')
 
 const AlbumArt = ({ className, url }: { className?: string; url: string }) => (
@@ -73,7 +73,9 @@ export const SoundcloudTrack = ({
       )}
       data-testid="soundcloud-track"
     >
-      {!albumArtToSide && <AlbumArt url={getAlbumArtUrl(info.thumbnail_url)} />}
+      {!albumArtToSide && (
+        <AlbumArt url={transformAlbumArtUrl(info.thumbnail_url)} />
+      )}
       <div
         className={classNames('pb-0.5', {
           'text-glow-med-[cyan]': isPlaying,
@@ -108,7 +110,7 @@ export const SoundcloudTrack = ({
           iframeSrc={info.iframeSrc}
           title={title}
           onPlayToggle={onPlayToggle}
-          albumArtUrl={getAlbumArtUrl(info.thumbnail_url)}
+          albumArtUrl={transformAlbumArtUrl(info.thumbnail_url)}
           showAlbumArt={albumArtToSide}
         />
       </div>
