@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { keyBy } from 'es-toolkit'
-import { useState } from 'react'
 import data from '../../soundcloud-data.json' with { type: 'json' }
+import { useSoundcloudPlayer } from '../hooks/useSoundcloudPlayer'
 import { SoundcloudPlayer } from './SoundcloudPlayer'
 
 const dataByUrl = keyBy(data, (d) => d.originalUrl)
@@ -48,12 +48,12 @@ export const SoundcloudTrack = ({
 }: SoundcloudTrackProps) => {
   const info = dataByUrl[url]
 
-  const [isPlaying, onPlayToggle] = useState(false)
-  // seeded from the build-time thumbnail; the player swaps in the widget's URL
-  // if the artwork has changed since
-  const [artworkUrl, setArtworkUrl] = useState(
-    info ? transformArtworkUrl(info.thumbnail_url) : '',
-  )
+  // seeded from the build-time thumbnail; the widget's URL wins if the artwork
+  // has changed since
+  const player = useSoundcloudPlayer({
+    artworkUrl: info ? transformArtworkUrl(info.thumbnail_url) : '',
+  })
+  const { isPlaying, artworkUrlResolved } = player
 
   if (!info) {
     console.error(`No SoundCloud data found for ${url}`)
@@ -78,7 +78,7 @@ export const SoundcloudTrack = ({
       )}
       data-testid="soundcloud-track"
     >
-      {!artworkToSide && <Artwork url={artworkUrl} />}
+      {!artworkToSide && <Artwork url={artworkUrlResolved} />}
       <div
         className={classNames('pb-0.5', {
           'text-glow-med-[cyan]': isPlaying,
@@ -112,10 +112,8 @@ export const SoundcloudTrack = ({
           url={url}
           iframeSrc={info.iframeSrc}
           title={title}
-          onPlayToggle={onPlayToggle}
-          artworkUrl={artworkUrl}
-          setArtworkUrl={setArtworkUrl}
           showArtwork={artworkToSide}
+          player={player}
         />
       </div>
     </div>
