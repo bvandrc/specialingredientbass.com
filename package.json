@@ -26,7 +26,7 @@
     "preview": "pnpm build && vite preview --open",
     "preview:ci": "vite preview --strictPort",
     "__c1": "====================[ Linting & Type Checking ]==================",
-    "check": "pnpm format && pnpm ts:check && pnpm pw:ts:check",
+    "check": "npx biome check . && pnpm ts:check && pnpm pw:ts:check",
     "format": "npx biome check . --fix",
     "ts:check": "tsc",
     "pw:ts:check": "tsc --project playwright/tsconfig.json",
