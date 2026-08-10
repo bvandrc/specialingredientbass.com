@@ -13,10 +13,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
-import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import { useId, useMemo } from 'react'
 import type { TrackInfo } from 'soundcloud-widget'
-import SoundcloudWidget from 'soundcloud-widget'
 import { SC_PLAYER_HEIGHT } from '../api/soundcloud'
+import type { useSoundcloudPlayer } from '../hooks/useSoundcloudPlayer'
 import { setSearchParams } from '../utils/api-utils'
 
 export interface SoundcloudPlayerProps {
@@ -24,27 +24,11 @@ export interface SoundcloudPlayerProps {
   iframeSrc: string
   title: string
   className?: string
-  onPlayToggle?: (isPlaying: boolean) => void
-  /** Seeds the artwork; replaced if the widget reports a different image. */
-  artworkUrl: string
-  /** Called with the widget's URL when it turns out to be different artwork. */
-  setArtworkUrl?: (url: string) => void
   showArtwork?: boolean
+  player: ReturnType<typeof useSoundcloudPlayer>
 }
 
 const EXTERNAL_LINK_LABEL = 'This track on SoundCloud.com (new tab)'
-
-/**
- * Artwork identity: the filename without its size suffix. oEmbed and the widget
- * hand back different crops of the same image, and a track with no art of its
- * own gets an `avatars-…` URL rather than `artworks-…`.
- */
-const getArtworkId = (url: string) =>
-  url
-    .split('?')[0]
-    ?.split('/')
-    .pop()
-    ?.replace(/-[^-]+\.\w+$/, '')
 
 // Tuned against the crop below — the widget's own layout has to match what the
 // container reveals, so these belong to the player rather than to its callers.
@@ -137,60 +121,16 @@ export const SoundcloudPlayer = ({
   iframeSrc,
   title,
   className,
-  onPlayToggle,
-  artworkUrl,
-  setArtworkUrl,
   showArtwork = false,
+  player: { iframeRef, trackInfo, isPlaying, artworkUrlResolved, toggle },
 }: SoundcloudPlayerProps) => {
   const id = useId()
-  const iframeRef = useRef<HTMLIFrameElement>(null)
-  const widgetRef = useRef<SoundcloudWidget | null>(null)
-  const [trackInfo, setTrackInfo] = useState<TrackInfo>()
-  const [isPlaying, setIsPlaying] = useState<boolean>(false)
-
-  // the passed URL is baked at build time and goes stale if the artwork changed
-  // since; prefer the widget's, but only when it's actually a different image
-  const artworkUrlResolved = useMemo(() => {
-    const fromWidget = trackInfo?.artwork_url
-    if (!fromWidget || getArtworkId(fromWidget) === getArtworkId(artworkUrl))
-      return artworkUrl
-    return fromWidget
-  }, [artworkUrl, trackInfo?.artwork_url])
 
   const iframeUrl = useMemo(() => {
     const iframeUrl_ = new URL(iframeSrc)
     setSearchParams(iframeUrl_, WIDGET_PARAMS)
     return iframeUrl_
   }, [iframeSrc])
-
-  useEffect(() => {
-    const iframe = iframeRef.current
-    if (!iframe) return
-    const widget = new SoundcloudWidget(iframe)
-    widgetRef.current = widget
-    widget.on(SoundcloudWidget.events.READY, () => {
-      widget.getCurrentSound().then((sound) => setTrackInfo(sound))
-    })
-    widget.on(SoundcloudWidget.events.PLAY, () => setIsPlaying(true))
-    widget.on(SoundcloudWidget.events.PAUSE, () => setIsPlaying(false))
-    widget.on(SoundcloudWidget.events.FINISH, () => setIsPlaying(false))
-
-    // No unbind on cleanup: the widget talks to the iframe's contentWindow,
-    // which is gone by then (it throws). The listeners die with the iframe.
-    return () => {
-      widgetRef.current = null
-    }
-  }, [])
-
-  useEffect(() => {
-    onPlayToggle?.(isPlaying)
-  }, [isPlaying, onPlayToggle])
-
-  // hand the resolved URL back up: the track renders its own artwork when
-  // showArtwork is false, and only the widget knows the artwork changed
-  useEffect(() => {
-    if (artworkUrlResolved !== artworkUrl) setArtworkUrl?.(artworkUrlResolved)
-  }, [artworkUrlResolved, artworkUrl, setArtworkUrl])
 
   return (
     <div
@@ -213,10 +153,7 @@ export const SoundcloudPlayer = ({
       >
         {trackInfo && (
           <>
-            <PlayPauseButton
-              isPlaying={isPlaying}
-              onClick={() => widgetRef.current?.toggle()}
-            />
+            <PlayPauseButton isPlaying={isPlaying} onClick={toggle} />
             <StatsAndLink url={url} trackInfo={trackInfo} />
           </>
         )}
