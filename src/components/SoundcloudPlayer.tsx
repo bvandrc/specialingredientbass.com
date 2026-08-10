@@ -16,6 +16,7 @@ import classNames from 'classnames'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { TrackInfo } from 'soundcloud-widget'
 import SoundcloudWidget from 'soundcloud-widget'
+import { SC_PLAYER_HEIGHT } from '../api/soundcloud'
 import { setSearchParams } from '../utils/api-utils'
 import { htmlToElement } from '../utils/html-utils'
 
@@ -206,6 +207,7 @@ export const SoundcloudPlayer = ({
             id={id}
             title={title}
             src={iframeUrl.href}
+            height={SC_PLAYER_HEIGHT}
             scrolling="no"
             allow="autoplay; encrypted-media"
             className={classNames(

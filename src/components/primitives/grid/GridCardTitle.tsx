@@ -2,7 +2,6 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 
-/** Heading wraps the button, per the ARIA accordion pattern — a button can't contain a heading. */
 export const GridCardTitle = ({
   title,
   isOpen,

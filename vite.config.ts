@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
-import { getOEmbed } from './src/api/soundcloud'
+import { getOEmbed, SC_PLAYER_HEIGHT } from './src/api/soundcloud'
 
 const SC_DATA_FILE = 'soundcloud-data.json'
 
@@ -18,7 +18,11 @@ try {
   const scTracks = await Promise.all(
     scUrls.map(async (url) => ({
       originalLink: url,
-      ...(await getOEmbed({ url, maxheight: 166, auto_play: false })),
+      ...(await getOEmbed({
+        url,
+        maxheight: SC_PLAYER_HEIGHT,
+        auto_play: false,
+      })),
     })),
   )
   const contents = `${JSON.stringify(scTracks, null, 2)}\n`
