@@ -29,9 +29,3 @@ export const scrollElement = (
     behavior: 'smooth',
   })
 }
-
-export const htmlToElement = (html: string) => {
-  const template = document.createElement('template')
-  template.innerHTML = html.trim()
-  return template.content.firstChild
-}

@@ -108,7 +108,7 @@ export const SoundcloudTrack = ({
       <div className="clear-left">
         <SoundcloudPlayer
           url={url}
-          html={info.html}
+          iframeSrc={info.iframeSrc}
           title={title}
           setAlbumArtUrl={setAlbumArtUrl}
           onPlayToggle={onPlayToggle}

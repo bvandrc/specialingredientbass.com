@@ -18,11 +18,10 @@ import type { TrackInfo } from 'soundcloud-widget'
 import SoundcloudWidget from 'soundcloud-widget'
 import { SC_PLAYER_HEIGHT } from '../api/soundcloud'
 import { setSearchParams } from '../utils/api-utils'
-import { htmlToElement } from '../utils/html-utils'
 
 export interface SoundcloudPlayerProps {
   url: string
-  html: string
+  iframeSrc: string
   title: string
   className?: string
   setAlbumArtUrl?: (url: string) => void
@@ -107,7 +106,7 @@ const StatsAndLink = ({
 
 export const SoundcloudPlayer = ({
   url,
-  html,
+  iframeSrc,
   title,
   className,
   setAlbumArtUrl,
@@ -121,9 +120,7 @@ export const SoundcloudPlayer = ({
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
 
   const iframeUrl = useMemo(() => {
-    // The embed HTML is only useful for the widget URL it points at.
-    const iframeElTemp = htmlToElement(html) as HTMLIFrameElement
-    const iframeUrl_ = new URL(iframeElTemp.src)
+    const iframeUrl_ = new URL(iframeSrc)
     setSearchParams(iframeUrl_, {
       auto_play: false,
       hide_related: true,
@@ -135,7 +132,7 @@ export const SoundcloudPlayer = ({
       show_artwork: false,
     })
     return iframeUrl_
-  }, [html])
+  }, [iframeSrc])
 
   useEffect(() => {
     const iframe = iframeRef.current

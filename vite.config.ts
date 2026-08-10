@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
-import { getOEmbed, SC_PLAYER_HEIGHT } from './src/api/soundcloud'
+import { getIframeSrc, getOEmbed, SC_PLAYER_HEIGHT } from './src/api/soundcloud'
 
 const SC_DATA_FILE = 'soundcloud-data.json'
 
@@ -13,14 +13,18 @@ const scUrlMatches = gridCardDataCode
 const scUrls = Array.from(scUrlMatches).map((m) => m[0])
 
 const scTracks = await Promise.all(
-  scUrls.map(async (url) => ({
-    originalLink: url,
-    ...(await getOEmbed({
+  scUrls.map(async (url) => {
+    const oEmbed = await getOEmbed({
       url,
       maxheight: SC_PLAYER_HEIGHT,
       auto_play: false,
-    })),
-  })),
+    })
+    return {
+      originalLink: url,
+      iframeSrc: getIframeSrc(oEmbed.html),
+      ...oEmbed,
+    }
+  }),
 )
 const contents = `${JSON.stringify(scTracks, null, 2)}\n`
 // avoid a no-op write, which would retrigger the dev server's config reload
