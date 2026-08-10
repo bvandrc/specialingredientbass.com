@@ -206,8 +206,6 @@ export const SoundcloudPlayer = ({
             id={id}
             title={title}
             src={iframeUrl.href}
-            // the grid renders one iframe per mix; only fetch what's on screen
-            loading="lazy"
             scrolling="no"
             allow="autoplay; encrypted-media"
             className={classNames(
