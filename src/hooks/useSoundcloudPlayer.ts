@@ -16,11 +16,10 @@ const getArtworkId = (url: string) =>
 
 /**
  * Drives one embedded SoundCloud player. Attach `iframeRef` to the iframe;
- * everything the widget knows is returned rather than reported through
- * callbacks, so a parent can render off it directly.
+ * everything the widget knows is returned.
  */
 export const useSoundcloudPlayer = ({
-  /** Artwork to show until the widget reports different artwork. */
+  /** Artwork to show; the widget's is used only if it's different. */
   artworkUrl,
 }: {
   artworkUrl: string
@@ -58,7 +57,13 @@ export const useSoundcloudPlayer = ({
     return fromWidget
   }, [artworkUrl, trackInfo?.artwork_url])
 
-  const toggle = useCallback(() => widgetRef.current?.toggle(), [])
+  const togglePlayPause = useCallback(() => widgetRef.current?.toggle(), [])
 
-  return { iframeRef, trackInfo, isPlaying, artworkUrlResolved, toggle }
+  return {
+    iframeRef,
+    trackInfo,
+    isPlaying,
+    artworkUrlResolved,
+    togglePlayPause,
+  }
 }

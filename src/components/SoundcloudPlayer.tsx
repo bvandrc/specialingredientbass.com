@@ -122,7 +122,13 @@ export const SoundcloudPlayer = ({
   title,
   className,
   showArtwork = false,
-  player: { iframeRef, trackInfo, isPlaying, artworkUrlResolved, toggle },
+  player: {
+    iframeRef,
+    trackInfo,
+    isPlaying,
+    artworkUrlResolved,
+    togglePlayPause,
+  },
 }: SoundcloudPlayerProps) => {
   const id = useId()
 
@@ -153,7 +159,7 @@ export const SoundcloudPlayer = ({
       >
         {trackInfo && (
           <>
-            <PlayPauseButton isPlaying={isPlaying} onClick={toggle} />
+            <PlayPauseButton isPlaying={isPlaying} onClick={togglePlayPause} />
             <StatsAndLink url={url} trackInfo={trackInfo} />
           </>
         )}
