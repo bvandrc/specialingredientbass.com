@@ -2,29 +2,9 @@ import classNames from 'classnames'
 import { keyBy } from 'es-toolkit'
 import { useState } from 'react'
 import data from '../../soundcloud-data.json' with { type: 'json' }
-import { setSearchParams } from '../utils/api-utils'
 import { SoundcloudPlayer } from './SoundcloudPlayer'
 
 const dataByUrl = keyBy(data, (d) => d.originalLink)
-
-// Tuned against SoundcloudPlayer's crop: the widget's own layout has to match
-// what its container reveals, so changing these means revisiting that CSS.
-const WIDGET_PARAMS = {
-  auto_play: false,
-  hide_related: true,
-  show_comments: true,
-  show_user: false,
-  show_reposts: true,
-  show_teaser: false,
-  visual: false, // true = artwork behind waveform, false = artwork to left
-  show_artwork: false,
-} as const
-
-const getPlayerSrc = (iframeSrc: string) => {
-  const url = new URL(iframeSrc)
-  setSearchParams(url, WIDGET_PARAMS)
-  return url.href
-}
 
 const AlbumArt = ({
   className,
@@ -128,7 +108,7 @@ export const SoundcloudTrack = ({
       <div className="clear-left">
         <SoundcloudPlayer
           url={url}
-          iframeSrc={getPlayerSrc(info.iframeSrc)}
+          iframeSrc={info.iframeSrc}
           title={title}
           setAlbumArtUrl={setAlbumArtUrl}
           onPlayToggle={onPlayToggle}

@@ -13,10 +13,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { TrackInfo } from 'soundcloud-widget'
 import SoundcloudWidget from 'soundcloud-widget'
 import { SC_PLAYER_HEIGHT } from '../api/soundcloud'
+import { setSearchParams } from '../utils/api-utils'
 
 export interface SoundcloudPlayerProps {
   url: string
@@ -29,6 +30,19 @@ export interface SoundcloudPlayerProps {
 }
 
 const EXTERNAL_LINK_LABEL = 'This track on SoundCloud.com (new tab)'
+
+// Tuned against the crop below — the widget's own layout has to match what the
+// container reveals, so these belong to the player rather than to its callers.
+const WIDGET_PARAMS = {
+  auto_play: false,
+  hide_related: true,
+  show_comments: true,
+  show_user: false,
+  show_reposts: true,
+  show_teaser: false,
+  visual: false, // true = artwork behind waveform, false = artwork to left
+  show_artwork: false,
+} as const
 
 const PlayPauseButton = ({
   isPlaying,
@@ -118,6 +132,12 @@ export const SoundcloudPlayer = ({
   const [trackInfo, setTrackInfo] = useState<TrackInfo>()
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
 
+  const iframeUrl = useMemo(() => {
+    const iframeUrl_ = new URL(iframeSrc)
+    setSearchParams(iframeUrl_, WIDGET_PARAMS)
+    return iframeUrl_
+  }, [iframeSrc])
+
   useEffect(() => {
     const iframe = iframeRef.current
     if (!iframe) return
@@ -187,7 +207,7 @@ export const SoundcloudPlayer = ({
             ref={iframeRef}
             id={id}
             title={title}
-            src={iframeSrc}
+            src={iframeUrl.href}
             height={SC_PLAYER_HEIGHT}
             scrolling="no"
             allow="autoplay; encrypted-media"
