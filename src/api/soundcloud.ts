@@ -2,6 +2,9 @@ import { makeRequest } from '../utils/api-utils'
 
 const SC_CLIENT_ID = 'DgFeY88vapbGCcK7RrT2E33nmNQVWX82'
 
+/** Height the embed is requested at — the iframe must be sized to match, or the widget lays itself out for a different viewport. */
+export const SC_PLAYER_HEIGHT = 166
+
 export interface OEmbed {
   title: string
   thumbnail_url: string
@@ -9,6 +12,17 @@ export interface OEmbed {
   description: string
   author_name: string
   author_url: string
+}
+
+/**
+ * Pulls the player URL out of an oEmbed `html` snippet, so the browser never
+ * has to parse HTML. Throws rather than returning a half-built URL.
+ */
+export function getIframeSrc(html: string) {
+  const src = html.match(/<iframe[^>]*\ssrc="([^"]*)"/)?.[1]
+  if (!src) throw new Error(`no iframe src in oEmbed html: ${html}`)
+  // `&` is the only entity that can legally appear in a quoted attribute URL
+  return src.replaceAll('&amp;', '&')
 }
 
 export function getOEmbed(params: {

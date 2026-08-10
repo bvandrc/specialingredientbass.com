@@ -21,6 +21,12 @@
     0 0 50px --value([*]);
 }
 
+/* text-glow-heavy for SVG icons, which text-shadow doesn't reach. */
+@utility icon-glow-heavy-* {
+  filter: drop-shadow(0 0 5px --value([*])) drop-shadow(0 0 10px --value([*]))
+    drop-shadow(0 0 15px --value([*]));
+}
+
 @utility text-glow-med-* {
   text-shadow:
     0 0 5px black,

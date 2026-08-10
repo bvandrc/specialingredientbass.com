@@ -16,41 +16,61 @@ import classNames from 'classnames'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { TrackInfo } from 'soundcloud-widget'
 import SoundcloudWidget from 'soundcloud-widget'
+import { SC_PLAYER_HEIGHT } from '../api/soundcloud'
 import { setSearchParams } from '../utils/api-utils'
-import {
-  getElementProps,
-  htmlToElement,
-  triggerClick,
-} from '../utils/html-utils'
 
 export interface SoundcloudPlayerProps {
   url: string
-  html: string
+  iframeSrc: string
   title: string
   className?: string
-  setAlbumArtUrl?: (url: string) => void
   onPlayToggle?: (isPlaying: boolean) => void
-  showAlbumArt?: boolean
+  /** Seeds the artwork; replaced if the widget reports a different image. */
+  artworkUrl: string
+  /** Called with the widget's URL when it turns out to be different artwork. */
+  setArtworkUrl?: (url: string) => void
+  showArtwork?: boolean
 }
 
 const EXTERNAL_LINK_LABEL = 'This track on SoundCloud.com (new tab)'
+
+/**
+ * Artwork identity: the filename without its size suffix. oEmbed and the widget
+ * hand back different crops of the same image, and a track with no art of its
+ * own gets an `avatars-…` URL rather than `artworks-…`.
+ */
+const getArtworkId = (url: string) =>
+  url
+    .split('?')[0]
+    ?.split('/')
+    .pop()
+    ?.replace(/-[^-]+\.\w+$/, '')
+
+// Tuned against the crop below — the widget's own layout has to match what the
+// container reveals, so these belong to the player rather than to its callers.
+const WIDGET_PARAMS = {
+  auto_play: false,
+  hide_related: true,
+  show_comments: true,
+  show_user: false,
+  show_reposts: true,
+  show_teaser: false,
+  visual: false, // true = artwork behind waveform, false = artwork to left
+  show_artwork: false,
+} as const
 
 const PlayPauseButton = ({
   isPlaying,
   onClick,
 }: {
   isPlaying: boolean
-  onClick: React.MouseEventHandler<HTMLSpanElement>
-}) => (
-  // biome-ignore lint/a11y/useSemanticElements: TODO: change to button, fix css for it
-  <span
+} & Pick<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>) => (
+  <button
+    type="button"
     data-testid="soundcloud-player-play-pause-button"
     className="absolute top-1 left-0 z-1 cursor-pointer hover:saturate-160"
-    role="button"
     aria-label={isPlaying ? 'Pause' : 'Play'}
-    tabIndex={0}
     onClick={onClick}
-    onKeyDown={triggerClick}
   >
     <Icon
       className="absolute text-soundcloud bg-none text-4xl"
@@ -60,7 +80,7 @@ const PlayPauseButton = ({
       className="absolute top-1 left-1 -z-1 text-white bg-none text-3xl"
       icon={faCircle}
     />
-  </span>
+  </button>
 )
 
 const StatsAndLink = ({
@@ -114,56 +134,63 @@ const StatsAndLink = ({
 
 export const SoundcloudPlayer = ({
   url,
-  html,
+  iframeSrc,
   title,
   className,
-  setAlbumArtUrl,
   onPlayToggle,
-  showAlbumArt = false,
+  artworkUrl,
+  setArtworkUrl,
+  showArtwork = false,
 }: SoundcloudPlayerProps) => {
   const id = useId()
   const iframeRef = useRef<HTMLIFrameElement>(null)
+  const widgetRef = useRef<SoundcloudWidget | null>(null)
   const [trackInfo, setTrackInfo] = useState<TrackInfo>()
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
 
-  const [iframeProps, iframeUrl] = useMemo(() => {
-    // Parse the embed HTML to extract all iframe attributes
-    const iframeElTemp = htmlToElement(html) as HTMLIFrameElement
-    const iframeProps_ = getElementProps(iframeElTemp)
-    const iframeUrl_ = new URL(iframeElTemp.src)
-    setSearchParams(iframeUrl_, {
-      auto_play: false,
-      hide_related: true,
-      show_comments: true,
-      show_user: false,
-      show_reposts: true,
-      show_teaser: false,
-      visual: false, // true = artwork behind waveform, false = artwork to left
-      show_artwork: false,
-    })
-    return [iframeProps_, iframeUrl_]
-  }, [html])
+  // the passed URL is baked at build time and goes stale if the artwork changed
+  // since; prefer the widget's, but only when it's actually a different image
+  const artworkUrlResolved = useMemo(() => {
+    const fromWidget = trackInfo?.artwork_url
+    if (!fromWidget || getArtworkId(fromWidget) === getArtworkId(artworkUrl))
+      return artworkUrl
+    return fromWidget
+  }, [artworkUrl, trackInfo?.artwork_url])
+
+  const iframeUrl = useMemo(() => {
+    const iframeUrl_ = new URL(iframeSrc)
+    setSearchParams(iframeUrl_, WIDGET_PARAMS)
+    return iframeUrl_
+  }, [iframeSrc])
 
   useEffect(() => {
-    if (!iframeRef.current || trackInfo) return
-    const widget = new SoundcloudWidget(id)
+    const iframe = iframeRef.current
+    if (!iframe) return
+    const widget = new SoundcloudWidget(iframe)
+    widgetRef.current = widget
     widget.on(SoundcloudWidget.events.READY, () => {
       widget.getCurrentSound().then((sound) => setTrackInfo(sound))
     })
     widget.on(SoundcloudWidget.events.PLAY, () => setIsPlaying(true))
     widget.on(SoundcloudWidget.events.PAUSE, () => setIsPlaying(false))
     widget.on(SoundcloudWidget.events.FINISH, () => setIsPlaying(false))
-  }, [id, trackInfo])
+
+    // No unbind on cleanup: the widget talks to the iframe's contentWindow,
+    // which is gone by then (it throws). The listeners die with the iframe.
+    return () => {
+      widgetRef.current = null
+    }
+  }, [])
 
   useEffect(() => {
     onPlayToggle?.(isPlaying)
   }, [isPlaying, onPlayToggle])
 
+  // hand the resolved URL back up: the track renders its own artwork when
+  // showArtwork is false, and only the widget knows the artwork changed
   useEffect(() => {
-    if (trackInfo?.artwork_url) {
-      setAlbumArtUrl?.(trackInfo.artwork_url)
-    }
-  }, [trackInfo?.artwork_url, setAlbumArtUrl])
+    if (artworkUrlResolved !== artworkUrl) setArtworkUrl?.(artworkUrlResolved)
+  }, [artworkUrlResolved, artworkUrl, setArtworkUrl])
 
   return (
     <div
@@ -171,11 +198,11 @@ export const SoundcloudPlayer = ({
       className="flex gap-2"
       data-loaded={!!trackInfo}
     >
-      {showAlbumArt && trackInfo?.artwork_url && (
+      {showArtwork && artworkUrlResolved && (
         <img
-          src={trackInfo.artwork_url}
+          src={artworkUrlResolved}
           className="mb-1 rounded-xl h-20"
-          alt="album art"
+          alt="track artwork"
         />
       )}
       {/** biome-ignore lint/a11y/useSemanticElements: is fine as Div */}
@@ -188,10 +215,7 @@ export const SoundcloudPlayer = ({
           <>
             <PlayPauseButton
               isPlaying={isPlaying}
-              onClick={() => {
-                const widget = new SoundcloudWidget(id)
-                widget.toggle()
-              }}
+              onClick={() => widgetRef.current?.toggle()}
             />
             <StatsAndLink url={url} trackInfo={trackInfo} />
           </>
@@ -205,11 +229,12 @@ export const SoundcloudPlayer = ({
           )}
         >
           <iframe
-            {...iframeProps}
             ref={iframeRef}
             id={id}
             title={title}
             src={iframeUrl.href}
+            height={SC_PLAYER_HEIGHT}
+            scrolling="no"
             allow="autoplay; encrypted-media"
             className={classNames(
               'relative -top-15 -left-px w-[calc(100%+2px)]', // hide top of iframe, hide 1 px left because is not black, hide eight px because is not black

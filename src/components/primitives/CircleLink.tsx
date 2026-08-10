@@ -24,7 +24,7 @@ export const CircleLink = ({
   return href !== undefined ? (
     <a
       target="_blank"
-      tabIndex={0}
+      rel="noopener noreferrer"
       href={href}
       {...props}
       className={sharedClassName}

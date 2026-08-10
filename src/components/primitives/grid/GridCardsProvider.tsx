@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react'
 import Masonry from 'react-masonry-css'
@@ -12,9 +13,6 @@ import type { GridCardProps } from './GridCard'
 export type ExpandingRef = React.RefObject<HTMLDivElement> | undefined
 
 export type GridCardsContextValue = {
-  openIds: string[]
-  allIds: string[]
-  allowMultipleOpen: boolean
   registerCard: (id: string, opts: Pick<GridCardProps, 'initiallyOpen'>) => void
   toggleCard: (id: string) => void
   checkIsOpen: (
@@ -69,30 +67,31 @@ export function GridCardsProvider({
 
   useEffect(() => {
     if (!allowMultipleOpen) {
-      setOpenIds((prev) => (prev.length > 1 ? [prev[0]] : prev))
+      setOpenIds((prev) => (prev.length > 1 ? prev.slice(0, 1) : prev))
     }
   }, [allowMultipleOpen])
 
-  const checkIsOpen = (
-    id: string,
-    { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>,
-  ) => openIds.includes(id) || (!allIds.includes(id) && initiallyOpen)
+  const checkIsOpen = useCallback(
+    (id: string, { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) =>
+      openIds.includes(id) || (!allIds.includes(id) && initiallyOpen),
+    [openIds, allIds],
+  )
 
   const noneExpanded = openIds.length === 0 && allIds.length > 0
 
+  const value = useMemo(
+    () => ({
+      registerCard,
+      toggleCard,
+      checkIsOpen,
+      expandingRef,
+      setExpandingRef,
+    }),
+    [registerCard, toggleCard, checkIsOpen, expandingRef],
+  )
+
   return (
-    <GridCardsContext.Provider
-      value={{
-        openIds,
-        allIds,
-        allowMultipleOpen,
-        registerCard,
-        toggleCard,
-        checkIsOpen,
-        expandingRef,
-        setExpandingRef,
-      }}
-    >
+    <GridCardsContext.Provider value={value}>
       {noneExpandedInfo && noneExpanded && (
         <div data-testid="none-expanded-info">{noneExpandedInfo}</div>
       )}

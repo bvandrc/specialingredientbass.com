@@ -123,19 +123,19 @@ export const GRID_CARD_DATA: GridCardsCriteria = [
     children: [
       {
         url: 'https://soundcloud.com/special-ingredient/meduso-a-moment-vip-x-baby-bash-cyclone?in=special-ingredient/sets/mashups-flips',
-        albumArtToSide: true,
+        artworkToSide: true,
       },
       {
         url: 'https://soundcloud.com/special-ingredient/skeler-x-jojo-x-blackstreet-no-diggity-mashup?in=special-ingredient/sets/mashups-flips',
-        albumArtToSide: true,
+        artworkToSide: true,
       },
       {
         url: 'https://soundcloud.com/special-ingredient/akon-love-right-now-na-na-na-x-nit-grit-mashup?in=special-ingredient/sets/mashups-flips',
-        albumArtToSide: true,
+        artworkToSide: true,
       },
       {
         url: 'https://soundcloud.com/special-ingredient/ian-snow-revelation-x-travis-scott-kid-cudi-through-the-late-night?in=special-ingredient/sets/mashups-flips',
-        albumArtToSide: true,
+        artworkToSide: true,
       },
     ],
   },

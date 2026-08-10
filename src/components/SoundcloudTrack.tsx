@@ -4,32 +4,30 @@ import { useState } from 'react'
 import data from '../../soundcloud-data.json' with { type: 'json' }
 import { SoundcloudPlayer } from './SoundcloudPlayer'
 
-const dataByUrl = keyBy(data, (d) => d.originalLink)
+const dataByUrl = keyBy(data, (d) => d.originalUrl)
 
-const AlbumArt = ({
-  className,
-  url,
-}: {
-  className?: string
-  url: string | undefined
-}) => (
+/**
+ * oEmbed hands back the 500px crop for an 80px slot. `large` is 100px — the
+ * smallest of SoundCloud's fixed variants that still covers it.
+ */
+const transformArtworkUrl = (thumbnailUrl: string) =>
+  thumbnailUrl.replace('-t500x500.', '-large.')
+
+const Artwork = ({ className, url }: { className?: string; url: string }) => (
   <div
     className={classNames(
-      'float-left mr-2 size-20 rounded-2xl overflow-hidden max-md:size-18',
+      'float-left mr-2 size-20 rounded-2xl overflow-hidden max-md:size-18', // position/layout
+      'bg-gray-900/80', // backs the artwork while it loads
       className,
     )}
   >
-    {url ? (
-      <img
-        src={url}
-        className="w-full h-full"
-        alt="album art"
-        width={80}
-        height={80}
-      />
-    ) : (
-      <div className="w-full h-full bg-gray-900/80" />
-    )}
+    <img
+      src={url}
+      className="w-full h-full"
+      alt="track artwork"
+      width={80}
+      height={80}
+    />
   </div>
 )
 
@@ -38,7 +36,7 @@ export interface SoundcloudTrackProps {
   title?: string
   subTitle?: string
   additionalInfo?: string | React.ReactNode
-  albumArtToSide?: boolean
+  artworkToSide?: boolean
 }
 
 export const SoundcloudTrack = ({
@@ -46,13 +44,21 @@ export const SoundcloudTrack = ({
   title: _title,
   subTitle,
   additionalInfo: _additionalInfo,
-  albumArtToSide = false,
+  artworkToSide = false,
 }: SoundcloudTrackProps) => {
   const info = dataByUrl[url]
-  if (!info) throw new Error(`no info found from url ${url}`)
 
   const [isPlaying, onPlayToggle] = useState(false)
-  const [albumArtUrl, setAlbumArtUrl] = useState<string>()
+  // seeded from the build-time thumbnail; the player swaps in the widget's URL
+  // if the artwork has changed since
+  const [artworkUrl, setArtworkUrl] = useState(
+    info ? transformArtworkUrl(info.thumbnail_url) : '',
+  )
+
+  if (!info) {
+    console.error(`No SoundCloud data found for ${url}`)
+    return null
+  }
 
   const title =
     _title ??
@@ -72,7 +78,7 @@ export const SoundcloudTrack = ({
       )}
       data-testid="soundcloud-track"
     >
-      {!albumArtToSide && <AlbumArt url={albumArtUrl} />}
+      {!artworkToSide && <Artwork url={artworkUrl} />}
       <div
         className={classNames('pb-0.5', {
           'text-glow-med-[cyan]': isPlaying,
@@ -104,11 +110,12 @@ export const SoundcloudTrack = ({
       <div className="clear-left">
         <SoundcloudPlayer
           url={url}
-          html={info.html}
+          iframeSrc={info.iframeSrc}
           title={title}
-          setAlbumArtUrl={setAlbumArtUrl}
           onPlayToggle={onPlayToggle}
-          showAlbumArt={albumArtToSide}
+          artworkUrl={artworkUrl}
+          setArtworkUrl={setArtworkUrl}
+          showArtwork={artworkToSide}
         />
       </div>
     </div>

@@ -11,7 +11,7 @@
          GitHub Pages doesn't support setting. -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.sndcdn.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; frame-src https://w.soundcloud.com; object-src 'none'; base-uri 'self'; form-action 'self';"
+      content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.sndcdn.com; font-src 'self' data:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; frame-src https://w.soundcloud.com; object-src 'none'; base-uri 'self'; form-action 'self';"
     />
 
     <!-- Basic -->
@@ -21,10 +21,16 @@
     <title>Special Ingredient Bass Mixes</title>
 
     <!-- Preview -->
+    <meta property="og:type" content="website" />
     <meta property="og:title" content="Special Ingredient Bass Mixes" />
     <meta property="og:description" content="Bass mixes from the forest" />
     <meta property="og:url" content="https://specialingredientbass.com" />
-    <meta property="og:image" content="/Preview.png" />
+    <meta
+      property="og:image"
+      content="https://specialingredientbass.com/Preview.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#000000" />
 
     <!-- Icon for favorites -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
