@@ -1,6 +1,8 @@
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
+import { useId, useMemo, useRef, useState } from 'react'
+import { useResizeObserver } from 'usehooks-ts'
 import {
   isScrolledToBottom,
   isScrolledToTop,
@@ -52,7 +54,7 @@ const ScrollArrow = ({
   </button>
 )
 
-export const getArrowBtns = ({
+const getArrowBtns = ({
   scrollRegion,
   isOpen,
 }: {
@@ -89,4 +91,32 @@ export const getArrowBtns = ({
   ) : null
 
   return [UpArrow, DownArrow]
+}
+
+/** Scroll arrows for a scrollable region. Spread `scrollRegionProps` onto the element they should scroll. */
+export const useArrowBtns = ({ isOpen }: { isOpen: boolean }) => {
+  const contentRef = useRef<HTMLDivElement>(null)
+  const scrollRegionId = useId() // the arrows point at this via aria-controls
+  const { height = 0 } = useResizeObserver({
+    ref: contentRef,
+    box: 'content-box',
+  })
+  const [scrollTop, setScrollTop] = useState(0)
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: need these, but TODO: figure out how to remove
+  const [UpArrow, DownArrow] = useMemo(
+    () => getArrowBtns({ scrollRegion: contentRef.current, isOpen }),
+    [height, scrollTop, isOpen],
+  )
+
+  return {
+    UpArrow,
+    DownArrow,
+    scrollRegionProps: {
+      ref: contentRef,
+      id: scrollRegionId,
+      onScroll: (e: React.UIEvent<HTMLDivElement>) =>
+        setScrollTop(e.currentTarget.scrollTop),
+    },
+  }
 }
