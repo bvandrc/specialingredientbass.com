@@ -144,7 +144,15 @@ export const SoundcloudPlayer = ({
   const widgetRef = useRef<SoundcloudWidget | null>(null)
   const [trackInfo, setTrackInfo] = useState<TrackInfo>()
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
-  const [currentArtworkUrl, setCurrentArtworkUrl] = useState(artworkUrl)
+
+  // the passed URL is baked at build time and goes stale if the artwork changed
+  // since; prefer the widget's, but only when it's actually a different image
+  const artworkUrlResolved = useMemo(() => {
+    const fromWidget = trackInfo?.artwork_url
+    if (!fromWidget || getArtworkId(fromWidget) === getArtworkId(artworkUrl))
+      return artworkUrl
+    return fromWidget
+  }, [artworkUrl, trackInfo?.artwork_url])
 
   const iframeUrl = useMemo(() => {
     const iframeUrl_ = new URL(iframeSrc)
@@ -175,25 +183,15 @@ export const SoundcloudPlayer = ({
     onPlayToggle?.(isPlaying)
   }, [isPlaying, onPlayToggle])
 
-  // the seeded thumbnail goes stale if the artwork changed since the last build;
-  // prefer what the widget reports, but only when it's actually a different image
-  useEffect(() => {
-    const fromWidget = trackInfo?.artwork_url
-    if (!fromWidget) return
-    setCurrentArtworkUrl((current) =>
-      getArtworkId(fromWidget) === getArtworkId(current) ? current : fromWidget,
-    )
-  }, [trackInfo?.artwork_url])
-
   return (
     <div
       data-testid="soundcloud-player"
       className="flex gap-2"
       data-loaded={!!trackInfo}
     >
-      {showArtwork && currentArtworkUrl && (
+      {showArtwork && artworkUrlResolved && (
         <img
-          src={currentArtworkUrl}
+          src={artworkUrlResolved}
           className="mb-1 rounded-xl h-20"
           alt="track artwork"
         />
