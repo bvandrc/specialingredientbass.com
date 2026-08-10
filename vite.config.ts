@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
-import { getOEmbed, SC_PLAYER_HEIGHT } from './src/api/soundcloud'
+import { getIframeSrc, getOEmbed, SC_PLAYER_HEIGHT } from './src/api/soundcloud'
 
 const SC_DATA_FILE = 'soundcloud-data.json'
 
@@ -12,30 +12,24 @@ const scUrlMatches = gridCardDataCode
   .matchAll(/https:\/\/soundcloud\.com\/.*?(?=['"])/g)
 const scUrls = Array.from(scUrlMatches).map((m) => m[0])
 
-// The committed file is the fallback: a SoundCloud outage shouldn't be able to
-// break `pnpm dev`/`pnpm build`, and it's only stale until the next good run.
-try {
-  const scTracks = await Promise.all(
-    scUrls.map(async (url) => ({
+const scTracks = await Promise.all(
+  scUrls.map(async (url) => {
+    const oEmbed = await getOEmbed({
+      url,
+      maxheight: SC_PLAYER_HEIGHT,
+      auto_play: false,
+    })
+    return {
       originalLink: url,
-      ...(await getOEmbed({
-        url,
-        maxheight: SC_PLAYER_HEIGHT,
-        auto_play: false,
-      })),
-    })),
-  )
-  const contents = `${JSON.stringify(scTracks, null, 2)}\n`
-  // avoid a no-op write, which would retrigger the dev server's config reload
-  if (fs.readFileSync(SC_DATA_FILE, 'utf8') !== contents) {
-    fs.writeFileSync(SC_DATA_FILE, contents)
-  }
-} catch (error) {
-  if (!fs.existsSync(SC_DATA_FILE)) throw error
-  console.warn(
-    `[soundcloud] oEmbed fetch failed, reusing committed ${SC_DATA_FILE}:`,
-    error instanceof Error ? error.message : error,
-  )
+      iframeSrc: getIframeSrc(oEmbed.html),
+      ...oEmbed,
+    }
+  }),
+)
+const contents = `${JSON.stringify(scTracks, null, 2)}\n`
+// avoid a no-op write, which would retrigger the dev server's config reload
+if (fs.readFileSync(SC_DATA_FILE, 'utf8') !== contents) {
+  fs.writeFileSync(SC_DATA_FILE, contents)
 }
 
 export default defineConfig(() => ({

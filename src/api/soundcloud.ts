@@ -14,6 +14,17 @@ export interface OEmbed {
   author_url: string
 }
 
+/**
+ * Pulls the player URL out of an oEmbed `html` snippet, so the browser never
+ * has to parse HTML. Throws rather than returning a half-built URL.
+ */
+export function getIframeSrc(html: string) {
+  const src = html.match(/<iframe[^>]*\ssrc="([^"]*)"/)?.[1]
+  if (!src) throw new Error(`no iframe src in oEmbed html: ${html}`)
+  // `&` is the only entity that can legally appear in a quoted attribute URL
+  return src.replaceAll('&amp;', '&')
+}
+
 export function getOEmbed(params: {
   url: string
   /** @default 100% */
