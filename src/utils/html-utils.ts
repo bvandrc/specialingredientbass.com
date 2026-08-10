@@ -15,11 +15,11 @@ export const scrollElement = (
   if (!el) return
   const newScrollTop = el.scrollTop + delta
   const atTop = isScrolledToTop({ scrollTop: newScrollTop }, magnetDistance)
-  // Spreading `el` would drop scrollHeight/offsetHeight — they're prototype
-  // accessors, not own properties — so name them explicitly.
   const atBottom = isScrolledToBottom(
     {
       scrollTop: newScrollTop,
+      // NOTE: don't spread to get these, these are prototype accessors, not
+      // own properties.
       scrollHeight: el.scrollHeight,
       offsetHeight: el.offsetHeight,
     },

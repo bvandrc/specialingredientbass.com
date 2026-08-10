@@ -53,8 +53,6 @@ export const SoundcloudTrack = ({
   const [isPlaying, onPlayToggle] = useState(false)
   const [albumArtUrl, setAlbumArtUrl] = useState<string>()
 
-  // A track missing from the generated data (added while the oEmbed API was
-  // down) drops out of the grid rather than blanking the whole page.
   if (!info) {
     console.error(`No SoundCloud data found for ${url}`)
     return null

@@ -22,6 +22,9 @@ jobs:
 
       - name: Build project
         run: pnpm build
+        env:
+          # only the deployed site reports to Google Analytics
+          VITE_ENABLE_ANALYTICS: 'true'
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v7
