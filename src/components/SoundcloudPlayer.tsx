@@ -26,8 +26,8 @@ export interface SoundcloudPlayerProps {
   className?: string
   onPlayToggle?: (isPlaying: boolean) => void
   /** Seeds the artwork; replaced if the widget reports a different image. */
-  albumArtUrl: string
-  showAlbumArt?: boolean
+  artworkUrl: string
+  showArtwork?: boolean
 }
 
 const EXTERNAL_LINK_LABEL = 'This track on SoundCloud.com (new tab)'
@@ -136,15 +136,15 @@ export const SoundcloudPlayer = ({
   title,
   className,
   onPlayToggle,
-  albumArtUrl,
-  showAlbumArt = false,
+  artworkUrl,
+  showArtwork = false,
 }: SoundcloudPlayerProps) => {
   const id = useId()
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const widgetRef = useRef<SoundcloudWidget | null>(null)
   const [trackInfo, setTrackInfo] = useState<TrackInfo>()
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
-  const [artworkUrl, setArtworkUrl] = useState(albumArtUrl)
+  const [currentArtworkUrl, setCurrentArtworkUrl] = useState(artworkUrl)
 
   const iframeUrl = useMemo(() => {
     const iframeUrl_ = new URL(iframeSrc)
@@ -180,7 +180,7 @@ export const SoundcloudPlayer = ({
   useEffect(() => {
     const fromWidget = trackInfo?.artwork_url
     if (!fromWidget) return
-    setArtworkUrl((current) =>
+    setCurrentArtworkUrl((current) =>
       getArtworkId(fromWidget) === getArtworkId(current) ? current : fromWidget,
     )
   }, [trackInfo?.artwork_url])
@@ -191,11 +191,11 @@ export const SoundcloudPlayer = ({
       className="flex gap-2"
       data-loaded={!!trackInfo}
     >
-      {showAlbumArt && artworkUrl && (
+      {showArtwork && currentArtworkUrl && (
         <img
-          src={artworkUrl}
+          src={currentArtworkUrl}
           className="mb-1 rounded-xl h-20"
-          alt="album art"
+          alt="track artwork"
         />
       )}
       {/** biome-ignore lint/a11y/useSemanticElements: is fine as Div */}

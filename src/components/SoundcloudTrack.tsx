@@ -10,10 +10,10 @@ const dataByUrl = keyBy(data, (d) => d.originalUrl)
  * oEmbed hands back the 500px crop for an 80px slot. `large` is 100px — the
  * smallest of SoundCloud's fixed variants that still covers it.
  */
-const transformAlbumArtUrl = (thumbnailUrl: string) =>
+const transformArtworkUrl = (thumbnailUrl: string) =>
   thumbnailUrl.replace('-t500x500.', '-large.')
 
-const AlbumArt = ({ className, url }: { className?: string; url: string }) => (
+const Artwork = ({ className, url }: { className?: string; url: string }) => (
   <div
     className={classNames(
       'float-left mr-2 size-20 rounded-2xl overflow-hidden max-md:size-18', // position/layout
@@ -24,7 +24,7 @@ const AlbumArt = ({ className, url }: { className?: string; url: string }) => (
     <img
       src={url}
       className="w-full h-full"
-      alt="album art"
+      alt="track artwork"
       width={80}
       height={80}
     />
@@ -36,7 +36,7 @@ export interface SoundcloudTrackProps {
   title?: string
   subTitle?: string
   additionalInfo?: string | React.ReactNode
-  albumArtToSide?: boolean
+  artworkToSide?: boolean
 }
 
 export const SoundcloudTrack = ({
@@ -44,7 +44,7 @@ export const SoundcloudTrack = ({
   title: _title,
   subTitle,
   additionalInfo: _additionalInfo,
-  albumArtToSide = false,
+  artworkToSide = false,
 }: SoundcloudTrackProps) => {
   const info = dataByUrl[url]
 
@@ -73,8 +73,8 @@ export const SoundcloudTrack = ({
       )}
       data-testid="soundcloud-track"
     >
-      {!albumArtToSide && (
-        <AlbumArt url={transformAlbumArtUrl(info.thumbnail_url)} />
+      {!artworkToSide && (
+        <Artwork url={transformArtworkUrl(info.thumbnail_url)} />
       )}
       <div
         className={classNames('pb-0.5', {
@@ -110,8 +110,8 @@ export const SoundcloudTrack = ({
           iframeSrc={info.iframeSrc}
           title={title}
           onPlayToggle={onPlayToggle}
-          albumArtUrl={transformAlbumArtUrl(info.thumbnail_url)}
-          showAlbumArt={albumArtToSide}
+          artworkUrl={transformArtworkUrl(info.thumbnail_url)}
+          showArtwork={artworkToSide}
         />
       </div>
     </div>
