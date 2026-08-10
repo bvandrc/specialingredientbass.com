@@ -15,8 +15,7 @@ export const GridCardBody = ({
   } & Pick<GridCardsContextValue, 'expandingRef' | 'setExpandingRef'>
 >) => {
   const contentRef = useRef<HTMLDivElement>(null)
-  // the scroll arrows point at this via aria-controls
-  const scrollRegionId = useId()
+  const scrollRegionId = useId() // the scroll arrows point at this via aria-controls
 
   const { height = 0 } = useResizeObserver({
     ref: contentRef,
