@@ -49,6 +49,11 @@ export const SoundcloudTrack = ({
   const info = dataByUrl[url]
 
   const [isPlaying, onPlayToggle] = useState(false)
+  // seeded from the build-time thumbnail; the player swaps in the widget's URL
+  // if the artwork has changed since
+  const [artworkUrl, setArtworkUrl] = useState(
+    info ? transformArtworkUrl(info.thumbnail_url) : '',
+  )
 
   if (!info) {
     console.error(`No SoundCloud data found for ${url}`)
@@ -73,9 +78,7 @@ export const SoundcloudTrack = ({
       )}
       data-testid="soundcloud-track"
     >
-      {!artworkToSide && (
-        <Artwork url={transformArtworkUrl(info.thumbnail_url)} />
-      )}
+      {!artworkToSide && <Artwork url={artworkUrl} />}
       <div
         className={classNames('pb-0.5', {
           'text-glow-med-[cyan]': isPlaying,
@@ -110,7 +113,8 @@ export const SoundcloudTrack = ({
           iframeSrc={info.iframeSrc}
           title={title}
           onPlayToggle={onPlayToggle}
-          artworkUrl={transformArtworkUrl(info.thumbnail_url)}
+          artworkUrl={artworkUrl}
+          setArtworkUrl={setArtworkUrl}
           showArtwork={artworkToSide}
         />
       </div>

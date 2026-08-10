@@ -27,6 +27,8 @@ export interface SoundcloudPlayerProps {
   onPlayToggle?: (isPlaying: boolean) => void
   /** Seeds the artwork; replaced if the widget reports a different image. */
   artworkUrl: string
+  /** Called with the widget's URL when it turns out to be different artwork. */
+  setArtworkUrl?: (url: string) => void
   showArtwork?: boolean
 }
 
@@ -137,6 +139,7 @@ export const SoundcloudPlayer = ({
   className,
   onPlayToggle,
   artworkUrl,
+  setArtworkUrl,
   showArtwork = false,
 }: SoundcloudPlayerProps) => {
   const id = useId()
@@ -182,6 +185,12 @@ export const SoundcloudPlayer = ({
   useEffect(() => {
     onPlayToggle?.(isPlaying)
   }, [isPlaying, onPlayToggle])
+
+  // hand the resolved URL back up: the track renders its own artwork when
+  // showArtwork is false, and only the widget knows the artwork changed
+  useEffect(() => {
+    if (artworkUrlResolved !== artworkUrl) setArtworkUrl?.(artworkUrlResolved)
+  }, [artworkUrlResolved, artworkUrl, setArtworkUrl])
 
   return (
     <div
