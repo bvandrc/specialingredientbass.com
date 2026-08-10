@@ -21,7 +21,7 @@ const scTracks = await Promise.all(
       auto_play: false,
     })
     return {
-      originalLink: url,
+      originalUrl: url,
       iframeSrc: getIframeSrc(oEmbed.html),
       // the rest of the oEmbed response is unused, and this file ships in the bundle
       ...pick(oEmbed, ['title', 'description']),

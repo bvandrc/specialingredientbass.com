@@ -4,7 +4,7 @@ import { useState } from 'react'
 import data from '../../soundcloud-data.json' with { type: 'json' }
 import { SoundcloudPlayer } from './SoundcloudPlayer'
 
-const dataByUrl = keyBy(data, (d) => d.originalLink)
+const dataByUrl = keyBy(data, (d) => d.originalUrl)
 
 const AlbumArt = ({
   className,
