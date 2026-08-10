@@ -24,9 +24,9 @@ export interface SoundcloudPlayerProps {
   iframeSrc: string
   title: string
   className?: string
-  setAlbumArtUrl?: (url: string) => void
   onPlayToggle?: (isPlaying: boolean) => void
-  showAlbumArt?: boolean
+  /** Renders artwork beside the player when set. */
+  albumArtUrl?: string
 }
 
 const EXTERNAL_LINK_LABEL = 'This track on SoundCloud.com (new tab)'
@@ -122,9 +122,8 @@ export const SoundcloudPlayer = ({
   iframeSrc,
   title,
   className,
-  setAlbumArtUrl,
   onPlayToggle,
-  showAlbumArt = false,
+  albumArtUrl,
 }: SoundcloudPlayerProps) => {
   const id = useId()
   const iframeRef = useRef<HTMLIFrameElement>(null)
@@ -161,21 +160,15 @@ export const SoundcloudPlayer = ({
     onPlayToggle?.(isPlaying)
   }, [isPlaying, onPlayToggle])
 
-  useEffect(() => {
-    if (trackInfo?.artwork_url) {
-      setAlbumArtUrl?.(trackInfo.artwork_url)
-    }
-  }, [trackInfo?.artwork_url, setAlbumArtUrl])
-
   return (
     <div
       data-testid="soundcloud-player"
       className="flex gap-2"
       data-loaded={!!trackInfo}
     >
-      {showAlbumArt && trackInfo?.artwork_url && (
+      {albumArtUrl && (
         <img
-          src={trackInfo.artwork_url}
+          src={albumArtUrl}
           className="mb-1 rounded-xl h-20"
           alt="album art"
         />

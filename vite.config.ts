@@ -24,7 +24,7 @@ const scTracks = await Promise.all(
       originalUrl: url,
       iframeSrc: getIframeSrc(oEmbed.html),
       // the rest of the oEmbed response is unused, and this file ships in the bundle
-      ...pick(oEmbed, ['title', 'description']),
+      ...pick(oEmbed, ['title', 'description', 'thumbnail_url']),
     }
   }),
 )

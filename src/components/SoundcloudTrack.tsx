@@ -6,30 +6,21 @@ import { SoundcloudPlayer } from './SoundcloudPlayer'
 
 const dataByUrl = keyBy(data, (d) => d.originalUrl)
 
-const AlbumArt = ({
-  className,
-  url,
-}: {
-  className?: string
-  url: string | undefined
-}) => (
+const AlbumArt = ({ className, url }: { className?: string; url: string }) => (
   <div
     className={classNames(
-      'float-left mr-2 size-20 rounded-2xl overflow-hidden max-md:size-18',
+      'float-left mr-2 size-20 rounded-2xl overflow-hidden max-md:size-18', // position/layout
+      'bg-gray-900/80', // backs the artwork while it loads
       className,
     )}
   >
-    {url ? (
-      <img
-        src={url}
-        className="w-full h-full"
-        alt="album art"
-        width={80}
-        height={80}
-      />
-    ) : (
-      <div className="w-full h-full bg-gray-900/80" />
-    )}
+    <img
+      src={url}
+      className="w-full h-full"
+      alt="album art"
+      width={80}
+      height={80}
+    />
   </div>
 )
 
@@ -51,7 +42,6 @@ export const SoundcloudTrack = ({
   const info = dataByUrl[url]
 
   const [isPlaying, onPlayToggle] = useState(false)
-  const [albumArtUrl, setAlbumArtUrl] = useState<string>()
 
   if (!info) {
     console.error(`No SoundCloud data found for ${url}`)
@@ -67,6 +57,8 @@ export const SoundcloudTrack = ({
 
   const addlInfo =
     _additionalInfo === 'GET_FROM_SC' ? info.description : _additionalInfo
+
+  const albumArtUrl = info.thumbnail_url
 
   return (
     <div
@@ -110,9 +102,8 @@ export const SoundcloudTrack = ({
           url={url}
           iframeSrc={info.iframeSrc}
           title={title}
-          setAlbumArtUrl={setAlbumArtUrl}
           onPlayToggle={onPlayToggle}
-          showAlbumArt={albumArtToSide}
+          albumArtUrl={albumArtToSide ? albumArtUrl : undefined}
         />
       </div>
     </div>
