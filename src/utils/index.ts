@@ -1,6 +1,19 @@
 import { type ClassValue, clsx } from 'clsx'
-import { identity, keyBy, mapValues } from 'es-toolkit'
 import { extendTailwindMerge, validators } from 'tailwind-merge'
+
+/**
+ * Creates a Record mapping each key to the same value.
+ * Pass `as const` for object values to get readonly inference and
+ * avoid accidental shared-mutation bugs.
+ */
+export const createObject = <const Keys extends readonly string[], Value>(
+  keys: Keys,
+  genValue: (key: Keys[number]) => Value
+) =>
+  Object.fromEntries(keys.map((key) => [key, genValue(key)])) as Record<
+    Keys[number],
+    Value
+  >
 
 /**
  * The custom utilities from `src/styles/index.css` need their own class groups:
@@ -19,7 +32,7 @@ type CustomClassGroupId = (typeof CUSTOM_UTILITIES)[number]
 
 const twMerge = extendTailwindMerge<CustomClassGroupId>({
   extend: {
-    classGroups: mapValues(keyBy(CUSTOM_UTILITIES, identity), (name) => [
+    classGroups: createObject(CUSTOM_UTILITIES, (name) => [
       { [name]: [validators.isArbitraryValue] },
     ]),
   },
