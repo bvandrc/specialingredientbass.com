@@ -1,4 +1,5 @@
 import { devices, expect, type Locator, test } from '@playwright/test'
+
 import { SELECTORS } from '../support/constants/selectors'
 
 // `defaultBrowserType` is worker-scoped, so Playwright rejects it inside a

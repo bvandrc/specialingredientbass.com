@@ -1,5 +1,6 @@
 import { pick } from 'es-toolkit'
 import fs from 'vite-plugin-fs/browser'
+
 import { sdk } from './spotify'
 
 const { display_name } = await sdk.currentUser.profile()

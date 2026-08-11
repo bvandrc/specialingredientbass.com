@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import ReactGA from 'react-ga4'
+
 import { App } from './App'
 
 // Set only by the deploy workflow. `import.meta.env.PROD` won't do: CI builds

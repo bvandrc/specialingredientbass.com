@@ -1,5 +1,6 @@
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
+
 import { GRID_CARD_DATA } from '@/data/grid-card-data'
 import { useIsMobile } from '@/hooks/useMobile'
 import { cn } from '@/utils'

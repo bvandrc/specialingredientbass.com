@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { pick } from 'es-toolkit'
 import { defineConfig } from 'vite'
+
 import { getIframeSrc, getOEmbed, SC_PLAYER_HEIGHT } from './src/api/soundcloud'
 
 const SC_DATA_FILE = 'soundcloud-data.json'
