@@ -1,4 +1,3 @@
-import classNames from 'classnames'
 import {
   type PropsWithChildren,
   useCallback,
@@ -7,6 +6,7 @@ import {
   useLayoutEffect,
   useRef,
 } from 'react'
+import { cn } from '../../../utils/cn'
 import { GridCardBody } from './GridCardBody'
 import { useGridCards } from './GridCardsProvider'
 import { GridCardTitle } from './GridCardTitle'
@@ -70,7 +70,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   return (
     <section
       data-testid="grid-card"
-      className={classNames(
+      className={cn(
         'flex flex-col relative max-h-[calc(100dvh-10em)] mb-4 overflow-hidden', // layout
         'rounded-2xl border-solid border-1 border-[darkslateblue] inset-ring-1 inset-ring-[darkslateblue]', // appearance
         'max-md:max-h-[calc(100dvh-4em)] max-md:border-0 max-md:inset-ring-0 max-md:my-3 max-md:mx-1.5', // mobile

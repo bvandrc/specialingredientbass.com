@@ -1,7 +1,7 @@
-import classNames from 'classnames'
 import { keyBy } from 'es-toolkit'
 import data from '../../soundcloud-data.json' with { type: 'json' }
 import { useSoundcloudPlayer } from '../hooks/useSoundcloudPlayer'
+import { cn } from '../utils/cn'
 import { SoundcloudPlayer } from './SoundcloudPlayer'
 
 const dataByUrl = keyBy(data, (d) => d.originalUrl)
@@ -15,7 +15,7 @@ const transformArtworkUrl = (thumbnailUrl: string) =>
 
 const Artwork = ({ className, url }: { className?: string; url: string }) => (
   <div
-    className={classNames(
+    className={cn(
       'float-left mr-2 size-20 rounded-2xl overflow-hidden max-md:size-18', // position/layout
       'bg-gray-900/80', // backs the artwork while it loads
       className,
@@ -72,7 +72,7 @@ export const SoundcloudTrack = ({
 
   return (
     <div
-      className={classNames(
+      className={cn(
         'relative mx-3 my-1 rounded-xl font-[Outfit]',
         isPlaying && 'custom-shadow-[cyan]',
       )}
@@ -80,7 +80,7 @@ export const SoundcloudTrack = ({
     >
       {!artworkToSide && <Artwork url={artworkUrlResolved} />}
       <div
-        className={classNames('pb-0.5', {
+        className={cn('pb-0.5', {
           'text-glow-med-[cyan]': isPlaying,
         })}
       >

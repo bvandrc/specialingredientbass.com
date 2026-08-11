@@ -1,6 +1,6 @@
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import classNames from 'classnames'
+import { cn } from '../../../utils/cn'
 
 export const GridCardTitle = ({
   title,
@@ -16,7 +16,7 @@ export const GridCardTitle = ({
     <button
       type="button"
       data-testid="grid-card-title"
-      className={classNames(
+      className={cn(
         'flex items-center justify-center relative top-0 w-full p-1', // position, layout
         'font-[Roboto_Condensed] bg-[darkslateblue] cursor-pointer rounded-b-2xl', // appearance
         'hover:custom-shadow-[cyan] hover:text-glow-heavy-[darkcyan]', // hover glow
@@ -30,7 +30,7 @@ export const GridCardTitle = ({
         data-testid="grid-card-title-collapse-caret"
         size="lg"
         icon={faCaretDown}
-        className={classNames(
+        className={cn(
           'absolute right-4 select-none', // position, appearance
           'transition-transform duration-200 ease-linear', //animation
           isOpen ? 'rotate-180' : 'rotate-360',

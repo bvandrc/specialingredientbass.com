@@ -1,8 +1,8 @@
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import classNames from 'classnames'
 import { useId, useMemo, useRef, useState } from 'react'
 import { useResizeObserver } from 'usehooks-ts'
+import { cn } from '../../../utils/cn'
 import {
   isScrolledToBottom,
   isScrolledToTop,
@@ -29,7 +29,7 @@ const ScrollArrow = ({
   <button
     type="button"
     data-testid={`${direction}-arrow`}
-    className={classNames(
+    className={cn(
       // w-fit so the button hugs the icon: FontAwesome's own svg rules win
       // over width/height utilities, so sizing the button instead would
       // scale the pill without scaling the caret.

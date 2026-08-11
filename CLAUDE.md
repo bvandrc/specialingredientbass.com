@@ -48,7 +48,8 @@ https://github.com/bvandrc/bvandrc-conventions — follow all of them:
 
 - **Package manager**: pnpm. `npm install` writes a competing `package-lock.json` that CI ignores.
 - **package.json**: Key order is enforced in CI by `bvandrc/lint-package-json`. Adding a field in the wrong place fails the lint job.
-- **Conditional classes**: `classNames` from `classnames`. There is no `cn`/`clsx` helper — don't add one.
+- **Conditional classes**: `cn` from `src/utils/cn.ts` (clsx +
+  tailwind-merge). Don't import `clsx` or `classnames` directly.
 - **Theme and custom utilities**: Tailwind v4 with no `tailwind.config.js` —
   the brand colors (`--color-soundcloud`, `--color-instagram`, …) and the
   custom utilities (`text-glow-heavy-*`, `text-glow-med-*`, `custom-shadow-*`)
