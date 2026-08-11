@@ -28,9 +28,7 @@ const CUSTOM_UTILITIES = [
   'custom-shadow',
 ] as const
 
-type CustomClassGroupId = (typeof CUSTOM_UTILITIES)[number]
-
-const twMerge = extendTailwindMerge<CustomClassGroupId>({
+const twMerge = extendTailwindMerge<(typeof CUSTOM_UTILITIES)[number]>({
   extend: {
     classGroups: createObject(CUSTOM_UTILITIES, (name) => [
       { [name]: [validators.isArbitraryValue] },
