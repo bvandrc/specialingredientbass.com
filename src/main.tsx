@@ -13,5 +13,5 @@ if (import.meta.env.VITE_ENABLE_ANALYTICS === 'true') {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
-  </StrictMode>,
+  </StrictMode>
 )

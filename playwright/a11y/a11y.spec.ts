@@ -14,12 +14,12 @@ test('Home page', async ({ page }) => {
 
   // SoundCloud players render in the mix grid
   await expect(
-    page.locator(SELECTORS.SOUNDCLOUD.PLAYER.SELF).first(),
+    page.locator(SELECTORS.SOUNDCLOUD.PLAYER.SELF).first()
   ).toBeVisible({ timeout: 15_000 })
   await checkA11y(page)
 
   await expect(
-    page.locator(SELECTORS.SOUNDCLOUD.PLAYER.PLAY_PAUSE_BUTTON).first(),
+    page.locator(SELECTORS.SOUNDCLOUD.PLAYER.PLAY_PAUSE_BUTTON).first()
   ).toBeAttached({ timeout: 15_000 })
   await checkA11y(page)
 
@@ -28,7 +28,7 @@ test('Home page', async ({ page }) => {
     await firstCardTitle.click()
     await expect(firstCardTitle).toHaveAttribute(
       'aria-expanded',
-      wasExpanded === 'true' ? 'false' : 'true',
+      wasExpanded === 'true' ? 'false' : 'true'
     )
     // TODO: wait for toggled
     await checkA11y(page)

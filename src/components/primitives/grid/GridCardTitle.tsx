@@ -20,11 +20,10 @@ export const GridCardTitle = ({
         'flex items-center justify-center relative top-0 w-full p-1', // position, layout
         'font-[Roboto_Condensed] bg-[darkslateblue] cursor-pointer rounded-b-2xl', // appearance
         'hover:custom-shadow-[cyan] hover:text-glow-heavy-[darkcyan]', // hover glow
-        'max-md:py-2', // mobile
+        'max-md:py-2' // mobile
       )}
       aria-expanded={isOpen}
-      onClick={onClick}
-    >
+      onClick={onClick}>
       <span className="mx-5 text-center text-2xl font-bold">{title}</span>
       <Icon
         data-testid="grid-card-title-collapse-caret"
@@ -33,7 +32,7 @@ export const GridCardTitle = ({
         className={cn(
           'absolute right-4 select-none', // position, appearance
           'transition-transform duration-200 ease-linear', //animation
-          isOpen ? 'rotate-180' : 'rotate-360',
+          isOpen ? 'rotate-180' : 'rotate-360'
         )}
         aria-hidden
       />

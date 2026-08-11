@@ -17,7 +17,7 @@ export const CircleLink = ({
 }: CircleLinkProps) => {
   const sharedClassName = cn(
     'rounded-full flex justify-center items-center', // make a circle and center the icon
-    className,
+    className
   )
   const inner = <Icon icon={icon} />
 
@@ -27,8 +27,7 @@ export const CircleLink = ({
       rel="noopener noreferrer"
       href={href}
       {...props}
-      className={sharedClassName}
-    >
+      className={sharedClassName}>
       {inner}
     </a>
   ) : (

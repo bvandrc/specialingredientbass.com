@@ -16,12 +16,12 @@ if (!SPOTIFY_CLIENT_ID || !SPOTIFY_CLIENT_SECRET || !SPOTIFY_REDIRECT_URI)
 const sdk = SpotifyApi.withUserAuthorization(
   SPOTIFY_CLIENT_ID,
   SPOTIFY_REDIRECT_URI,
-  SCOPES,
+  SCOPES
 )
 
 async function getPaginatedItems<T>(
   this: SpotifyApi,
-  func: () => Promise<Page<T>>,
+  func: () => Promise<Page<T>>
 ): Promise<T[]> {
   let response = await func()
 

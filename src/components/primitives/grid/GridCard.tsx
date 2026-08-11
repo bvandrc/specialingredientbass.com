@@ -73,11 +73,10 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
       className={cn(
         'flex flex-col relative max-h-[calc(100dvh-10em)] mb-4 overflow-hidden', // layout
         'rounded-2xl border-solid border-1 border-[darkslateblue] inset-ring-1 inset-ring-[darkslateblue]', // appearance
-        'max-md:max-h-[calc(100dvh-4em)] max-md:border-0 max-md:inset-ring-0 max-md:my-3 max-md:mx-1.5', // mobile
+        'max-md:max-h-[calc(100dvh-4em)] max-md:border-0 max-md:inset-ring-0 max-md:my-3 max-md:mx-1.5' // mobile
       )}
       aria-labelledby={titleId}
-      ref={cardRef}
-    >
+      ref={cardRef}>
       <GridCardTitle
         title={title}
         isOpen={isOpen}
@@ -87,8 +86,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
       <GridCardBody
         isOpen={isOpen}
         expandingRef={expandingRef}
-        setExpandingRef={setExpandingRef}
-      >
+        setExpandingRef={setExpandingRef}>
         {children}
       </GridCardBody>
     </section>

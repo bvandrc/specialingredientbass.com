@@ -15,12 +15,10 @@ export const GridBody = ({
     <main
       data-testid="grid-body"
       className="mx-auto w-full"
-      aria-label={ariaLabel}
-    >
+      aria-label={ariaLabel}>
       <GridCardsProvider
         allowMultipleOpen={!isMobile}
-        noneExpandedInfo={noneExpandedInfo}
-      >
+        noneExpandedInfo={noneExpandedInfo}>
         {children}
       </GridCardsProvider>
     </main>

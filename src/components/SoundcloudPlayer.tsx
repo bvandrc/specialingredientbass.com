@@ -54,8 +54,7 @@ const PlayPauseButton = ({
     data-testid="soundcloud-player-play-pause-button"
     className="absolute top-1 left-0 z-1 cursor-pointer hover:saturate-160"
     aria-label={isPlaying ? 'Pause' : 'Play'}
-    onClick={onClick}
-  >
+    onClick={onClick}>
     <Icon
       className="absolute text-soundcloud bg-none text-4xl"
       icon={isPlaying ? faPauseCircle : faPlayCircle}
@@ -79,9 +78,8 @@ const StatsAndLink = ({
       data-testid="soundcloud-player-stats"
       className={cn(
         'px-1 py-0.5 inline-flex mb-1 gap-2', // position/layout
-        'text-sm text-gray-400 rounded bg-black/60', // appearance
-      )}
-    >
+        'text-sm text-gray-400 rounded bg-black/60' // appearance
+      )}>
       {(
         [
           { icon: faPlay, key: 'playback_count' },
@@ -102,14 +100,13 @@ const StatsAndLink = ({
       data-testid="soundcloud-player-sc-link"
       className={cn(
         'px-1 py-0.5 inline-flex gap-1', // position/layout
-        'text-soundcloud! font-bold text-base rounded outline-1 outline-soundcloud pointer-events-auto bg-black/55 brightness-85 saturate-95 hover:filter-none', // appearance
+        'text-soundcloud! font-bold text-base rounded outline-1 outline-soundcloud pointer-events-auto bg-black/55 brightness-85 saturate-95 hover:filter-none' // appearance
       )}
       href={url}
       target="_blank"
       title={EXTERNAL_LINK_LABEL}
       aria-label={EXTERNAL_LINK_LABEL}
-      rel="noopener"
-    >
+      rel="noopener">
       <Icon icon={faSoundcloud} />
       <Icon icon={faExternalLink} />
     </a>
@@ -142,8 +139,7 @@ export const SoundcloudPlayer = ({
     <div
       data-testid="soundcloud-player"
       className="flex gap-2"
-      data-loaded={!!trackInfo}
-    >
+      data-loaded={!!trackInfo}>
       {showArtwork && artworkUrlResolved && (
         <img
           src={artworkUrlResolved}
@@ -155,8 +151,7 @@ export const SoundcloudPlayer = ({
       <div
         className="relative flex items-center w-full"
         role="group"
-        aria-label="soundcloud player"
-      >
+        aria-label="soundcloud player">
         {trackInfo && (
           <>
             <PlayPauseButton isPlaying={isPlaying} onClick={togglePlayPause} />
@@ -167,10 +162,9 @@ export const SoundcloudPlayer = ({
           className={cn(
             'relative w-full rounded-2xl',
             'h-20 overflow-hidden', // Hide bottom of iframe , hide excess iframe
-            className,
+            className
             // NOTE: increase h on hover or playing to slide up if can't see comments
-          )}
-        >
+          )}>
           <iframe
             ref={iframeRef}
             id={id}
@@ -182,7 +176,7 @@ export const SoundcloudPlayer = ({
             className={cn(
               'relative -top-15 -left-px w-[calc(100%+2px)]', // hide top of iframe, hide 1 px left because is not black, hide eight px because is not black
               'invert hue-rotate-180', // invert colors to be white-on-black
-              className,
+              className
             )}
           />
         </div>

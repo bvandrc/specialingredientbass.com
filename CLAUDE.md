@@ -54,13 +54,6 @@ https://github.com/bvandrc/bvandrc-conventions — follow all of them:
   custom utilities (`text-glow-heavy-*`, `text-glow-med-*`, `custom-shadow-*`)
   live in `src/styles/index.css`. Reuse those rather than writing a one-off
   `text-shadow` or `box-shadow`, and add new tokens to the same file.
-- **Linting and formatting**: Biome is the linter *and* formatter — no
-  eslint/prettier here. Style is single quotes, no semicolons, 2-space indent,
-  80 columns — don't hand-format. Notable rules that are errors:
-  `noFloatingPromises`,
-  `noImportCycles`, `noShadow`, `noUndeclaredDependencies`, `noTsIgnore` — fix
-  the cause, don't suppress. Where a suppression is genuinely warranted,
-  `biome-ignore <rule>: <reason>` requires the reason.
 - **Security headers**: The `preview.headers` block in `vite.config.ts` is what
   keeps CI's ZAP baseline scan green — GitHub Pages can't set response headers,
   so it has no production effect, but don't drop it.

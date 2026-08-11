@@ -10,8 +10,8 @@ const expectExpandedStates = async (titles: Locator, states: boolean[]) => {
   await expect(titles).toHaveCount(states.length)
   await Promise.all(
     states.map((isOpen, i) =>
-      expect(titles.nth(i)).toHaveAttribute('aria-expanded', String(isOpen)),
-    ),
+      expect(titles.nth(i)).toHaveAttribute('aria-expanded', String(isOpen))
+    )
   )
 }
 
@@ -33,7 +33,7 @@ test.describe('grid cards', () => {
     test('cards start expanded and toggle independently', async ({ page }) => {
       await expectExpandedStates(
         page.locator(CARD_TITLE),
-        Array(cardCount).fill(true),
+        Array(cardCount).fill(true)
       )
       await expect(page.locator(MIXES_PROMPT)).toBeHidden()
 
@@ -52,7 +52,7 @@ test.describe('grid cards', () => {
         }
         await expectExpandedStates(
           page.locator(CARD_TITLE),
-          Array(cardCount).fill(false),
+          Array(cardCount).fill(false)
         )
         await expect(page.locator(MIXES_PROMPT)).toBeVisible()
       })
@@ -67,7 +67,7 @@ test.describe('grid cards', () => {
     }) => {
       await expectExpandedStates(
         page.locator(CARD_TITLE),
-        Array(cardCount).fill(false),
+        Array(cardCount).fill(false)
       )
       await expect(page.locator(MIXES_PROMPT)).toBeVisible()
 

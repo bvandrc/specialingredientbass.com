@@ -34,7 +34,7 @@ const ScrollArrow = ({
       // over width/height utilities, so sizing the button instead would
       // scale the pill without scaling the caret.
       'm-auto absolute left-0 right-0 z-10 flex w-fit', // position/layout
-      'bg-[darkslateblue] opacity-80 rounded-lg cursor-pointer select-none', // appearance
+      'bg-[darkslateblue] opacity-80 rounded-lg cursor-pointer select-none' // appearance
     )}
     aria-label={`Scroll ${direction}`}
     aria-controls={scrollRegion.id}
@@ -44,8 +44,7 @@ const ScrollArrow = ({
         magnetDistance: SCROLL_ARROW.magnetDistance,
       })
     }
-    {...props}
-  >
+    {...props}>
     <Icon
       size="2x"
       icon={direction === 'up' ? faCaretUp : faCaretDown}
@@ -76,11 +75,11 @@ export const useArrowBtns = ({ isOpen }: { isOpen: boolean }) => {
 
     const showUpArrow = !isScrolledToTop(
       scrollRegion,
-      SCROLL_ARROW.showThreshold,
+      SCROLL_ARROW.showThreshold
     )
     const showDownArrow = !isScrolledToBottom(
       scrollRegion,
-      SCROLL_ARROW.showThreshold,
+      SCROLL_ARROW.showThreshold
     )
 
     const upArrow = showUpArrow ? (

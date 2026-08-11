@@ -13,7 +13,7 @@ import { CircleLink } from './primitives/CircleLink'
 const SOCIAL_LINK = cn(
   'size-11 text-2xl', // general appearance
   '[background-image:linear-gradient(rgb(0_0_0/30%)_0_0)]', //dull the colors when not hovered
-  'hover:[background-image:none] hover:shadow-[0_0_20px_yellow]', // full color on hover; yellow glow too
+  'hover:[background-image:none] hover:shadow-[0_0_20px_yellow]' // full color on hover; yellow glow too
 )
 
 export const Header = () => {
@@ -32,12 +32,10 @@ export const Header = () => {
       </h1>
       <div
         data-testid="header-bio-and-links"
-        className="relative text-center lg:absolute lg:right-5 lg:bottom-0 lg:text-right"
-      >
+        className="relative text-center lg:absolute lg:right-5 lg:bottom-0 lg:text-right">
         <section
           aria-label="bio"
-          className="my-2 text-gray-500 font-[Outfit] leading-5.25"
-        >
+          className="my-2 text-gray-500 font-[Outfit] leading-5.25">
           All forms of bass music 🌀
           <br />
           Tracklist in every mix 🎵
@@ -54,8 +52,7 @@ export const Header = () => {
         <div
           role="group"
           aria-label="social links"
-          className="flex justify-center items-center gap-1 lg:justify-end"
-        >
+          className="flex justify-center items-center gap-1 lg:justify-end">
           <CircleLink
             className={cn(SOCIAL_LINK, 'bg-soundcloud')}
             title="SoundCloud"
