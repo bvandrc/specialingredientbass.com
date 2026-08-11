@@ -2,7 +2,7 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { useId, useMemo, useRef, useState } from 'react'
 import { useResizeObserver } from 'usehooks-ts'
-import { cn } from '@/utils/cn'
+import { cn } from '@/utils'
 import {
   isScrolledToBottom,
   isScrolledToTop,

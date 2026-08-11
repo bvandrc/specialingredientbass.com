@@ -1,6 +1,6 @@
 import { keyBy } from 'es-toolkit'
 import { useSoundcloudPlayer } from '@/hooks/useSoundcloudPlayer'
-import { cn } from '@/utils/cn'
+import { cn } from '@/utils'
 import data from '../../soundcloud-data.json' with { type: 'json' }
 import { SoundcloudPlayer } from './SoundcloudPlayer'
 
