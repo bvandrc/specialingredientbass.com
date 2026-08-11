@@ -7,7 +7,7 @@ import {
   isScrolledToBottom,
   isScrolledToTop,
   scrollElement,
-} from '@/utils/html-utils'
+} from '@/utils/scroll-utils'
 
 const SCROLL_ARROW = {
   clickDistance: 150, // distance scrolled when arrow clicked
