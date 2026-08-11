@@ -2,7 +2,7 @@ import {
   FontAwesomeIcon as Icon,
   type FontAwesomeIconProps as IconProps,
 } from '@fortawesome/react-fontawesome'
-import classNames from 'classnames'
+import { cn } from '../../utils/cn'
 
 type CircleLinkProps = Pick<IconProps, 'icon'> &
   React.HTMLAttributes<HTMLElement> &
@@ -15,7 +15,7 @@ export const CircleLink = ({
   href,
   ...props
 }: CircleLinkProps) => {
-  const sharedClassName = classNames(
+  const sharedClassName = cn(
     'rounded-full flex justify-center items-center', // make a circle and center the icon
     className,
   )

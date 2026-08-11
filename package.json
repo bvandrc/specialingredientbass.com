@@ -49,13 +49,14 @@
     "@fortawesome/free-brands-svg-icons": "^7",
     "@fortawesome/free-solid-svg-icons": "^7",
     "@fortawesome/react-fontawesome": "^3",
-    "classnames": "^2",
+    "clsx": "^2",
     "es-toolkit": "^1",
     "react": "^18",
     "react-dom": "^18",
     "react-ga4": "^3",
     "react-masonry-css": "^1",
     "soundcloud-widget": "^0.2",
+    "tailwind-merge": "^3",
     "usehooks-ts": "^3"
   },
   "devDependencies": {

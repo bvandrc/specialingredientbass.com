@@ -1,8 +1,8 @@
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import classNames from 'classnames'
 import { GRID_CARD_DATA } from '../data/grid-card-data'
 import { useIsMobile } from '../hooks/useMobile'
+import { cn } from '../utils/cn'
 import { GridBody } from './primitives/grid/GridBody'
 import { GridCard } from './primitives/grid/GridCard'
 import { SoundcloudTrack, type SoundcloudTrackProps } from './SoundcloudTrack'
@@ -21,7 +21,7 @@ export const MainGridBody = () => {
       noneExpandedInfo={
         <span
           data-testid="soundcloud-mixes-prompt"
-          className={classNames(
+          className={cn(
             'block text-center mx-auto pt-2', // position / layout
             'text-orange-400 text-2xl text-glow-heavy-[darkslateblue] font-bold font-[Roboto_Condensed]', // appearance
           )}

@@ -9,7 +9,7 @@ test('home page loads', async ({ page }) => {
     page.getByRole('img', { name: 'Special Ingredient Bass Mixes' }),
   ).toBeVisible()
   await expect(
-    page.getByRole('button', { name: 'Wave / Downtempo / Psydub' }),
+    page.locator(SELECTORS.GRID.CARD.TITLE.SELF).first(),
   ).toBeVisible()
 
   // SoundCloud players load in the mix grid

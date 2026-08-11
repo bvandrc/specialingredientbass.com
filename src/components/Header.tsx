@@ -6,11 +6,11 @@ import {
   faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import classNames from 'classnames'
 import { useCopyToClipboard } from 'usehooks-ts'
+import { cn } from '../utils/cn'
 import { CircleLink } from './primitives/CircleLink'
 
-const SOCIAL_LINK = classNames(
+const SOCIAL_LINK = cn(
   'size-11 text-2xl', // general appearance
   '[background-image:linear-gradient(rgb(0_0_0/30%)_0_0)]', //dull the colors when not hovered
   'hover:[background-image:none] hover:shadow-[0_0_20px_yellow]', // full color on hover; yellow glow too
@@ -57,37 +57,37 @@ export const Header = () => {
           className="flex justify-center items-center gap-1 lg:justify-end"
         >
           <CircleLink
-            className={classNames(SOCIAL_LINK, 'bg-soundcloud')}
+            className={cn(SOCIAL_LINK, 'bg-soundcloud')}
             title="SoundCloud"
             icon={faSoundcloud}
             href="https://www.soundcloud.com/special-ingredient"
           />
           <CircleLink
-            className={classNames(SOCIAL_LINK, 'bg-twitter')}
+            className={cn(SOCIAL_LINK, 'bg-twitter')}
             title="Twitter"
             icon={faTwitter}
             href="https://www.twitter.com/dj_smoothbrain"
           />
           <CircleLink
-            className={classNames(SOCIAL_LINK, 'bg-instagram')}
+            className={cn(SOCIAL_LINK, 'bg-instagram')}
             title="Instagram"
             icon={faInstagram}
             href="https://www.instagram.com/special_ingredient_bass"
           />
           <CircleLink
-            className={classNames(SOCIAL_LINK, 'bg-reddit')}
+            className={cn(SOCIAL_LINK, 'bg-reddit')}
             title="Reddit"
             icon={faReddit}
             href="https://www.reddit.com/user/SpecialIngredient"
           />
           <CircleLink
-            className={classNames(SOCIAL_LINK, 'bg-facebook')}
+            className={cn(SOCIAL_LINK, 'bg-facebook')}
             title="Facebook"
             icon={faFacebook}
             href="https://www.facebook.com/profile.php?id=100087612335247"
           />
           <CircleLink
-            className={classNames(SOCIAL_LINK, 'bg-slate-600')}
+            className={cn(SOCIAL_LINK, 'bg-slate-600')}
             title="Email"
             icon={faEnvelope}
             onClick={async () => {

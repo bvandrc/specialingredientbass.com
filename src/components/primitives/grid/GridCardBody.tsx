@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import { cn } from '../../../utils/cn'
 import type { GridCardsContextValue } from './GridCardsProvider'
 import { useArrowBtns } from './useArrowBtns'
 
@@ -21,7 +21,7 @@ export const GridCardBody = ({
       {isOpen && UpArrow}
       <div
         data-testid="grid-card-body"
-        className={classNames(
+        className={cn(
           'grid min-h-0 transition-[grid-template-rows] duration-400 ease-in-out', // layout/animation
           isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
         )}
@@ -32,7 +32,7 @@ export const GridCardBody = ({
         }}
       >
         <div
-          className={classNames(
+          className={cn(
             'relative min-h-0', // position/layout
             '[&::-webkit-scrollbar]:hidden', // appearance
             isOpen ? 'overflow-y-auto mb-1 py-1' : 'overflow-hidden',

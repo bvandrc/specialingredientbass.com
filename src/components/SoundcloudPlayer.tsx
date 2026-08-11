@@ -12,12 +12,12 @@ import {
   faPlayCircle,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import classNames from 'classnames'
 import { useId, useMemo } from 'react'
 import type { TrackInfo } from 'soundcloud-widget'
 import { SC_PLAYER_HEIGHT } from '../api/soundcloud'
 import type { useSoundcloudPlayer } from '../hooks/useSoundcloudPlayer'
 import { setSearchParams } from '../utils/api-utils'
+import { cn } from '../utils/cn'
 
 export interface SoundcloudPlayerProps {
   url: string
@@ -77,7 +77,7 @@ const StatsAndLink = ({
   <span className="absolute top-2 right-1 z-1 inline-flex items-center gap-1 pointer-events-none">
     <span
       data-testid="soundcloud-player-stats"
-      className={classNames(
+      className={cn(
         'px-1 py-0.5 inline-flex mb-1 gap-2', // position/layout
         'text-sm text-gray-400 rounded bg-black/60', // appearance
       )}
@@ -100,7 +100,7 @@ const StatsAndLink = ({
     </span>
     <a
       data-testid="soundcloud-player-sc-link"
-      className={classNames(
+      className={cn(
         'px-1 py-0.5 inline-flex gap-1', // position/layout
         'text-soundcloud! font-bold text-base rounded outline-1 outline-soundcloud pointer-events-auto bg-black/55 brightness-85 saturate-95 hover:filter-none', // appearance
       )}
@@ -164,7 +164,7 @@ export const SoundcloudPlayer = ({
           </>
         )}
         <div
-          className={classNames(
+          className={cn(
             'relative w-full rounded-2xl',
             'h-20 overflow-hidden', // Hide bottom of iframe , hide excess iframe
             className,
@@ -179,7 +179,7 @@ export const SoundcloudPlayer = ({
             height={SC_PLAYER_HEIGHT}
             scrolling="no"
             allow="autoplay; encrypted-media"
-            className={classNames(
+            className={cn(
               'relative -top-15 -left-px w-[calc(100%+2px)]', // hide top of iframe, hide 1 px left because is not black, hide eight px because is not black
               'invert hue-rotate-180', // invert colors to be white-on-black
               className,
