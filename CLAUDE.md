@@ -56,8 +56,7 @@ https://github.com/bvandrc/bvandrc-conventions — follow all of them:
   `text-shadow` or `box-shadow`, and add new tokens to the same file.
 - **Linting and formatting**: Biome is the linter *and* formatter — no
   eslint/prettier here. Style is single quotes, no semicolons, 2-space indent,
-  80 columns — don't hand-format. Run `pnpm check` (format + both type checks)
-  before every commit; it's what CI runs. Notable rules that are errors:
+  80 columns — don't hand-format. Notable rules that are errors:
   `noFloatingPromises`,
   `noImportCycles`, `noShadow`, `noUndeclaredDependencies`, `noTsIgnore` — fix
   the cause, don't suppress. Where a suppression is genuinely warranted,
