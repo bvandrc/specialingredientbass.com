@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from 'clsx'
+import { identity, keyBy, mapValues } from 'es-toolkit'
 import { extendTailwindMerge, validators } from 'tailwind-merge'
 
 /**
@@ -16,15 +17,12 @@ const CUSTOM_UTILITIES = [
 
 type CustomClassGroupId = (typeof CUSTOM_UTILITIES)[number]
 
-const CUSTOM_CLASS_GROUPS = Object.fromEntries(
-  CUSTOM_UTILITIES.map((name) => [
-    name,
-    [{ [name]: [validators.isArbitraryValue] }],
-  ])
-)
-
 const twMerge = extendTailwindMerge<CustomClassGroupId>({
-  extend: { classGroups: CUSTOM_CLASS_GROUPS },
+  extend: {
+    classGroups: mapValues(keyBy(CUSTOM_UTILITIES, identity), (name) => [
+      { [name]: [validators.isArbitraryValue] },
+    ]),
+  },
 })
 
 /** Joins conditional classes, with later Tailwind utilities winning conflicts. */
