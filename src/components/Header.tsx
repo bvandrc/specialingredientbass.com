@@ -36,7 +36,7 @@ export const Header = () => {
         className="relative text-center lg:absolute lg:right-5 lg:bottom-0 lg:text-right">
         <section
           aria-label="bio"
-          className="my-2 text-gray-500 font-[Outfit] leading-5.25">
+          className="my-2 text-gray-500 font-[family-name:Outfit] leading-5.25">
           All forms of bass music 🌀
           <br />
           Tracklist in every mix 🎵

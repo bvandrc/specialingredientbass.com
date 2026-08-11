@@ -73,7 +73,7 @@ export const SoundcloudTrack = ({
   return (
     <div
       className={cn(
-        'relative mx-3 my-1 rounded-xl font-[Outfit]',
+        'relative mx-3 my-1 rounded-xl font-[family-name:Outfit]',
         isPlaying && 'custom-shadow-[cyan]'
       )}
       data-testid="soundcloud-track">
@@ -98,7 +98,7 @@ export const SoundcloudTrack = ({
       {addlInfo && (
         <p
           data-testid="soundcloud-track-additional-info"
-          className="text-base text-sm text-justify text-pretty -tracking-wide leading-tight text-slate-400 font-[Barlow]" // hyphens-auto
+          className="text-base text-sm text-justify text-pretty -tracking-wide leading-tight text-slate-400 font-[family-name:Barlow]" // hyphens-auto
         >
           {addlInfo}
         </p>

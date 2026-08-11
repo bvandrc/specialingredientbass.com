@@ -19,7 +19,7 @@ export const GridCardTitle = ({
       data-testid="grid-card-title"
       className={cn(
         'flex items-center justify-center relative top-0 w-full p-1', // position, layout
-        'font-[Roboto_Condensed] bg-[darkslateblue] cursor-pointer rounded-b-2xl', // appearance
+        'font-[family-name:Roboto_Condensed] bg-[darkslateblue] cursor-pointer rounded-b-2xl', // appearance
         'hover:custom-shadow-[cyan] hover:text-glow-heavy-[darkcyan]', // hover glow
         'max-md:py-2' // mobile
       )}
