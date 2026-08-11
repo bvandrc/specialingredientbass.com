@@ -14,7 +14,7 @@ export function makeRequest(
   method: ApiMethod,
   url: string,
   params: SearchParams = {},
-  requestArgs: Omit<RequestInit, 'method'> = {},
+  requestArgs: Omit<RequestInit, 'method'> = {}
 ) {
   const urlObj = new URL(url)
   setSearchParams(urlObj, params)
@@ -23,10 +23,10 @@ export function makeRequest(
     async (response) => {
       if (!response.ok) {
         throw new Error(
-          `${response.status}: ${response.statusText} - ${await response.text()}`,
+          `${response.status}: ${response.statusText} - ${await response.text()}`
         )
       }
       return response
-    },
+    }
   )
 }

@@ -23,9 +23,8 @@ export const MainGridBody = () => {
           data-testid="soundcloud-mixes-prompt"
           className={cn(
             'block text-center mx-auto pt-2', // position / layout
-            'text-orange-400 text-2xl text-glow-heavy-[darkslateblue] font-bold font-[Roboto_Condensed]', // appearance
-          )}
-        >
+            'text-orange-400 text-2xl text-glow-heavy-[darkslateblue] font-bold font-[Roboto_Condensed]' // appearance
+          )}>
           Click below for SoundCloud mixes!
           <Icon
             icon={faArrowDown}
@@ -34,8 +33,7 @@ export const MainGridBody = () => {
           />
         </span>
       }
-      aria-label="DJ Mixes"
-    >
+      aria-label="DJ Mixes">
       {GRID_CARD_DATA.map(({ title, children }) => (
         <GridCard key={title} title={title} initiallyOpen={!isMobile}>
           {children.map((track) => (

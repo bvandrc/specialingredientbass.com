@@ -26,7 +26,7 @@ const scTracks = await Promise.all(
       // the rest of the oEmbed response is unused, and this file ships in the bundle
       ...pick(oEmbed, ['title', 'description', 'thumbnail_url']),
     }
-  }),
+  })
 )
 const contents = `${JSON.stringify(scTracks, null, 2)}\n`
 // avoid a no-op write, which would retrigger the dev server's config reload

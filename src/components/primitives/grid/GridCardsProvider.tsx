@@ -17,7 +17,7 @@ export type GridCardsContextValue = {
   toggleCard: (id: string) => void
   checkIsOpen: (
     id: string,
-    opts: Pick<GridCardProps, 'initiallyOpen'>,
+    opts: Pick<GridCardProps, 'initiallyOpen'>
   ) => boolean
   expandingRef: ExpandingRef
   setExpandingRef: (ref: ExpandingRef) => void
@@ -51,7 +51,7 @@ export const GridCardsProvider = ({
         setOpenIds((prev) => union(prev, [id]))
       }
     },
-    [],
+    []
   )
 
   const toggleCard = useCallback(
@@ -62,7 +62,7 @@ export const GridCardsProvider = ({
         }
         return prev.includes(id) ? [] : [id]
       }),
-    [allowMultipleOpen],
+    [allowMultipleOpen]
   )
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export const GridCardsProvider = ({
   const checkIsOpen = useCallback(
     (id: string, { initiallyOpen }: Pick<GridCardProps, 'initiallyOpen'>) =>
       openIds.includes(id) || (!allIds.includes(id) && initiallyOpen),
-    [openIds, allIds],
+    [openIds, allIds]
   )
 
   const noneExpanded = openIds.length === 0 && allIds.length > 0
@@ -87,7 +87,7 @@ export const GridCardsProvider = ({
       expandingRef,
       setExpandingRef,
     }),
-    [registerCard, toggleCard, checkIsOpen, expandingRef],
+    [registerCard, toggleCard, checkIsOpen, expandingRef]
   )
 
   return (

@@ -18,9 +18,8 @@ const Artwork = ({ className, url }: { className?: string; url: string }) => (
     className={cn(
       'float-left mr-2 size-20 rounded-2xl overflow-hidden max-md:size-18', // position/layout
       'bg-gray-900/80', // backs the artwork while it loads
-      className,
-    )}
-  >
+      className
+    )}>
     <img
       src={url}
       className="size-full"
@@ -74,27 +73,23 @@ export const SoundcloudTrack = ({
     <div
       className={cn(
         'relative mx-3 my-1 rounded-xl font-[Outfit]',
-        isPlaying && 'custom-shadow-[cyan]',
+        isPlaying && 'custom-shadow-[cyan]'
       )}
-      data-testid="soundcloud-track"
-    >
+      data-testid="soundcloud-track">
       {!artworkToSide && <Artwork url={artworkUrlResolved} />}
       <div
         className={cn('pb-0.5', {
           'text-glow-med-[cyan]': isPlaying,
-        })}
-      >
+        })}>
         <h3
           data-testid="soundcloud-track-title"
-          className="text-lg text-gray-200 leading-none mb-1"
-        >
+          className="text-lg text-gray-200 leading-none mb-1">
           {title}
         </h3>
         {subTitle && (
           <p
             data-testid="soundcloud-track-subtitle"
-            className="text-lg text-orange-300/90 leading-[1.1] my-1"
-          >
+            className="text-lg text-orange-300/90 leading-[1.1] my-1">
             {subTitle}
           </p>
         )}

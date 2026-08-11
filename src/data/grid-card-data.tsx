@@ -11,8 +11,7 @@ const InlineLink = ({
     href={href}
     target="_blank"
     className="inline-flex items-center text-sky-700!"
-    rel="noopener"
-  >
+    rel="noopener">
     {text ?? children}
     <Icon icon={faExternalLink} size="2xs" className="ml-1" />
   </a>
