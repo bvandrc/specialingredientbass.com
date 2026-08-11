@@ -7,9 +7,7 @@ import { checkA11y } from './accessibility'
 test('Home page', async ({ page }) => {
   await page.goto('/')
 
-  const firstCardTitle = page.getByRole('button', {
-    name: 'Wave / Downtempo / Psydub',
-  })
+  const firstCardTitle = page.locator(SELECTORS.GRID.CARD.TITLE.SELF).first()
 
   // initial check
   await checkA11y(page)

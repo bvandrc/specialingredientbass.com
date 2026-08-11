@@ -23,7 +23,7 @@ const Artwork = ({ className, url }: { className?: string; url: string }) => (
   >
     <img
       src={url}
-      className="w-full h-full"
+      className="size-full"
       alt="track artwork"
       width={80}
       height={80}

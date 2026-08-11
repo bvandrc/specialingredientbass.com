@@ -32,14 +32,14 @@ export function useGridCards() {
   return ctx
 }
 
-export function GridCardsProvider({
+export const GridCardsProvider = ({
   children,
   allowMultipleOpen,
   noneExpandedInfo,
 }: React.PropsWithChildren<{
   allowMultipleOpen: boolean
   noneExpandedInfo?: React.ReactNode
-}>) {
+}>) => {
   const [openIds, setOpenIds] = useState<string[]>([])
   const [allIds, setAllIds] = useState<string[]>([])
   const [expandingRef, setExpandingRef] = useState<ExpandingRef>(undefined)
