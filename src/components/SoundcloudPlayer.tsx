@@ -1,3 +1,4 @@
+import { useId, useMemo } from 'react'
 import {
   faSoundcloud,
   type IconDefinition,
@@ -12,12 +13,12 @@ import {
   faPlayCircle,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { useId, useMemo } from 'react'
 import type { TrackInfo } from 'soundcloud-widget'
-import { SC_PLAYER_HEIGHT } from '../api/soundcloud'
-import type { useSoundcloudPlayer } from '../hooks/useSoundcloudPlayer'
-import { setSearchParams } from '../utils/api-utils'
-import { cn } from '../utils/cn'
+
+import { SC_PLAYER_HEIGHT } from '@/api/soundcloud'
+import type { useSoundcloudPlayer } from '@/hooks/useSoundcloudPlayer'
+import { cn } from '@/utils'
+import { setSearchParams } from '@/utils/api-utils'
 
 export interface SoundcloudPlayerProps {
   url: string

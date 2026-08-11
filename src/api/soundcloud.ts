@@ -1,3 +1,5 @@
+// Relative, not the `@/` alias: vite.config.ts imports this module at
+// config-load time, where esbuild bundles it before Vite's resolver runs.
 import { makeRequest } from '../utils/api-utils'
 
 const SC_CLIENT_ID = 'DgFeY88vapbGCcK7RrT2E33nmNQVWX82'
