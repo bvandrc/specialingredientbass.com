@@ -6,7 +6,7 @@ import {
   useLayoutEffect,
   useRef,
 } from 'react'
-import { cn } from '../../../utils/cn'
+import { cn } from '@/utils/cn'
 import { GridCardBody } from './GridCardBody'
 import { useGridCards } from './GridCardsProvider'
 import { GridCardTitle } from './GridCardTitle'

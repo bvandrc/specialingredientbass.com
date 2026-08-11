@@ -1,6 +1,6 @@
 import { faExternalLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import type { GridCardsCriteria } from '../components/MainGridBody'
+import type { GridCardsCriteria } from '@/components/MainGridBody'
 
 const InlineLink = ({
   href,

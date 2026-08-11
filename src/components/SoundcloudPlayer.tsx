@@ -14,10 +14,10 @@ import {
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { useId, useMemo } from 'react'
 import type { TrackInfo } from 'soundcloud-widget'
-import { SC_PLAYER_HEIGHT } from '../api/soundcloud'
-import type { useSoundcloudPlayer } from '../hooks/useSoundcloudPlayer'
-import { setSearchParams } from '../utils/api-utils'
-import { cn } from '../utils/cn'
+import { SC_PLAYER_HEIGHT } from '@/api/soundcloud'
+import type { useSoundcloudPlayer } from '@/hooks/useSoundcloudPlayer'
+import { setSearchParams } from '@/utils/api-utils'
+import { cn } from '@/utils/cn'
 
 export interface SoundcloudPlayerProps {
   url: string

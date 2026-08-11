@@ -1,6 +1,6 @@
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { cn } from '../../../utils/cn'
+import { cn } from '@/utils/cn'
 
 export const GridCardTitle = ({
   title,

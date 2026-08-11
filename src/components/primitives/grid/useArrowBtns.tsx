@@ -2,12 +2,12 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { useId, useMemo, useRef, useState } from 'react'
 import { useResizeObserver } from 'usehooks-ts'
-import { cn } from '../../../utils/cn'
+import { cn } from '@/utils/cn'
 import {
   isScrolledToBottom,
   isScrolledToTop,
   scrollElement,
-} from '../../../utils/html-utils'
+} from '@/utils/html-utils'
 
 const SCROLL_ARROW = {
   clickDistance: 150, // distance scrolled when arrow clicked

@@ -1,4 +1,4 @@
-import { useIsMobile } from '../../../hooks/useMobile'
+import { useIsMobile } from '@/hooks/useMobile'
 import { GridCardsProvider } from './GridCardsProvider'
 
 export const GridBody = ({

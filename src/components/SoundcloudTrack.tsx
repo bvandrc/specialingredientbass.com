@@ -1,7 +1,7 @@
 import { keyBy } from 'es-toolkit'
+import { useSoundcloudPlayer } from '@/hooks/useSoundcloudPlayer'
+import { cn } from '@/utils/cn'
 import data from '../../soundcloud-data.json' with { type: 'json' }
-import { useSoundcloudPlayer } from '../hooks/useSoundcloudPlayer'
-import { cn } from '../utils/cn'
 import { SoundcloudPlayer } from './SoundcloudPlayer'
 
 const dataByUrl = keyBy(data, (d) => d.originalUrl)

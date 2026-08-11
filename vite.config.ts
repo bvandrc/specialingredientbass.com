@@ -37,6 +37,9 @@ if (fs.readFileSync(SC_DATA_FILE, 'utf8') !== contents) {
 export default defineConfig(() => ({
   base: '/',
   plugins: [tailwindcss(), react()],
+  resolve: {
+    tsconfigPaths: true,
+  },
   // soundcloud-widget references the bare Node global `global` at module
   // top level; this rewrites it to the browser's globalThis at build time.
   define: {

@@ -7,7 +7,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { useCopyToClipboard } from 'usehooks-ts'
-import { cn } from '../utils/cn'
+import { cn } from '@/utils/cn'
 import { CircleLink } from './primitives/CircleLink'
 
 const SOCIAL_LINK = cn(
