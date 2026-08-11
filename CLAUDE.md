@@ -47,7 +47,6 @@ https://github.com/bvandrc/bvandrc-conventions — follow all of them:
 ## Conventions
 
 - **Package manager**: pnpm. `npm install` writes a competing `package-lock.json` that CI ignores.
-- **package.json**: Key order is enforced in CI by `bvandrc/lint-package-json`. Adding a field in the wrong place fails the lint job.
 - **Conditional classes**: `cn` from `src/utils/cn.ts` (clsx +
   tailwind-merge). Don't import `clsx` or `classnames` directly.
 - **Theme and custom utilities**: Tailwind v4 with no `tailwind.config.js` —
@@ -57,9 +56,9 @@ https://github.com/bvandrc/bvandrc-conventions — follow all of them:
   `text-shadow` or `box-shadow`, and add new tokens to the same file.
 - **Linting and formatting**: Biome is the linter *and* formatter — no
   eslint/prettier here. Style is single quotes, no semicolons, 2-space indent,
-  80 columns; run `pnpm format` after making edits instead of hand-formatting,
-  and `pnpm check` (format + both type checks) before every commit — it's what
-  CI runs. Notable rules that are errors: `noFloatingPromises`,
+  80 columns — don't hand-format. Run `pnpm check` (format + both type checks)
+  before every commit; it's what CI runs. Notable rules that are errors:
+  `noFloatingPromises`,
   `noImportCycles`, `noShadow`, `noUndeclaredDependencies`, `noTsIgnore` — fix
   the cause, don't suppress. Where a suppression is genuinely warranted,
   `biome-ignore <rule>: <reason>` requires the reason.
