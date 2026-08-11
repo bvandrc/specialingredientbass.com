@@ -16,15 +16,15 @@ const CUSTOM_UTILITIES = [
 
 type CustomClassGroupId = (typeof CUSTOM_UTILITIES)[number]
 
+const CUSTOM_CLASS_GROUPS = Object.fromEntries(
+  CUSTOM_UTILITIES.map((name) => [
+    name,
+    [{ [name]: [validators.isArbitraryValue] }],
+  ])
+)
+
 const twMerge = extendTailwindMerge<CustomClassGroupId>({
-  extend: {
-    classGroups: Object.fromEntries(
-      CUSTOM_UTILITIES.map((name) => [
-        name,
-        [{ [name]: [validators.isArbitraryValue] }],
-      ])
-    ),
-  },
+  extend: { classGroups: CUSTOM_CLASS_GROUPS },
 })
 
 /** Joins conditional classes, with later Tailwind utilities winning conflicts. */
