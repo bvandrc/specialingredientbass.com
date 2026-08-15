@@ -50,15 +50,18 @@ https://github.com/bvandrc/bvandrc-conventions — follow all of them:
 - **Conditional classes**: `cn` from `src/utils/cn.ts` (clsx +
   tailwind-merge). Don't import `clsx` or `classnames` directly.
 - **Icons**: FontAwesome — don't swap it for Lucide, Heroicons, or another
-  stroke-based set. Three things here depend on it: `free-brands-svg-icons`
-  supplies the social row in `Header.tsx` and the SoundCloud link in
-  `SoundcloudPlayer.tsx`, and Lucide ships no brand logos at all; the
-  play/pause overlay stacks a *filled* `faPlayCircle` over a white `faCircle`
-  to punch through the transparent center, which outline icons can't
-  reproduce; and icons are sized with `text-4xl`/`text-sm` because FA's SVGs
-  are `1em` wide, where Lucide takes a fixed pixel `size` prop. Bundle size
-  isn't the trade — the Lighthouse `performance` threshold sits at 62 because
-  the SoundCloud widget dominates Total Blocking Time.
+  stroke-based set. Three things here depend on it:
+  - **Brand logos**: `free-brands-svg-icons` supplies the social row in
+    `Header.tsx` and the SoundCloud link in `SoundcloudPlayer.tsx`. Lucide
+    ships no brand icons at all.
+  - **Filled glyphs**: the play/pause overlay stacks a *filled* `faPlayCircle`
+    over a white `faCircle` to punch through the transparent center, which
+    outline icons can't reproduce.
+  - **`1em` sizing**: icons are sized with `text-4xl`/`text-sm` because FA's
+    SVGs are `1em` wide, where Lucide takes a fixed pixel `size` prop.
+
+  Bundle size isn't the trade — the Lighthouse `performance` threshold sits at
+  62 because the SoundCloud widget dominates Total Blocking Time.
 - **Theme and custom utilities**: Tailwind v4 with no `tailwind.config.js` —
   the brand colors (`--color-soundcloud`, `--color-instagram`, …) and the
   custom utilities (`text-glow-heavy-*`, `text-glow-med-*`, `custom-shadow-*`)
