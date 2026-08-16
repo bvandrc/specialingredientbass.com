@@ -64,9 +64,6 @@ https://github.com/bvandrc/bvandrc-conventions — follow all of them:
   - Its sizing model (icons are `1em` tall; `size` props are multipliers that
     compound with the parent font-size) is what every icon call site is tuned
     against — see the `text-4xl`/`text-3xl` stack in `SoundcloudPlayer.tsx`.
-
-  Bundle size isn't the trade either — the Lighthouse `performance` threshold
-  sits at 62 because the SoundCloud widget dominates Total Blocking Time.
 - **Theme and custom utilities**: Tailwind v4 with no `tailwind.config.js` —
   the brand colors (`--color-soundcloud`, `--color-instagram`, …) and the
   custom utilities (`text-glow-heavy-*`, `text-glow-med-*`, `custom-shadow-*`)
