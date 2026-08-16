@@ -49,19 +49,24 @@ https://github.com/bvandrc/bvandrc-conventions — follow all of them:
 - **Package manager**: pnpm. `npm install` writes a competing `package-lock.json` that CI ignores.
 - **Conditional classes**: `cn` from `src/utils/cn.ts` (clsx +
   tailwind-merge). Don't import `clsx` or `classnames` directly.
-- **Icons**: FontAwesome — don't swap it for another icon set, especially a
-  stroke-based one. Three things here depend on it:
-  - **Brand logos**: `free-brands-svg-icons` supplies the social row in
-    `Header.tsx` and the SoundCloud link in `SoundcloudPlayer.tsx`. Most
-    alternatives ship no brand icons at all.
-  - **Filled glyphs**: the play/pause overlay stacks a *filled* `faPlayCircle`
-    over a white `faCircle` to punch through the transparent center, which
-    outline icons can't reproduce.
-  - **`1em` sizing**: icons are sized with `text-4xl`/`text-sm` because FA's
-    SVGs are `1em` wide, where most sets take a fixed pixel `size` prop.
+- **Icons**: FontAwesome, deliberately. Treat a swap as a layout change, not a
+  dependency change.
+  - The four `@fortawesome/*` entries are one vendor sharing one transitive
+    package, and they tree-shake — only the icons actually imported reach the
+    bundle.
+  - Other icon sets don't ship the brand logos we need (SoundCloud, Instagram,
+    Facebook, Reddit, Twitter in `Header.tsx`; SoundCloud again in
+    `SoundcloudPlayer.tsx`), so a swap would mean adding a second package
+    anyway.
+  - The play/pause overlay stacks a *filled* `faPlayCircle` over a white
+    `faCircle` to punch through the transparent center, which stroke-based
+    sets can't reproduce.
+  - Its sizing model (icons are `1em` tall; `size` props are multipliers that
+    compound with the parent font-size) is what every icon call site is tuned
+    against — see the `text-4xl`/`text-3xl` stack in `SoundcloudPlayer.tsx`.
 
-  Bundle size isn't the trade — the Lighthouse `performance` threshold sits at
-  62 because the SoundCloud widget dominates Total Blocking Time.
+  Bundle size isn't the trade either — the Lighthouse `performance` threshold
+  sits at 62 because the SoundCloud widget dominates Total Blocking Time.
 - **Theme and custom utilities**: Tailwind v4 with no `tailwind.config.js` —
   the brand colors (`--color-soundcloud`, `--color-instagram`, …) and the
   custom utilities (`text-glow-heavy-*`, `text-glow-med-*`, `custom-shadow-*`)
