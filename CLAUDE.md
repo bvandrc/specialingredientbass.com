@@ -49,16 +49,16 @@ https://github.com/bvandrc/bvandrc-conventions — follow all of them:
 - **Package manager**: pnpm. `npm install` writes a competing `package-lock.json` that CI ignores.
 - **Conditional classes**: `cn` from `src/utils/cn.ts` (clsx +
   tailwind-merge). Don't import `clsx` or `classnames` directly.
-- **Icons**: FontAwesome — don't swap it for Lucide, Heroicons, or another
-  stroke-based set. Three things here depend on it:
+- **Icons**: FontAwesome — don't swap it for another icon set, especially a
+  stroke-based one. Three things here depend on it:
   - **Brand logos**: `free-brands-svg-icons` supplies the social row in
-    `Header.tsx` and the SoundCloud link in `SoundcloudPlayer.tsx`. Lucide
-    ships no brand icons at all.
+    `Header.tsx` and the SoundCloud link in `SoundcloudPlayer.tsx`. Most
+    alternatives ship no brand icons at all.
   - **Filled glyphs**: the play/pause overlay stacks a *filled* `faPlayCircle`
     over a white `faCircle` to punch through the transparent center, which
     outline icons can't reproduce.
   - **`1em` sizing**: icons are sized with `text-4xl`/`text-sm` because FA's
-    SVGs are `1em` wide, where Lucide takes a fixed pixel `size` prop.
+    SVGs are `1em` wide, where most sets take a fixed pixel `size` prop.
 
   Bundle size isn't the trade — the Lighthouse `performance` threshold sits at
   62 because the SoundCloud widget dominates Total Blocking Time.
