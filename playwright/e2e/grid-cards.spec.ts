@@ -25,37 +25,37 @@ test.describe('grid cards', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
 
-    await expect(page.locator(CARD_TITLE).first()).toBeVisible()
-    cardCount = await page.locator(CARD_TITLE).count()
+    await expect(page.getByTestId(CARD_TITLE).first()).toBeVisible()
+    cardCount = await page.getByTestId(CARD_TITLE).count()
     expect(cardCount).toBeGreaterThan(1)
   })
 
   test.describe('desktop', () => {
     test('cards start expanded and toggle independently', async ({ page }) => {
       await expectExpandedStates(
-        page.locator(CARD_TITLE),
+        page.getByTestId(CARD_TITLE),
         Array(cardCount).fill(true)
       )
-      await expect(page.locator(MIXES_PROMPT)).toBeHidden()
+      await expect(page.getByTestId(MIXES_PROMPT)).toBeHidden()
 
       await test.step('closing one card leaves the others open', async () => {
-        await page.locator(CARD_TITLE).first().click()
-        await expectExpandedStates(page.locator(CARD_TITLE), [
+        await page.getByTestId(CARD_TITLE).first().click()
+        await expectExpandedStates(page.getByTestId(CARD_TITLE), [
           false,
           ...Array(cardCount - 1).fill(true),
         ])
-        await expect(page.locator(MIXES_PROMPT)).toBeHidden()
+        await expect(page.getByTestId(MIXES_PROMPT)).toBeHidden()
       })
 
       await test.step('closing all cards reveals the SoundCloud prompt', async () => {
         for (let i = 1; i < cardCount; i++) {
-          await page.locator(CARD_TITLE).nth(i).click()
+          await page.getByTestId(CARD_TITLE).nth(i).click()
         }
         await expectExpandedStates(
-          page.locator(CARD_TITLE),
+          page.getByTestId(CARD_TITLE),
           Array(cardCount).fill(false)
         )
-        await expect(page.locator(MIXES_PROMPT)).toBeVisible()
+        await expect(page.getByTestId(MIXES_PROMPT)).toBeVisible()
       })
     })
   })
@@ -67,23 +67,23 @@ test.describe('grid cards', () => {
       page,
     }) => {
       await expectExpandedStates(
-        page.locator(CARD_TITLE),
+        page.getByTestId(CARD_TITLE),
         Array(cardCount).fill(false)
       )
-      await expect(page.locator(MIXES_PROMPT)).toBeVisible()
+      await expect(page.getByTestId(MIXES_PROMPT)).toBeVisible()
 
       await test.step('expanding a card hides the SoundCloud prompt', async () => {
-        await page.locator(CARD_TITLE).first().click()
-        await expectExpandedStates(page.locator(CARD_TITLE), [
+        await page.getByTestId(CARD_TITLE).first().click()
+        await expectExpandedStates(page.getByTestId(CARD_TITLE), [
           true,
           ...Array(cardCount - 1).fill(false),
         ])
-        await expect(page.locator(MIXES_PROMPT)).toBeHidden()
+        await expect(page.getByTestId(MIXES_PROMPT)).toBeHidden()
       })
 
       await test.step('opening another card closes the rest', async () => {
-        await page.locator(CARD_TITLE).nth(1).click()
-        await expectExpandedStates(page.locator(CARD_TITLE), [
+        await page.getByTestId(CARD_TITLE).nth(1).click()
+        await expectExpandedStates(page.getByTestId(CARD_TITLE), [
           false,
           true,
           ...Array(cardCount - 2).fill(false),

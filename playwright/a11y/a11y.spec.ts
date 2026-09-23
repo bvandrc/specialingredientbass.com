@@ -8,19 +8,21 @@ import { checkA11y } from './accessibility'
 test('Home page', async ({ page }) => {
   await page.goto('/')
 
-  const firstCardTitle = page.locator(SELECTORS.GRID.CARD.TITLE.SELF).first()
+  const firstCardTitle = page
+    .getByTestId(SELECTORS.GRID.CARD.TITLE.SELF)
+    .first()
 
   // initial check
   await checkA11y(page)
 
   // SoundCloud players render in the mix grid
   await expect(
-    page.locator(SELECTORS.SOUNDCLOUD.PLAYER.SELF).first()
+    page.getByTestId(SELECTORS.SOUNDCLOUD.PLAYER.SELF).first()
   ).toBeVisible({ timeout: 15_000 })
   await checkA11y(page)
 
   await expect(
-    page.locator(SELECTORS.SOUNDCLOUD.PLAYER.PLAY_PAUSE_BUTTON).first()
+    page.getByTestId(SELECTORS.SOUNDCLOUD.PLAYER.PLAY_PAUSE_BUTTON).first()
   ).toBeAttached({ timeout: 15_000 })
   await checkA11y(page)
 
