@@ -27,7 +27,7 @@ Conventions live outside this file, synced from https://github.com/bvandrc/bvand
 ## Conventions
 
 - **Package manager**: pnpm. `npm install` writes a competing `package-lock.json` that CI ignores.
-- **Conditional classes**: `cn` from `src/utils/cn.ts` (clsx + tailwind-merge). Don't import `clsx` or `classnames` directly.
+- **Conditional classes**: `cn` from `src/utils/index.ts` (clsx + tailwind-merge). Don't import `clsx` or `classnames` directly.
 - **Icons**: FontAwesome, deliberately. Treat a swap as a layout change, not a dependency change.
   - The four `@fortawesome/*` entries are one vendor sharing one transitive package, and they tree-shake — only the icons actually imported reach the bundle.
   - Other icon sets don't ship the brand logos we need (SoundCloud, Instagram, Facebook, Reddit, Twitter in `Header.tsx`; SoundCloud again in `SoundcloudPlayer.tsx`), so a swap would mean adding a second package anyway.

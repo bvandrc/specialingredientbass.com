@@ -10,14 +10,14 @@ test('home page loads', async ({ page }) => {
     page.getByRole('img', { name: 'Special Ingredient Bass Mixes' })
   ).toBeVisible()
   await expect(
-    page.locator(SELECTORS.GRID.CARD.TITLE.SELF).first()
+    page.getByTestId(SELECTORS.GRID.CARD.TITLE.SELF).first()
   ).toBeVisible()
 
   // SoundCloud players load in the mix grid
-  const players = page.locator(SELECTORS.SOUNDCLOUD.PLAYER.SELF)
+  const players = page.getByTestId(SELECTORS.SOUNDCLOUD.PLAYER.SELF)
   await expect(players.first()).toBeVisible({ timeout: 15_000 })
 
   await expect(
-    page.locator(SELECTORS.SOUNDCLOUD.PLAYER.PLAY_PAUSE_BUTTON).first()
+    page.getByTestId(SELECTORS.SOUNDCLOUD.PLAYER.PLAY_PAUSE_BUTTON).first()
   ).toBeAttached({ timeout: 15_000 })
 })

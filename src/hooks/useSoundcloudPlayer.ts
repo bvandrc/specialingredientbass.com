@@ -15,8 +15,9 @@ const getArtworkId = (url: string) =>
     ?.replace(/-[^-]+\.\w+$/, '')
 
 /**
- * Drives one embedded SoundCloud player. Attach `iframeRef` to the iframe;
- * everything the widget knows is returned.
+ * Drives one embedded SoundCloud player.
+ *
+ * Attach `iframeRef` to the iframe; everything the widget knows is returned.
  */
 export const useSoundcloudPlayer = ({
   /** Artwork to show; the widget's is used only if it's different. */
