@@ -29,6 +29,20 @@ jobs:
       - name: Lint & Type Check
         run: pnpm run check
 
+  unit:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v7
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Unit Tests
+        run: pnpm run test:unit
+
   test:
     name: ${{ matrix.name }}
     runs-on: ubuntu-latest

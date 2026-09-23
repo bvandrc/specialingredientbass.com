@@ -20,6 +20,7 @@ Conventions live outside this file, synced from https://github.com/bvandrc/bvand
 
 - `pnpm dev` — dev server on port 5000. `pnpm build`, `pnpm preview`. Both dev and build call the SoundCloud oEmbed API while loading the Vite config, so they need network access.
 - `pnpm format` — Biome check/fix. `pnpm check` — the full gate: format plus `tsc` for the app and for `playwright/tsconfig.json`. Run before every commit; it's what CI runs.
+- `pnpm test` — Vitest unit tests over `src/`. `pnpm test:watch`, `pnpm test:coverage`; CI runs `pnpm test:unit`, which is the coverage run.
 - `pnpm preview:ci` — build and serve on port 4173, which is what the Playwright suites expect.
 - `pnpm test:e2e`, `pnpm test:a11y`, `pnpm test:lighthouse` — the three Playwright projects, all against a running preview server. `pnpm pw:open` for the UI runner.
 - `pnpm generate-playlist-json` — regenerates `spotify-playlists.json` from the Spotify API.
@@ -33,6 +34,7 @@ Conventions live outside this file, synced from https://github.com/bvandrc/bvand
   - Other icon sets don't ship the brand logos we need (SoundCloud, Instagram, Facebook, Reddit, Twitter in `Header.tsx`; SoundCloud again in `SoundcloudPlayer.tsx`), so a swap would mean adding a second package anyway.
   - The play/pause overlay stacks a *filled* `faPlayCircle` over a white `faCircle` to punch through the transparent center, which stroke-based sets can't reproduce.
   - Its sizing model (icons are `1em` tall; `size` props are multipliers that compound with the parent font-size) is what every icon call site is tuned against — see the `text-4xl`/`text-3xl` stack in `SoundcloudPlayer.tsx`.
+- **Unit vs Playwright**: `cn`'s custom class groups, the scroll magnet, the request helpers, and `useSoundcloudPlayer`'s artwork resolution have unit tests in a `__tests__` folder beside them — none need a player on screen, and the artwork case in particular only shows up when a track's art changes after a build. Playwright keeps the wiring.
 - **Theme and custom utilities**: Tailwind v4 with no `tailwind.config.js` — the brand colors (`--color-soundcloud`, `--color-instagram`, …) and the custom utilities (`text-glow-heavy-*`, `text-glow-med-*`, `custom-shadow-*`) live in `src/styles/index.css`. Reuse those rather than writing a one-off `text-shadow` or `box-shadow`, and add new tokens to the same file.
 - **Security headers**: The `preview.headers` block in `vite.config.ts` is what keeps CI's ZAP baseline scan green — GitHub Pages can't set response headers, so it has no production effect, but don't drop it.
 - **Convention files**: `conventions/` is synced from https://github.com/bvandrc/bvandrc-conventions and overwritten on every sync. Edit a rule upstream, never in that directory.
