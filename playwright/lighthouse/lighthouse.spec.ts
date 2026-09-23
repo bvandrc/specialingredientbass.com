@@ -18,9 +18,7 @@ test('Home page', async ({ page, runAudit }) => {
   // SoundCloud players render in the mix grid
   await expect(
     page.getByTestId(SELECTORS.SOUNDCLOUD.PLAYER.SELF).first()
-  ).toBeAttached({
-    timeout: 15_000,
-  })
+  ).toBeAttached({ timeout: 15_000 })
 
   await test.step('loaded', async () => {
     await runAudit({
