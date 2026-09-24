@@ -3,4 +3,3 @@ node_modules
 spotify-token.json
 *.local
 playwright/results
-coverage/

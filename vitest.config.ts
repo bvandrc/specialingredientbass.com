@@ -21,16 +21,5 @@ export default defineConfig({
       '**/playwright/**',
       '**/spotify-tools/**',
     ],
-    coverage: {
-      exclude: [
-        '**/__*__/**',
-        '**/dist/**',
-        '**/playwright/**',
-        '**/spotify-tools/**',
-        '**/*.d.ts',
-        '*.config.ts',
-      ],
-      reporter: ['text', 'html', 'json', 'lcov'],
-    },
   },
 })
