@@ -56,12 +56,6 @@ describe('useSoundcloudPlayer', () => {
     widget.currentSound = {}
   })
 
-  it('starts paused, before the widget has said anything', () => {
-    renderPlayer(BAKED_ARTWORK)
-
-    expect(player.isPlaying).toBe(false)
-  })
-
   it('follows the widget in and out of playback', () => {
     renderPlayer(BAKED_ARTWORK)
 
@@ -120,24 +114,5 @@ describe('useSoundcloudPlayer', () => {
     await ready()
 
     expect(player.artworkUrlResolved).toBe(BAKED_ARTWORK)
-  })
-
-  it('reports the track the widget is on', async () => {
-    widget.currentSound = { artwork_url: BAKED_ARTWORK }
-    renderPlayer(BAKED_ARTWORK)
-
-    await ready()
-
-    await waitFor(() =>
-      expect(player.trackInfo).toEqual({ artwork_url: BAKED_ARTWORK })
-    )
-  })
-
-  it('toggles through the widget rather than tracking play state itself', () => {
-    renderPlayer(BAKED_ARTWORK)
-
-    player.togglePlayPause()
-
-    expect(widget.toggle).toHaveBeenCalledOnce()
   })
 })

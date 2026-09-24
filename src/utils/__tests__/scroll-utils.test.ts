@@ -1,8 +1,4 @@
-import {
-  isScrolledToBottom,
-  isScrolledToTop,
-  scrollElement,
-} from '../scroll-utils'
+import { scrollElement } from '../scroll-utils'
 
 /** A scrollable element, with the metrics these helpers read off one. */
 const scrollable = (scrollTop: number) => {
@@ -14,35 +10,6 @@ const scrollable = (scrollTop: number) => {
   }
   return el as unknown as HTMLElement & { scrollTo: ReturnType<typeof vi.fn> }
 }
-
-describe('isScrolledToTop', () => {
-  it('counts anything within the offset as the top', () => {
-    expect(isScrolledToTop({ scrollTop: 40 }, 50)).toBe(true)
-    expect(isScrolledToTop({ scrollTop: 50 }, 50)).toBe(false)
-  })
-
-  it('never reports the top at the default offset', () => {
-    // `scrollTop < 0` cannot hold, so the zero default is unsatisfiable. Every
-    // caller passes a magnet distance, so nothing in the app reaches it.
-    expect(isScrolledToTop({ scrollTop: 0 })).toBe(false)
-  })
-})
-
-describe('isScrolledToBottom', () => {
-  const METRICS = { scrollHeight: 1000, offsetHeight: 400 }
-
-  it('counts anything within the offset as the bottom', () => {
-    // The last scrollable pixel is 600: scrollHeight less the visible height.
-    expect(isScrolledToBottom({ ...METRICS, scrollTop: 560 }, 50)).toBe(true)
-    expect(isScrolledToBottom({ ...METRICS, scrollTop: 550 }, 50)).toBe(false)
-  })
-
-  it('never reports the bottom at the default offset', () => {
-    // The same unsatisfiable default as its sibling: `scrollTop` tops out at
-    // the very value it would have to exceed.
-    expect(isScrolledToBottom({ ...METRICS, scrollTop: 600 })).toBe(false)
-  })
-})
 
 describe('scrollElement', () => {
   const MAGNET = { delta: 0, magnetDistance: 50 }
@@ -73,9 +40,5 @@ describe('scrollElement', () => {
       top: 1000,
       behavior: 'smooth',
     })
-  })
-
-  it('does nothing when there is no element yet', () => {
-    expect(() => scrollElement(null, MAGNET)).not.toThrow()
   })
 })

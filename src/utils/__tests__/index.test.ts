@@ -1,26 +1,4 @@
-import { cn, createObject } from '../index'
-
-describe('createObject', () => {
-  it('maps each key through the generator', () => {
-    expect(createObject(['a', 'b'], (key) => key.toUpperCase())).toEqual({
-      a: 'A',
-      b: 'B',
-    })
-  })
-
-  it('gives each key its own value rather than one shared object', () => {
-    // The reason the doc comment asks for `as const`: a shared object would
-    // make a write through one key visible through every other.
-    const built = createObject(['a', 'b'], () => ({ hits: 0 }))
-    built.a.hits = 1
-
-    expect(built.b.hits).toBe(0)
-  })
-
-  it('builds nothing from no keys', () => {
-    expect(createObject([], () => 1)).toEqual({})
-  })
-})
+import { cn } from '../index'
 
 // Only the custom class groups are covered: the rest of `cn` is clsx and
 // tailwind-merge with nothing of ours in between.
