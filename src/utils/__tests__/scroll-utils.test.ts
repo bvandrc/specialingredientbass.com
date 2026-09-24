@@ -12,33 +12,25 @@ const scrollable = (scrollTop: number) => {
 }
 
 describe('scrollElement', () => {
-  const MAGNET = { delta: 0, magnetDistance: 50 }
+  it('scrolls by the delta, snapping to either end from inside the magnet', () => {
+    const SCROLLS = [
+      // Nowhere near either end, so the delta lands where it lands.
+      { scrollTop: 300, delta: 100, top: 400 },
+      // 60 - 30 = 30, inside 50px of the top.
+      { scrollTop: 60, delta: -30, top: 0 },
+      // 540 + 30 = 570, inside 50px of the 600px maximum.
+      { scrollTop: 540, delta: 30, top: 1000 },
+    ]
 
-  it('scrolls by the delta when nowhere near either end', () => {
-    const el = scrollable(300)
+    for (const { scrollTop, delta, top } of SCROLLS) {
+      const el = scrollable(scrollTop)
 
-    scrollElement(el, { ...MAGNET, delta: 100 })
+      scrollElement(el, { delta, magnetDistance: 50 })
 
-    expect(el.scrollTo).toHaveBeenCalledWith({ top: 400, behavior: 'smooth' })
-  })
-
-  it('snaps to the top once the delta lands inside the magnet', () => {
-    const el = scrollable(60)
-
-    scrollElement(el, { ...MAGNET, delta: -30 })
-
-    expect(el.scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' })
-  })
-
-  it('snaps to the bottom the same way', () => {
-    const el = scrollable(540)
-
-    // 540 + 30 = 570, inside 50px of the 600px maximum.
-    scrollElement(el, { ...MAGNET, delta: 30 })
-
-    expect(el.scrollTo).toHaveBeenCalledWith({
-      top: 1000,
-      behavior: 'smooth',
-    })
+      expect(el.scrollTo, `${scrollTop} by ${delta}`).toHaveBeenCalledWith({
+        top,
+        behavior: 'smooth',
+      })
+    }
   })
 })
