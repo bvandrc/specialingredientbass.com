@@ -22,22 +22,9 @@ describe('createObject', () => {
   })
 })
 
+// Only the custom class groups are covered: the rest of `cn` is clsx and
+// tailwind-merge with nothing of ours in between.
 describe('cn', () => {
-  it('joins the classes it is given', () => {
-    expect(cn('flex', 'items-center')).toBe('flex items-center')
-  })
-
-  it('drops the falsy ones a conditional leaves behind', () => {
-    // What an unmet `cond && 'class'` and an unset prop each leave behind.
-    expect(cn('flex', false, undefined, 'items-center')).toBe(
-      'flex items-center'
-    )
-  })
-
-  it('lets the later of two conflicting utilities win', () => {
-    expect(cn('text-2xl', 'text-3xl')).toBe('text-3xl')
-  })
-
   it('keeps a text color beside a text-glow, which is not a color', () => {
     // Without its own class group, tailwind-merge reads `text-glow-*` as a
     // text color and silently drops whichever of the two came first.
