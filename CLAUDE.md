@@ -20,6 +20,7 @@ Conventions live outside this file, synced from https://github.com/bvandrc/bvand
 
 - `pnpm dev` — dev server on port 5000. `pnpm build`, `pnpm preview`. Both dev and build call the SoundCloud oEmbed API while loading the Vite config, so they need network access.
 - `pnpm format` — Biome check/fix. `pnpm check` — the full gate: format plus `tsc` for the app and for `playwright/tsconfig.json`. Run before every commit; it's what CI runs.
+- `pnpm test` — Vitest unit tests over `src/`. `pnpm test:watch` to re-run on a change; CI runs `pnpm test:unit`.
 - `pnpm preview:ci` — build and serve on port 4173, which is what the Playwright suites expect.
 - `pnpm test:e2e`, `pnpm test:a11y`, `pnpm test:lighthouse` — the three Playwright projects, all against a running preview server. `pnpm pw:open` for the UI runner.
 - `pnpm generate-playlist-json` — regenerates `spotify-playlists.json` from the Spotify API.

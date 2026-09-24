@@ -30,7 +30,11 @@
     "format": "npx biome check . --fix",
     "ts:check": "tsc",
     "pw:ts:check": "tsc --project playwright/tsconfig.json",
-    "__c2": "====================[ Playwright Testing ]=======================",
+    "__c2": "====================[ Unit Testing ]============================",
+    "test": "vitest",
+    "test:unit": "pnpm test",
+    "test:watch": "pnpm run test --watch",
+    "__c3": "====================[ Playwright Testing ]=======================",
     "test:e2e": "pnpm pw:run --project=e2e",
     "test:a11y": "pnpm pw:run --project=a11y --project=a11y:mobile",
     "test:lighthouse": "pnpm pw:run --project=lighthouse",
@@ -38,7 +42,7 @@
     "pw:run": "playwright test",
     "pw:open": "playwright test --ui",
     "pw:report": "playwright show-report playwright/results/html",
-    "__c3": "====================[ Misc ]=====================================",
+    "__c4": "====================[ Misc ]=====================================",
     "generate-playlist-json": "vite --open --config ./spotify-tools/vite.config.ts ./spotify-tools"
   },
   "dependencies": {
@@ -75,6 +79,7 @@
     "tailwindcss": "^4",
     "typescript": "^7",
     "vite": "^8",
-    "vite-plugin-fs": "^1"
+    "vite-plugin-fs": "^1",
+    "vitest": "^4"
   }
 }
