@@ -8,13 +8,18 @@ import { SoundcloudPlayer } from './SoundcloudPlayer'
 const dataByUrl = keyBy(data, (d) => d.originalUrl)
 
 /**
- * oEmbed hands back the 500px crop for an 80px slot. `large` is 100px — the
+ * Swaps oEmbed's artwork URL for SoundCloud's `large` (100px) variant.
+ *
+ * oEmbed hands back the 500px crop for an 80px slot, and `large` is the
  * smallest of SoundCloud's fixed variants that still covers it.
  */
 const transformArtworkUrl = (thumbnailUrl: string) =>
   thumbnailUrl.replace('-t500x500.', '-large.')
 
-const Artwork = ({ className, url }: { className?: string; url: string }) => (
+const Artwork = ({
+  className,
+  url,
+}: Pick<React.ComponentProps<'div'>, 'className'> & { url: string }) => (
   <div
     className={cn(
       'float-left mr-2 size-20 rounded-2xl overflow-hidden max-md:size-18', // position/layout
