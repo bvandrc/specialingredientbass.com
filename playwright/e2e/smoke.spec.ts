@@ -2,6 +2,8 @@ import { expect, test } from '@playwright/test'
 
 import { SELECTORS } from '~/pw/support/constants/selectors'
 
+const { GRID, SOUNDCLOUD } = SELECTORS
+
 test('home page loads', async ({ page }) => {
   await page.goto('/')
 
@@ -9,15 +11,13 @@ test('home page loads', async ({ page }) => {
   await expect(
     page.getByRole('img', { name: 'Special Ingredient Bass Mixes' })
   ).toBeVisible()
-  await expect(
-    page.getByTestId(SELECTORS.GRID.CARD.TITLE.SELF).first()
-  ).toBeVisible()
+  await expect(page.getByTestId(GRID.CARD.TITLE.SELF).first()).toBeVisible()
 
   // SoundCloud players load in the mix grid
-  const players = page.getByTestId(SELECTORS.SOUNDCLOUD.PLAYER.SELF)
+  const players = page.getByTestId(SOUNDCLOUD.PLAYER.SELF)
   await expect(players.first()).toBeVisible({ timeout: 15_000 })
 
   await expect(
-    page.getByTestId(SELECTORS.SOUNDCLOUD.PLAYER.PLAY_PAUSE_BUTTON).first()
+    page.getByTestId(SOUNDCLOUD.PLAYER.PLAY_PAUSE_BUTTON).first()
   ).toBeAttached({ timeout: 15_000 })
 })

@@ -18,7 +18,9 @@ export interface OEmbed {
 
 /**
  * Pulls the player URL out of an oEmbed `html` snippet, so the browser never
- * has to parse HTML. Throws rather than returning a half-built URL.
+ * has to parse HTML.
+ *
+ * Throws rather than returning a half-built URL.
  */
 export function getIframeSrc(html: string) {
   const src = html.match(/<iframe[^>]*\ssrc="([^"]*)"/)?.[1]

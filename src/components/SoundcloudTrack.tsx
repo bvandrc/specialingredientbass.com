@@ -8,7 +8,9 @@ import { SoundcloudPlayer } from './SoundcloudPlayer'
 const dataByUrl = keyBy(data, (d) => d.originalUrl)
 
 /**
- * oEmbed hands back the 500px crop for an 80px slot. `large` is 100px — the
+ * Swaps oEmbed's artwork URL for SoundCloud's `large` (100px) variant.
+ *
+ * oEmbed hands back the 500px crop for an 80px slot, and `large` is the
  * smallest of SoundCloud's fixed variants that still covers it.
  */
 const transformArtworkUrl = (thumbnailUrl: string) =>
