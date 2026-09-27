@@ -16,10 +16,7 @@ const dataByUrl = keyBy(data, (d) => d.originalUrl)
 const transformArtworkUrl = (thumbnailUrl: string) =>
   thumbnailUrl.replace('-t500x500.', '-large.')
 
-const Artwork = ({
-  className,
-  url,
-}: Pick<React.ComponentProps<'div'>, 'className'> & { url: string }) => (
+const Artwork = ({ className, url }: { className?: string; url: string }) => (
   <div
     className={cn(
       'float-left mr-2 size-20 rounded-2xl overflow-hidden max-md:size-18', // position/layout
