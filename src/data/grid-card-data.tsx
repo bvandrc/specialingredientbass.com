@@ -7,7 +7,11 @@ const InlineLink = ({
   href,
   text,
   children,
-}: React.PropsWithChildren<{ href: string; text?: string }>) => (
+}: {
+  href: string
+  text?: string
+  children?: React.ReactNode
+}) => (
   <a
     href={href}
     target="_blank"

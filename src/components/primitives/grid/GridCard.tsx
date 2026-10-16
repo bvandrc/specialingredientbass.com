@@ -5,10 +5,11 @@ import { GridCardBody } from './GridCardBody'
 import { useGridCards } from './GridCardsProvider'
 import { GridCardTitle } from './GridCardTitle'
 
-export type GridCardProps = React.PropsWithChildren<{
+export type GridCardProps = {
   title: string
   initiallyOpen: boolean
-}>
+  children: React.ReactNode
+}
 
 export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const id = title
