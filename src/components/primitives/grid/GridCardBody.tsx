@@ -1,6 +1,6 @@
 import { cn } from '@/utils'
-import type { GridCardsContextValue } from '../GridCardsProvider'
-import { useArrowBtns } from './hooks/useArrowBtns'
+import type { GridCardsContextValue } from './GridCardsProvider'
+import { useArrowBtns } from './useArrowBtns'
 
 export const GridCardBody = ({
   isOpen,
