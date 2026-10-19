@@ -11,10 +11,10 @@ import {
 } from '@/utils/scroll-utils'
 
 const SCROLL_ARROW = {
-  clickDistance: 150, // distance scrolled when arrow clicked
-  magnetDistance: 100, // when new scroll is within this distance from top/bottom, just scroll all the way to top/bottom
-  distanceFromEdge: 5, // pixels
-  showThreshold: 50, // distance from top or bottom to show arrow
+  CLICK_DISTANCE: 150, // distance scrolled when arrow clicked
+  MAGNET_DISTANCE: 100, // when new scroll is within this distance from top/bottom, just scroll all the way to top/bottom
+  DISTANCE_FROM_EDGE: 5, // pixels
+  SHOW_THRESHOLD: 50, // distance from top or bottom to show arrow
 } as const
 
 type ArrowDirection = 'up' | 'down'
@@ -31,18 +31,19 @@ const ScrollArrow = ({
     type="button"
     data-testid={`${direction}-arrow`}
     className={cn(
+      'm-auto absolute left-0 right-0 z-10 flex', // position/layout
       // w-fit so the button hugs the icon: FontAwesome's own svg rules win
       // over width/height utilities, so sizing the button instead would
       // scale the pill without scaling the caret.
-      'm-auto absolute left-0 right-0 z-10 flex w-fit', // position/layout
+      'w-fit',
       'bg-[darkslateblue] opacity-80 rounded-lg cursor-pointer select-none' // appearance
     )}
     aria-label={`Scroll ${direction}`}
     aria-controls={scrollRegion.id}
     onClick={() =>
       scrollElement(scrollRegion, {
-        delta: SCROLL_ARROW.clickDistance * (direction === 'up' ? -1 : 1),
-        magnetDistance: SCROLL_ARROW.magnetDistance,
+        delta: SCROLL_ARROW.CLICK_DISTANCE * (direction === 'up' ? -1 : 1),
+        magnetDistance: SCROLL_ARROW.MAGNET_DISTANCE,
       })
     }
     {...props}>
@@ -70,24 +71,26 @@ export const useArrowBtns = ({ isOpen }: { isOpen: boolean }) => {
     if (
       !scrollRegion ||
       !isOpen ||
-      scrollRegion.offsetHeight < SCROLL_ARROW.showThreshold * 2
+      scrollRegion.offsetHeight < SCROLL_ARROW.SHOW_THRESHOLD * 2
     )
       return [null, null]
 
     const showUpArrow = !isScrolledToTop(
       scrollRegion,
-      SCROLL_ARROW.showThreshold
+      SCROLL_ARROW.SHOW_THRESHOLD
     )
     const showDownArrow = !isScrolledToBottom(
       scrollRegion,
-      SCROLL_ARROW.showThreshold
+      SCROLL_ARROW.SHOW_THRESHOLD
     )
 
     const upArrow = showUpArrow ? (
       <ScrollArrow
         direction="up"
         scrollRegion={scrollRegion}
-        style={{ top: scrollRegion.offsetTop + SCROLL_ARROW.distanceFromEdge }}
+        style={{
+          top: scrollRegion.offsetTop + SCROLL_ARROW.DISTANCE_FROM_EDGE,
+        }}
       />
     ) : null
 
@@ -95,7 +98,7 @@ export const useArrowBtns = ({ isOpen }: { isOpen: boolean }) => {
       <ScrollArrow
         direction="down"
         scrollRegion={scrollRegion}
-        style={{ bottom: SCROLL_ARROW.distanceFromEdge }}
+        style={{ bottom: SCROLL_ARROW.DISTANCE_FROM_EDGE }}
       />
     ) : null
 

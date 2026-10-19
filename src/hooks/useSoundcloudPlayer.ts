@@ -3,9 +3,10 @@ import type { TrackInfo } from 'soundcloud-widget'
 import SoundcloudWidget from 'soundcloud-widget'
 
 /**
- * Artwork identity: the filename without its size suffix. oEmbed and the widget
- * hand back different crops of the same image, and a track with no art of its
- * own gets an `avatars-…` URL rather than `artworks-…`.
+ * Artwork identity: the filename without its size suffix.
+ *
+ * oEmbed and the widget hand back different crops of the same image, and a
+ * track with no art of its own gets an `avatars-…` URL rather than `artworks-…`.
  */
 const getArtworkId = (url: string) =>
   url

@@ -3,15 +3,14 @@ import type { GridCardsContextValue } from './GridCardsProvider'
 import { useArrowBtns } from './useArrowBtns'
 
 export const GridCardBody = ({
-  children,
   isOpen,
   expandingRef,
   setExpandingRef,
-}: React.PropsWithChildren<
-  {
-    isOpen: boolean
-  } & Pick<GridCardsContextValue, 'expandingRef' | 'setExpandingRef'>
->) => {
+  children,
+}: {
+  isOpen: boolean
+  children: React.ReactNode
+} & Pick<GridCardsContextValue, 'expandingRef' | 'setExpandingRef'>) => {
   const { UpArrow, DownArrow, scrollRegionProps } = useArrowBtns({
     isOpen: isOpen && !expandingRef,
   })

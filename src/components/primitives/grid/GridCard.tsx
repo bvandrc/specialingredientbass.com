@@ -1,21 +1,15 @@
-import {
-  type PropsWithChildren,
-  useCallback,
-  useEffect,
-  useId,
-  useLayoutEffect,
-  useRef,
-} from 'react'
+import { useCallback, useEffect, useId, useLayoutEffect, useRef } from 'react'
 
 import { cn } from '@/utils'
 import { GridCardBody } from './GridCardBody'
 import { useGridCards } from './GridCardsProvider'
 import { GridCardTitle } from './GridCardTitle'
 
-export type GridCardProps = PropsWithChildren<{
+export type GridCardProps = {
   title: string
   initiallyOpen: boolean
-}>
+  children: React.ReactNode
+}
 
 export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const id = title

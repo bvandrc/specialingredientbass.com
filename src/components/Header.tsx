@@ -28,7 +28,7 @@ export const Header = () => {
           alt="Special Ingredient Bass Mixes"
           width={480}
           height={261}
-          className="block mx-auto p-2 w-auto h-auto max-h-45 lg:max-h-50 drop-shadow-[0_0_30px_purple]"
+          className="block mx-auto p-2 size-auto max-h-45 lg:max-h-50 drop-shadow-[0_0_30px_purple]"
         />
       </h1>
       <div

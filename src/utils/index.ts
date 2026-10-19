@@ -72,8 +72,9 @@ export function createObject<const Keys extends readonly string[], Value>(
 }
 
 /**
- * The custom utilities from `src/styles/index.css` need their own class groups:
- * otherwise tailwind-merge reads `text-glow-*` as a text color and
+ * The custom utilities from `src/styles/index.css`, each given its own class group.
+ *
+ * Without one, tailwind-merge reads `text-glow-*` as a text color and
  * `custom-shadow-*` as a box shadow, and silently drops the real
  * `text-<color>`/`shadow-*` class sitting next to it.
  */

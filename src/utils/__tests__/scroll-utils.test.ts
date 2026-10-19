@@ -1,7 +1,7 @@
 import { scrollElement } from '../scroll-utils'
 
 /** A scrollable element, with the metrics these helpers read off one. */
-const scrollable = (scrollTop: number) => {
+const mockScrollable = (scrollTop: number) => {
   const el = {
     scrollTop,
     scrollHeight: 1000,
@@ -23,7 +23,7 @@ describe('scrollElement', () => {
     ]
 
     for (const { scrollTop, delta, top } of SCROLLS) {
-      const el = scrollable(scrollTop)
+      const el = mockScrollable(scrollTop)
 
       scrollElement(el, { delta, magnetDistance: 50 })
 

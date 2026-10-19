@@ -9,6 +9,7 @@ import {
 import { union, without } from 'es-toolkit'
 import Masonry from 'react-masonry-css'
 
+import { cn } from '@/utils'
 import type { GridCardProps } from './GridCard'
 
 export type ExpandingRef = React.RefObject<HTMLDivElement> | undefined
@@ -34,13 +35,14 @@ export function useGridCards() {
 }
 
 export const GridCardsProvider = ({
-  children,
   allowMultipleOpen,
   noneExpandedInfo,
-}: React.PropsWithChildren<{
+  children,
+}: {
   allowMultipleOpen: boolean
   noneExpandedInfo?: React.ReactNode
-}>) => {
+  children: React.ReactNode
+}) => {
   const [openIds, setOpenIds] = useState<string[]>([])
   const [allIds, setAllIds] = useState<string[]>([])
   const [expandingRef, setExpandingRef] = useState<ExpandingRef>(undefined)
@@ -104,9 +106,16 @@ export const GridCardsProvider = ({
           1350: 2,
           768: 1, // md: https://tailwindcss.com/docs/responsive-design#overview
         }}
-        columnClassName="p-2 max-md:p-0" // md is when border goes away, so remove padding
-        className="flex mt-2 w-auto max-lg:mt-1" // lg is when header goes to center instead of right
-      >
+        columnClassName={cn(
+          'p-2',
+          // md is when border goes away, so remove padding
+          'max-md:p-0'
+        )}
+        className={cn(
+          'flex mt-2 w-auto',
+          // lg is when header goes to center instead of right
+          'max-lg:mt-1'
+        )}>
         {children}
       </Masonry>
     </GridCardsContext.Provider>

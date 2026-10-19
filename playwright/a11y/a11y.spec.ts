@@ -3,26 +3,26 @@ import { expect, test } from '@playwright/test'
 import { SELECTORS } from '~/pw/support/constants/selectors'
 import { checkA11y } from './accessibility'
 
+const { GRID, SOUNDCLOUD } = SELECTORS
+
 // One "workflow" test: the page as loaded (cards open on desktop, collapsed
 // on mobile), then with the first grid card toggled — scanned once each.
 test('Home page', async ({ page }) => {
   await page.goto('/')
 
-  const firstCardTitle = page
-    .getByTestId(SELECTORS.GRID.CARD.TITLE.SELF)
-    .first()
+  const firstCardTitle = page.getByTestId(GRID.CARD.TITLE.SELF).first()
 
   // initial check
   await checkA11y(page)
 
   // SoundCloud players render in the mix grid
-  await expect(
-    page.getByTestId(SELECTORS.SOUNDCLOUD.PLAYER.SELF).first()
-  ).toBeVisible({ timeout: 15_000 })
+  await expect(page.getByTestId(SOUNDCLOUD.PLAYER.SELF).first()).toBeVisible({
+    timeout: 15_000,
+  })
   await checkA11y(page)
 
   await expect(
-    page.getByTestId(SELECTORS.SOUNDCLOUD.PLAYER.PLAY_PAUSE_BUTTON).first()
+    page.getByTestId(SOUNDCLOUD.PLAYER.PLAY_PAUSE_BUTTON).first()
   ).toBeAttached({ timeout: 15_000 })
   await checkA11y(page)
 
