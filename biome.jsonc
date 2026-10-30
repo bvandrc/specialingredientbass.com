@@ -20,10 +20,12 @@
   "files": {
     "includes": [
       "**",
+      "!!conventions",
       "!!**/coverage",
       "!!**/dist",
       "!!graphics (non-website)", // huge SVG exports crash the Biome 2.5 project scanner (stack overflow)
       "!**/node_modules",
+      "!!public/Logo Outlined.svg", // Inkscape export: Biome 2.6 lints its inline styles, which carry Inkscape-only properties
       "!**/playwright/results",
       "!!**/soundcloudWidget.js"
     ]

@@ -34,7 +34,7 @@ Conventions live outside this file, synced from https://github.com/bvandrc/bvand
 - **Icons**: FontAwesome, deliberately. Treat a swap as a layout change, not a dependency change.
   - The four `@fortawesome/*` entries are one vendor sharing one transitive package, and they tree-shake — only the icons actually imported reach the bundle.
   - Other icon sets don't ship the brand logos we need (SoundCloud, Instagram, Facebook, Reddit, Twitter in `Header.tsx`; SoundCloud again in `SoundcloudPlayer.tsx`), so a swap would mean adding a second package anyway.
-  - The play/pause overlay stacks a *filled* `faPlayCircle` over a white `faCircle` to punch through the transparent center, which stroke-based sets can't reproduce.
+  - The play/pause overlay stacks a _filled_ `faPlayCircle` over a white `faCircle` to punch through the transparent center, which stroke-based sets can't reproduce.
   - Its sizing model (icons are `1em` tall; `size` props are multipliers that compound with the parent font-size) is what every icon call site is tuned against — see the `text-4xl`/`text-3xl` stack in `SoundcloudPlayer.tsx`.
 - **Theme and custom utilities**: Tailwind v4 with no `tailwind.config.js` — the brand colors (`--color-soundcloud`, `--color-instagram`, …) and the custom utilities (`text-glow-heavy-*`, `text-glow-med-*`, `custom-shadow-*`) live in `src/styles/index.css`. Reuse those rather than writing a one-off `text-shadow` or `box-shadow`, and add new tokens to the same file.
 - **Security headers**: The `preview.headers` block in `vite.config.ts` is what keeps CI's ZAP baseline scan green — GitHub Pages can't set response headers, so it has no production effect, but don't drop it.
