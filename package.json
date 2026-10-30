@@ -65,11 +65,11 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4",
-    "@biomejs/biome": "^2",
+    "@biomejs/biome": "^2.6",
     "@playwright/test": "^1",
     "@spotify/web-api-ts-sdk": "^1",
     "@tailwindcss/vite": "^4",
-    "@types/node": "^22",
+    "@types/node": "^24",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@vitejs/plugin-react": "^6",
@@ -81,6 +81,6 @@
     "typescript": "^7",
     "vite": "^8",
     "vite-plugin-fs": "^1",
-    "vitest": "^4"
+    "vitest": "^5"
   }
 }
