@@ -27,7 +27,6 @@
       "!**/node_modules",
       "!!public/Logo Outlined.svg", // Inkscape export: Biome 2.6 lints its inline styles, which carry Inkscape-only properties
       "!**/playwright/results",
-      "!!public/Logo Outlined.svg", // Inkscape export; Biome 2.5.15 lints its inline styles (Inkscape-only properties, a font with no generic fallback)
       "!!**/soundcloudWidget.js"
     ]
   }
