@@ -4,8 +4,14 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { pick } from 'es-toolkit'
 import { defineConfig, type Plugin } from 'vite'
+import { z } from 'zod/mini'
 
-import { getIframeSrc, getOEmbed, SC_PLAYER_HEIGHT } from './src/api/soundcloud'
+import {
+  getIframeSrc,
+  getOEmbed,
+  SC_PLAYER_HEIGHT,
+  soundcloudTrackDataSchema,
+} from './src/api/soundcloud'
 
 const SC_DATA_FILE = 'soundcloud-data.json'
 
@@ -15,20 +21,23 @@ const scUrlMatches = gridCardDataCode
   .matchAll(/https:\/\/soundcloud\.com\/.*?(?=['"])/g)
 const scUrls = Array.from(scUrlMatches).map((m) => m[0])
 
-const scTracks = await Promise.all(
-  scUrls.map(async (url) => {
-    const oEmbed = await getOEmbed({
-      url,
-      maxheight: SC_PLAYER_HEIGHT,
-      auto_play: false,
+// Checked before it's written, since the site renders it unchecked.
+const scTracks = z.array(soundcloudTrackDataSchema).parse(
+  await Promise.all(
+    scUrls.map(async (url) => {
+      const oEmbed = await getOEmbed({
+        url,
+        maxheight: SC_PLAYER_HEIGHT,
+        auto_play: false,
+      })
+      return {
+        originalUrl: url,
+        iframeSrc: getIframeSrc(oEmbed.html),
+        // the rest of the oEmbed response is unused, and this file ships in the bundle
+        ...pick(oEmbed, ['title', 'description', 'thumbnail_url']),
+      }
     })
-    return {
-      originalUrl: url,
-      iframeSrc: getIframeSrc(oEmbed.html),
-      // the rest of the oEmbed response is unused, and this file ships in the bundle
-      ...pick(oEmbed, ['title', 'description', 'thumbnail_url']),
-    }
-  })
+  )
 )
 const contents = `${JSON.stringify(scTracks, null, 2)}\n`
 // avoid a no-op write, which would retrigger the dev server's config reload

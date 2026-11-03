@@ -9,14 +9,26 @@ const SC_CLIENT_ID = 'DgFeY88vapbGCcK7RrT2E33nmNQVWX82'
 /** Height the embed is requested at — the iframe must be sized to match, or the widget lays itself out for a different viewport. */
 export const SC_PLAYER_HEIGHT = 166
 
-// Only the fields the build writes out, so a change to one it drops can't fail
-// the build. The description is optional text on the page, so it may be absent.
+// Only the fields the build reads, so a change to one it ignores can't fail the
+// build. The description is optional text on the page, so it may be absent.
 const oEmbedSchema = z.object({
   title: z.string(),
   thumbnail_url: z.url(),
   html: z.string(),
   description: z.nullish(z.string()),
 })
+
+/** A track as the build writes it to `soundcloud-data.json`, which the site renders from. */
+export const soundcloudTrackDataSchema = z.extend(
+  z.pick(oEmbedSchema, { title: true, thumbnail_url: true, description: true }),
+  {
+    /** The track's page, as `grid-card-data.tsx` spells it — what the site looks a track up by. */
+    originalUrl: z.url(),
+    iframeSrc: z.url(),
+  }
+)
+
+export type SoundcloudTrackData = z.infer<typeof soundcloudTrackDataSchema>
 
 /**
  * Pulls the player URL out of an oEmbed `html` snippet, so the browser never
