@@ -2,48 +2,11 @@ import fs from 'node:fs'
 import path from 'node:path'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
-import { pick } from 'es-toolkit'
 import { defineConfig, type Plugin } from 'vite'
-import { z } from 'zod/mini'
 
-import {
-  getIframeSrc,
-  getOEmbed,
-  SC_PLAYER_HEIGHT,
-  soundcloudTrackDataSchema,
-} from './src/api/soundcloud'
+import { writeSoundcloudData } from './build/soundcloud-data'
 
-const SC_DATA_FILE = 'soundcloud-data.json'
-
-const gridCardDataCode = fs.readFileSync('./src/data/grid-card-data.tsx')
-const scUrlMatches = gridCardDataCode
-  .toString()
-  .matchAll(/https:\/\/soundcloud\.com\/.*?(?=['"])/g)
-const scUrls = Array.from(scUrlMatches).map((m) => m[0])
-
-// Checked before it's written, since the site renders it unchecked.
-const scTracks = z.array(soundcloudTrackDataSchema).parse(
-  await Promise.all(
-    scUrls.map(async (url) => {
-      const oEmbed = await getOEmbed({
-        url,
-        maxheight: SC_PLAYER_HEIGHT,
-        auto_play: false,
-      })
-      return {
-        originalUrl: url,
-        iframeSrc: getIframeSrc(oEmbed.html),
-        // the rest of the oEmbed response is unused, and this file ships in the bundle
-        ...pick(oEmbed, ['title', 'description', 'thumbnail_url']),
-      }
-    })
-  )
-)
-const contents = `${JSON.stringify(scTracks, null, 2)}\n`
-// avoid a no-op write, which would retrigger the dev server's config reload
-if (fs.readFileSync(SC_DATA_FILE, 'utf8') !== contents) {
-  fs.writeFileSync(SC_DATA_FILE, contents)
-}
+await writeSoundcloudData()
 
 /**
  * Has `vite preview` answer a `/.well-known/` path with no file behind it with

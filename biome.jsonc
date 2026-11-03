@@ -17,6 +17,52 @@
       }
     }
   },
+  "overrides": [
+    {
+      // build/ runs at build time only and never ships: what src/ needs from
+      // it lives in shared/, which both import.
+      "includes": ["src/**", "shared/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["**/build/**"],
+                    "message": "build/ is build-time only; move what src/ needs into shared/."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      // The reverse: src/ is the app, so what build/ needs from it lives in
+      // shared/ too.
+      "includes": ["build/**", "shared/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["**/src/**", "@/**"],
+                    "message": "src/ is the app; move what build/ or shared/ needs into shared/."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
   "files": {
     "includes": [
       "**",

@@ -1,13 +1,13 @@
 import { keyBy } from 'es-toolkit'
 
-import type { SoundcloudTrackData } from '@/api/soundcloud'
 import { useSoundcloudPlayer } from '@/hooks/useSoundcloudPlayer'
 import { cn } from '@/utils'
+import type { SoundcloudTrackData } from '~/shared/soundcloud'
 import data from '../../soundcloud-data.json' with { type: 'json' }
 import { SoundcloudPlayer } from './SoundcloudPlayer'
 
-// A type check only: the build validated the file when it wrote it, and the
-// schema itself stays out of the bundle.
+// A type check only: the file is generated at build time, by code that stays
+// out of the bundle.
 const dataByUrl = keyBy(
   data satisfies SoundcloudTrackData[],
   (d) => d.originalUrl
