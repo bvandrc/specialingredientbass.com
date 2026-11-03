@@ -19,9 +19,9 @@
   },
   "overrides": [
     {
-      // build/ runs at build time only; src/ takes nothing from it but types,
-      // re-exported through src/types/, which holds nothing else.
-      "includes": ["src/**", "!src/types/**"],
+      // build/ runs at build time only and never ships: what src/ needs from
+      // it lives in shared/, which both import.
+      "includes": ["src/**", "shared/**"],
       "linter": {
         "rules": {
           "style": {
@@ -31,7 +31,7 @@
                 "patterns": [
                   {
                     "group": ["**/build/**"],
-                    "message": "src/ takes only types from build/, re-exported through src/types/."
+                    "message": "build/ is build-time only; move what src/ needs into shared/."
                   }
                 ]
               }

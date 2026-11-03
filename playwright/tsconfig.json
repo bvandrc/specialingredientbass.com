@@ -4,9 +4,10 @@
     "types": ["node"],
     "paths": {
       "~/pw/support/*": ["./support/*"],
-      // `paths` replaces rather than merges with the base config's, so `@/*` is
-      // repeated here to keep it working in tests.
-      "@/*": ["../src/*"]
+      // `paths` replaces rather than merges with the base config's, so `@/*` and
+      // `~/shared/*` are repeated here to keep them working in tests.
+      "@/*": ["../src/*"],
+      "~/shared/*": ["../shared/*"]
     }
   },
   "include": ["**/*.ts"],

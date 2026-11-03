@@ -1,13 +1,16 @@
 import fs from 'node:fs'
 import { pick } from 'es-toolkit'
 
-import { SC_PLAYER_HEIGHT } from '../src/constants/soundcloud'
+import {
+  SC_PLAYER_HEIGHT,
+  type SoundcloudTrackData,
+} from '../shared/soundcloud'
 import { getIframeSrc, getOEmbed } from './soundcloud-oembed'
 
 const SC_DATA_FILE = 'soundcloud-data.json'
 const GRID_CARD_DATA_FILE = './src/data/grid-card-data.tsx'
 
-const fetchTrackData = async (url: string) => {
+const fetchTrackData = async (url: string): Promise<SoundcloudTrackData> => {
   const oEmbed = await getOEmbed({
     url,
     maxheight: SC_PLAYER_HEIGHT,
@@ -20,9 +23,6 @@ const fetchTrackData = async (url: string) => {
     ...pick(oEmbed, ['title', 'description', 'thumbnail_url']),
   }
 }
-
-/** A track as `soundcloud-data.json` holds it, which the site renders from. */
-export type SoundcloudTrackData = Awaited<ReturnType<typeof fetchTrackData>>
 
 /**
  * Rewrites `soundcloud-data.json` from SoundCloud's oEmbed API, for every
