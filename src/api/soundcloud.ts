@@ -1,3 +1,5 @@
+import { z } from 'zod/mini'
+
 // Relative, not the `@/` alias: vite.config.ts imports this module at
 // config-load time, where esbuild bundles it before Vite's resolver runs.
 import { makeRequest } from '../utils/api-utils'
@@ -7,14 +9,14 @@ const SC_CLIENT_ID = 'DgFeY88vapbGCcK7RrT2E33nmNQVWX82'
 /** Height the embed is requested at — the iframe must be sized to match, or the widget lays itself out for a different viewport. */
 export const SC_PLAYER_HEIGHT = 166
 
-export interface OEmbed {
-  title: string
-  thumbnail_url: string
-  html: string
-  description: string
-  author_name: string
-  author_url: string
-}
+// Only the fields the build writes out, so a change to one it drops can't fail
+// the build. The description is optional text on the page, so it may be absent.
+const oEmbedSchema = z.object({
+  title: z.string(),
+  thumbnail_url: z.url(),
+  html: z.string(),
+  description: z.nullish(z.string()),
+})
 
 /**
  * Pulls the player URL out of an oEmbed `html` snippet, so the browser never
@@ -29,6 +31,12 @@ export function getIframeSrc(html: string) {
   return src.replaceAll('&amp;', '&')
 }
 
+/**
+ * Fetches SoundCloud's embed details for a track or set.
+ *
+ * Rejects on a response missing a field the site renders, so a change on
+ * SoundCloud's side fails the build rather than the page.
+ */
 export function getOEmbed(params: {
   url: string
   /** @default 100% */
@@ -44,5 +52,15 @@ export function getOEmbed(params: {
   return makeRequest('GET', 'https://soundcloud.com/oembed', {
     client_id: SC_CLIENT_ID,
     ...params,
-  }).then((res) => res.json() as Promise<OEmbed>)
+  })
+    .then((res) => res.json())
+    .then((json) => {
+      const result = oEmbedSchema.safeParse(json)
+      if (!result.success) {
+        throw new Error(
+          `unexpected oEmbed response for ${params.url}:\n${z.prettifyError(result.error)}`
+        )
+      }
+      return result.data
+    })
 }
