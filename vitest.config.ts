@@ -13,7 +13,7 @@ export default defineConfig({
     globals: true,
     watch: false,
     root: '.',
-    include: ['./src/**/*.{test,spec}.*'],
+    include: ['./{src,build}/**/*.{test,spec}.*'],
     exclude: [
       '**/node_modules/**',
       '**/dist/**',

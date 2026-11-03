@@ -17,6 +17,30 @@
       }
     }
   },
+  "overrides": [
+    {
+      // build/ runs at build time only; src/ takes nothing from it but types,
+      // through the one module that holds nothing else.
+      "includes": ["src/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["**/build/**", "!**/build/types"],
+                    "message": "src/ takes only types from build/, through build/types.ts."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
   "files": {
     "includes": [
       "**",
