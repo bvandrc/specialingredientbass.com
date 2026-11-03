@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import { pick } from 'es-toolkit'
 
-import { SC_PLAYER_HEIGHT } from '../src/api/soundcloud'
+import { SC_PLAYER_HEIGHT } from '../src/constants/soundcloud'
 import { getIframeSrc, getOEmbed } from './soundcloud-oembed'
 
 const SC_DATA_FILE = 'soundcloud-data.json'

@@ -15,7 +15,7 @@ import {
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import type { TrackInfo } from 'soundcloud-widget'
 
-import { SC_PLAYER_HEIGHT } from '@/api/soundcloud'
+import { SC_PLAYER_HEIGHT } from '@/constants/soundcloud'
 import type { useSoundcloudPlayer } from '@/hooks/useSoundcloudPlayer'
 import { cn } from '@/utils'
 import { setSearchParams } from '@/utils/api-utils'

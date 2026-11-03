@@ -3,7 +3,11 @@
 React site for DJ Special Ingredient, deployed to GitHub Pages by `.github/workflows/deploy.yml`.
 
 - **Stack**: React 18 + Vite + TypeScript, Tailwind v4, Biome, Playwright for e2e/a11y/Lighthouse. FontAwesome for icons, `soundcloud-widget` for the embedded players, `react-ga4` for analytics.
-- **Layout**: `src/` is the app; `build/` is code that runs only at build time, from `vite.config.ts`, and never ships — `src/` may import only types from it, through `build/types.ts`, which a Biome `noRestrictedImports` override enforces; `playwright/` is all tests, with shared helpers and selectors under `playwright/support/`; `spotify-tools/` is a separate one-off Vite app, not part of the site build.
+- **Layout**:
+  - `src/` is the app.
+  - `build/` is code that runs only at build time, from `vite.config.ts`, and never ships. `src/` takes only types from it, re-exported through `src/types/`; a Biome `noRestrictedImports` override rejects any other import of `build/` from `src/`.
+  - `playwright/` is all tests, with shared helpers and selectors under `playwright/support/`.
+  - `spotify-tools/` is a separate one-off Vite app, not part of the site build.
 - **Base path**: the site is served from the domain root (`CNAME`), so `base` is `'/'` and asset paths need no prefix. There is no `site.config.ts` indirection here — don't add one unless the site moves to a subpath.
 - **Generated data**: `soundcloud-data.json` is rewritten on every Vite start and build by `build/soundcloud-data.ts`, which pulls the SoundCloud URLs out of `src/data/grid-card-data.tsx` and calls the oEmbed API. `spotify-playlists.json` comes from `pnpm generate-playlist-json`. Don't hand-edit either — add the track URL to `grid-card-data.tsx` instead.
 
