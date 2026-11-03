@@ -1,11 +1,8 @@
 // Relative, not the `@/` alias: vite.config.ts imports this module at
 // config-load time, where esbuild bundles it before Vite's resolver runs.
-import { makeRequest } from '../utils/api-utils'
+import { makeRequest } from '../shared/api-utils'
 
 const SC_CLIENT_ID = 'DgFeY88vapbGCcK7RrT2E33nmNQVWX82'
-
-/** Height the embed is requested at — the iframe must be sized to match, or the widget lays itself out for a different viewport. */
-export const SC_PLAYER_HEIGHT = 166
 
 export interface OEmbed {
   title: string
