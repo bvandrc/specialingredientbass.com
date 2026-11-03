@@ -1,4 +1,4 @@
-import { useIsMobile } from '@bvandrc/react-ui-hooks'
+import { useIsMobile } from '@bvandrc/react-toolkit'
 
 import { GridCardsProvider } from './GridCardsProvider'
 

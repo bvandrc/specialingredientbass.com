@@ -1,4 +1,4 @@
-import { useIsMobile } from '@bvandrc/react-ui-hooks'
+import { useIsMobile } from '@bvandrc/react-toolkit'
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 
