@@ -46,6 +46,7 @@
     "generate-playlist-json": "vite --open --config ./spotify-tools/vite.config.ts ./spotify-tools"
   },
   "dependencies": {
+    "@bvandrc/react-ui-hooks": "^1",
     "@fontsource/barlow": "^5",
     "@fontsource/outfit": "^5",
     "@fontsource/roboto-condensed": "^5",
