@@ -1,5 +1,5 @@
 minimumReleaseAgeExclude:
-  - lighthouse-audit-utils # TODO: remove when aged
+  - '@bvandrc/react-toolkit' # TODO: remove when aged
 allowBuilds:
   # Its postinstall only checks for the native binary, which pnpm already
   # installs as a platform optional dependency.
