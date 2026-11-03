@@ -63,6 +63,7 @@
     "react-masonry-css": "^1",
     "soundcloud-widget": "^0.2",
     "tailwind-merge": "^3",
+    "ts-extras": "^1",
     "usehooks-ts": "^3"
   },
   "devDependencies": {
