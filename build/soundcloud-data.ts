@@ -1,16 +1,14 @@
 import fs from 'node:fs'
 import { pick } from 'es-toolkit'
 
-import {
-  SC_PLAYER_HEIGHT,
-  type SoundcloudTrackData,
-} from '../shared/soundcloud'
+import { soundcloudTrackDataSchema } from '../shared/schemas/soundcloud'
+import { SC_PLAYER_HEIGHT } from '../shared/soundcloud'
 import { getIframeSrc, getOEmbed } from './soundcloud-oembed'
 
 const SC_DATA_FILE = 'soundcloud-data.json'
 const GRID_CARD_DATA_FILE = './src/data/grid-card-data.tsx'
 
-const fetchTrackData = async (url: string): Promise<SoundcloudTrackData> => {
+const fetchTrackData = async (url: string) => {
   const oEmbed = await getOEmbed({
     url,
     maxheight: SC_PLAYER_HEIGHT,
@@ -39,9 +37,10 @@ export async function writeSoundcloudData() {
     (m) => m[0]
   )
 
-  const scTracks: SoundcloudTrackData[] = await Promise.all(
-    scUrls.map(fetchTrackData)
-  )
+  // Checked before it's written, since the site renders it unchecked.
+  const scTracks = soundcloudTrackDataSchema
+    .array()
+    .parse(await Promise.all(scUrls.map(fetchTrackData)))
 
   const contents = `${JSON.stringify(scTracks, null, 2)}\n`
   // a no-op write would retrigger the dev server's config reload

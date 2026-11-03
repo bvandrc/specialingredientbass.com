@@ -6,7 +6,7 @@ React site for DJ Special Ingredient, deployed to GitHub Pages by `.github/workf
 - **Layout**:
   - `src/` is the app.
   - `build/` is code that runs only at build time, from `vite.config.ts`, and never ships.
-  - `shared/` is what both use, such as `SC_PLAYER_HEIGHT`, the `SoundcloudTrackData` type, and `api-utils.ts`, imported as `~/shared/*` from `src/` and relatively from `build/`. Biome `noRestrictedImports` overrides keep `src/` and `shared/` from importing `build/`, and `build/` and `shared/` from importing `src/`.
+  - `shared/` is what both use, such as `SC_PLAYER_HEIGHT`, `api-utils.ts`, and the zod schemas in `shared/schemas/`, imported as `~/shared/*` from `src/` and relatively from `build/`. dependency-cruiser (`.dependency-cruiser.cjs`, run by `pnpm check`) keeps `src/` and `shared/` from importing `build/`, keeps `build/` and `shared/` from importing `src/`, and lets the app take only types from `shared/schemas/`, so zod never reaches the bundle.
   - `playwright/` is all tests, with shared helpers and selectors under `playwright/support/`.
   - `spotify-tools/` is a separate one-off Vite app, not part of the site build.
 - **Base path**: the site is served from the domain root (`CNAME`), so `base` is `'/'` and asset paths need no prefix. There is no `site.config.ts` indirection here — don't add one unless the site moves to a subpath.
@@ -26,7 +26,7 @@ Conventions live outside this file, synced from https://github.com/bvandrc/bvand
 ## Commands
 
 - `pnpm dev` — dev server on port 5000. `pnpm build`, `pnpm preview`. Both dev and build call the SoundCloud oEmbed API while loading the Vite config, so they need network access.
-- `pnpm format` — Biome check/fix. `pnpm check` — the full gate: format plus `tsc` for the app and for `playwright/tsconfig.json`. Run before every commit; it's what CI runs.
+- `pnpm format` — Biome check/fix. `pnpm check` — the full gate: format, `tsc` for the app and for `playwright/tsconfig.json`, and the dependency-cruiser boundaries (`pnpm deps:check`). Run before every commit; it's what CI runs.
 - `pnpm test` — Vitest unit tests over `src/`. `pnpm test:watch` to re-run on a change; CI runs `pnpm test:unit`.
 - `pnpm preview:ci` — build and serve on port 4173, which is what the Playwright suites expect.
 - `pnpm test:e2e`, `pnpm test:a11y`, `pnpm test:lighthouse` — the three Playwright projects, all against a running preview server. `pnpm pw:open` for the UI runner.

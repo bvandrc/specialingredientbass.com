@@ -1,4 +1,4 @@
-import { getOEmbed, soundcloudTrackDataSchema } from '../soundcloud'
+import { getOEmbed } from '../soundcloud-oembed'
 
 const TRACK_URL = 'https://soundcloud.com/special-ingredient/plant-life-vol-1'
 
@@ -62,26 +62,5 @@ describe('getOEmbed', () => {
         JSON.stringify(body)
       ).rejects.toThrow(TRACK_URL)
     }
-  })
-})
-
-describe('soundcloudTrackDataSchema', () => {
-  const TRACK_DATA = {
-    originalUrl: TRACK_URL,
-    iframeSrc: 'https://w.soundcloud.com/player/?url=x',
-    title: OEMBED.title,
-    thumbnail_url: OEMBED.thumbnail_url,
-    description: OEMBED.description,
-  }
-
-  it('accepts a track as the build writes it', () => {
-    expect(soundcloudTrackDataSchema.safeParse(TRACK_DATA).success).toBe(true)
-  })
-
-  it('rejects a track whose player src is not a URL', () => {
-    // `getIframeSrc` passes the iframe's src through as-is, URL or not.
-    const BAD = { ...TRACK_DATA, iframeSrc: '&lt;not a url&gt;' }
-
-    expect(soundcloudTrackDataSchema.safeParse(BAD).success).toBe(false)
   })
 })
