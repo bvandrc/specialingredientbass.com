@@ -1,4 +1,5 @@
-import { useIsMobile } from '@/hooks/useMobile'
+import { useIsMobile } from '@bvandrc/react-ui-hooks'
+
 import { GridCardsProvider } from './GridCardsProvider'
 
 export const GridBody = ({
