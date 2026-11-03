@@ -17,7 +17,7 @@ export default defineConfig({
     globals: true,
     watch: false,
     root: '.',
-    include: ['./{src,build}/**/*.{test,spec}.*'],
+    include: ['./{src,shared,build}/**/*.{test,spec}.*'],
     exclude: [
       '**/node_modules/**',
       '**/dist/**',

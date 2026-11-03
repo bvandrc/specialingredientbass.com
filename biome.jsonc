@@ -39,6 +39,28 @@
           }
         }
       }
+    },
+    {
+      // The reverse: src/ is the app, so what build/ needs from it lives in
+      // shared/ too.
+      "includes": ["build/**", "shared/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["**/src/**", "@/**"],
+                    "message": "src/ is the app; move what build/ or shared/ needs into shared/."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   ],
   "files": {

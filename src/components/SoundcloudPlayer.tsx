@@ -17,7 +17,7 @@ import type { TrackInfo } from 'soundcloud-widget'
 
 import type { useSoundcloudPlayer } from '@/hooks/useSoundcloudPlayer'
 import { cn } from '@/utils'
-import { setSearchParams } from '@/utils/api-utils'
+import { setSearchParams } from '~/shared/api-utils'
 import { SC_PLAYER_HEIGHT } from '~/shared/soundcloud'
 
 export interface SoundcloudPlayerProps {

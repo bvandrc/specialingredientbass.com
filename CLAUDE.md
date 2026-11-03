@@ -6,7 +6,7 @@ React site for DJ Special Ingredient, deployed to GitHub Pages by `.github/workf
 - **Layout**:
   - `src/` is the app.
   - `build/` is code that runs only at build time, from `vite.config.ts`, and never ships.
-  - `shared/` is what both use, such as `SC_PLAYER_HEIGHT` and the `SoundcloudTrackData` type, imported as `~/shared/*` from `src/` and relatively from `build/`. A Biome `noRestrictedImports` override keeps `src/` and `shared/` from importing `build/`.
+  - `shared/` is what both use, such as `SC_PLAYER_HEIGHT`, the `SoundcloudTrackData` type, and `api-utils.ts`, imported as `~/shared/*` from `src/` and relatively from `build/`. Biome `noRestrictedImports` overrides keep `src/` and `shared/` from importing `build/`, and `build/` and `shared/` from importing `src/`.
   - `playwright/` is all tests, with shared helpers and selectors under `playwright/support/`.
   - `spotify-tools/` is a separate one-off Vite app, not part of the site build.
 - **Base path**: the site is served from the domain root (`CNAME`), so `base` is `'/'` and asset paths need no prefix. There is no `site.config.ts` indirection here — don't add one unless the site moves to a subpath.
