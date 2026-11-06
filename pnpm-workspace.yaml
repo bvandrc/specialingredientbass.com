@@ -4,3 +4,7 @@ allowBuilds:
   # Its postinstall only checks for the native binary, which pnpm already
   # installs as a platform optional dependency.
   '@swc/core': false
+  # Both ship their binary as a platform-specific optional dependency, so their
+  # postinstall checks aren't needed for wrangler to run.
+  esbuild: false
+  workerd: false

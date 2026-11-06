@@ -2,6 +2,8 @@
 
 React site for DJ Special Ingredient, deployed to GitHub Pages by `.github/workflows/deploy.yml`.
 
+Every PR also gets a preview URL, linked from its "View deployment" button by `.github/workflows/preview.yml`. It uploads the PR's build as a version of a Cloudflare Worker (`wrangler.jsonc`) that serves nothing live, so the domain stays on GitHub Pages and GoDaddy. It needs the repo secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+
 - **Stack**: React 18 + Vite + TypeScript, Tailwind v4, Biome, Playwright for e2e/a11y/Lighthouse. FontAwesome for icons, `soundcloud-widget` for the embedded players, `react-ga4` for analytics.
 - **Layout**:
   - `src/` is the app.

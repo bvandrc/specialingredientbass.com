@@ -1,0 +1,55 @@
+name: Preview
+
+# Uploads each PR's build as a Cloudflare version, without deploying it, and
+# links its preview URL from the PR's "View deployment" button, which posts no
+# comment. The `pr-<number>` alias keeps one stable URL per PR across pushes.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    name: Preview
+    runs-on: ubuntu-latest
+    # A fork PR gets no secrets, so it can't upload.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    environment:
+      name: preview
+      url: ${{ steps.upload.outputs.url }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v7
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Upload preview version
+        id: upload
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_OUTPUT_FILE_PATH: ${{ runner.temp }}/wrangler-output.ndjson
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          pnpm exec wrangler versions upload --preview-alias "pr-$PR_NUMBER"
+          url=$(jq -r 'select(.type == "version-upload") | .preview_alias_url // empty' "$WRANGLER_OUTPUT_FILE_PATH")
+          # Cloudflare only returns a preview URL once a deploy has applied
+          # `preview_urls: true` to the Worker, and the account has a
+          # workers.dev subdomain.
+          if [ -z "$url" ]; then
+            echo "::error::No preview URL returned. Check that the account has a workers.dev subdomain and that a deploy has applied preview_urls: true."
+            exit 1
+          fi
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "**Preview:** $url" >> "$GITHUB_STEP_SUMMARY"

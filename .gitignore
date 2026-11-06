@@ -1,5 +1,6 @@
 dist
 node_modules
+.wrangler
 coverage
 spotify-token.json
 *.local

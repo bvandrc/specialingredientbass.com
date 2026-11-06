@@ -1,0 +1,14 @@
+// Cloudflare Workers config, used only for per-PR previews by
+// .github/workflows/preview.yml. The live site is on GitHub Pages.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "specialingredientbass-com",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist"
+  },
+  // No route and no workers.dev URL, so nothing is live here, but each
+  // uploaded version gets a workers.dev preview URL.
+  "workers_dev": false,
+  "preview_urls": true
+}
