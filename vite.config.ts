@@ -29,9 +29,44 @@ const notFoundForWellKnown = (): Plugin => ({
   },
 })
 
+/**
+ * Preloads the latin-subset webfont files from `index.html`'s `<head>`.
+ *
+ * Without it the browser only requests a font once React has rendered text that
+ * uses it, so the fallback font shows until then. Build-only, since dev serves
+ * the fonts unhashed straight from `node_modules`.
+ */
+const preloadFonts = (): Plugin => ({
+  name: 'preload-fonts',
+  apply: 'build',
+  transformIndexHtml: {
+    order: 'post',
+    handler: (_html, { bundle }) =>
+      Object.values(bundle ?? {})
+        // `latin` only: the other subsets are `unicode-range`-gated, so the
+        // browser fetches them only for text that needs them.
+        .filter(({ fileName }) =>
+          /-latin-\d+-normal-[\w-]+\.woff2$/.test(fileName)
+        )
+        .map(({ fileName }) => ({
+          tag: 'link',
+          attrs: {
+            rel: 'preload',
+            as: 'font',
+            type: 'font/woff2',
+            href: `/${fileName}`,
+            // Fonts are always fetched in CORS mode, so a preload without
+            // this goes unused and the font is downloaded twice.
+            crossorigin: '',
+          },
+          injectTo: 'head',
+        })),
+  },
+})
+
 export default defineConfig(() => ({
   base: '/',
-  plugins: [tailwindcss(), react(), notFoundForWellKnown()],
+  plugins: [tailwindcss(), react(), notFoundForWellKnown(), preloadFonts()],
   resolve: {
     tsconfigPaths: true,
   },
