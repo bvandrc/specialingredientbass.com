@@ -6,9 +6,12 @@ export const GridCardBody = ({
   isOpen,
   expandingRef,
   setExpandingRef,
+  onExpandEnd,
   children,
 }: {
   isOpen: boolean
+  /** Called when the open transition finishes; not when a collapse does. */
+  onExpandEnd: () => void
   children: React.ReactNode
 } & Pick<GridCardsContextValue, 'expandingRef' | 'setExpandingRef'>) => {
   const { UpArrow, DownArrow, scrollRegionProps } = useArrowBtns({
@@ -27,6 +30,7 @@ export const GridCardBody = ({
         onTransitionEnd={(e) => {
           if (e.target === e.currentTarget) {
             setExpandingRef(undefined)
+            if (isOpen) onExpandEnd()
           }
         }}>
         <div
