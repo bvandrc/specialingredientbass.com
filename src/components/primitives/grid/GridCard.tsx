@@ -34,38 +34,20 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const isOpen = checkIsOpen(id, { initiallyOpen })
   const prevIsOpen = useRef<boolean>(isOpen)
 
-  const handleTitleClick = useCallback(() => {
-    if (!isOpen && cardRef.current) {
-      // scroll to the top of the card
-      scrollIntoView(cardRef.current, 'start')
+  const handleTitleClick = useCallback(() => toggleCard(id), [id, toggleCard])
+
+  // Bring the card's top into view once it has finished expanding, when its final size and position are known
+  const handleExpandEnd = useCallback(() => {
+    if (cardRef.current) {
+      scrollIntoView(cardRef.current, 'start', { behavior: 'smooth' })
     }
-    toggleCard(id)
-  }, [isOpen, id, toggleCard, scrollIntoView])
+  }, [scrollIntoView])
 
   useEffect(() => {
     // only set expanding ref when transitioning from closed → open (so scroll/arrows run after transition)
     if (isOpen && !prevIsOpen.current) setExpandingRef(cardRef)
     prevIsOpen.current = isOpen
   }, [isOpen, setExpandingRef])
-
-  // Pin the card title to the viewport top during the expand transition
-  const isExpanding = expandingRef === cardRef
-
-  useEffect(() => {
-    if (!isExpanding) return
-
-    let frameId: number
-    // Re-aimed every frame, since the card moves as it and its neighbors resize
-    const scroll = () => {
-      if (cardRef.current) {
-        scrollIntoView(cardRef.current, 'start', { behavior: 'smooth' })
-      }
-      frameId = requestAnimationFrame(scroll)
-    }
-    frameId = requestAnimationFrame(scroll)
-
-    return () => cancelAnimationFrame(frameId)
-  }, [isExpanding, scrollIntoView])
 
   return (
     <section
@@ -86,7 +68,8 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
       <GridCardBody
         isOpen={isOpen}
         expandingRef={expandingRef}
-        setExpandingRef={setExpandingRef}>
+        setExpandingRef={setExpandingRef}
+        onExpandEnd={handleExpandEnd}>
         {children}
       </GridCardBody>
     </section>
