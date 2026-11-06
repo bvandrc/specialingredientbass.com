@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useId, useLayoutEffect, useRef } from 'react'
+import { useScrollIntoView } from '@bvandrc/react-toolkit'
 
 import { cn } from '@/utils'
 import { GridCardBody } from './GridCardBody'
@@ -15,6 +16,7 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const id = title
   const titleId = useId()
   const cardRef = useRef<HTMLDivElement>(null)
+  const { scrollIntoView } = useScrollIntoView()
 
   const {
     toggleCard,
@@ -33,12 +35,12 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
   const prevIsOpen = useRef<boolean>(isOpen)
 
   const handleTitleClick = useCallback(() => {
-    if (!isOpen) {
+    if (!isOpen && cardRef.current) {
       // scroll to the top of the card
-      cardRef.current?.scrollIntoView({ block: 'start', behavior: 'instant' })
+      scrollIntoView(cardRef.current, 'start')
     }
     toggleCard(id)
-  }, [isOpen, id, toggleCard])
+  }, [isOpen, id, toggleCard, scrollIntoView])
 
   useEffect(() => {
     // only set expanding ref when transitioning from closed → open (so scroll/arrows run after transition)
@@ -53,14 +55,17 @@ export const GridCard = ({ title, initiallyOpen, children }: GridCardProps) => {
     if (!isExpanding) return
 
     let frameId: number
+    // Re-aimed every frame, since the card moves as it and its neighbors resize
     const scroll = () => {
-      cardRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' })
+      if (cardRef.current) {
+        scrollIntoView(cardRef.current, 'start', { behavior: 'smooth' })
+      }
       frameId = requestAnimationFrame(scroll)
     }
     frameId = requestAnimationFrame(scroll)
 
     return () => cancelAnimationFrame(frameId)
-  }, [isExpanding])
+  }, [isExpanding, scrollIntoView])
 
   return (
     <section

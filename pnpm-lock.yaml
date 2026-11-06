@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@bvandrc/react-toolkit':
-        specifier: ^2
-        version: 2.0.0(react@18.3.1)(vitest@5.0.5(@opentelemetry/api@1.10.0)(@types/node@24.19.2)(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0)))
+        specifier: ^2.3
+        version: 2.3.0(react@18.3.1)(vitest@5.0.5(@opentelemetry/api@1.10.0)(@types/node@24.19.2)(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0)))
       '@fontsource/barlow':
         specifier: ^5
         version: 5.3.0
@@ -200,8 +200,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@bvandrc/react-toolkit@2.0.0':
-    resolution: {integrity: sha512-C29BhBuIbOju6JsT2eVq+SrSumQzpqqaxpcB3bOzQFVhTr94NaS7tbCDFGy6C2p0ItizFhkdmElXEIzFVplttA==}
+  '@bvandrc/react-toolkit@2.3.0':
+    resolution: {integrity: sha512-6ZeUSxiZlrvmcz7lZNkGjfXnbfAYbYkg75VicTkf0MPYFnEOgQsgNfS3DiQ4Vc6YPYx2rVDUthxAHzmW8GGTyg==}
     engines: {node: '>=20'}
     peerDependencies:
       '@testing-library/react': ^16
@@ -2107,7 +2107,7 @@ snapshots:
   '@biomejs/cli-win32-x64@2.6.4':
     optional: true
 
-  '@bvandrc/react-toolkit@2.0.0(react@18.3.1)(vitest@5.0.5(@opentelemetry/api@1.10.0)(@types/node@24.19.2)(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0)))':
+  '@bvandrc/react-toolkit@2.3.0(react@18.3.1)(vitest@5.0.5(@opentelemetry/api@1.10.0)(@types/node@24.19.2)(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0)))':
     dependencies:
       es-toolkit: 1.53.0
       react: 18.3.1
