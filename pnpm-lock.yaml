@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@bvandrc/react-toolkit':
-        specifier: ^2
+        specifier: ^2.3
         version: 2.3.0(react@18.3.1)(vitest@5.0.5(@opentelemetry/api@1.10.0)(@types/node@24.19.2)(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0)))
       '@fontsource/barlow':
         specifier: ^5
