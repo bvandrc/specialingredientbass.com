@@ -11,6 +11,7 @@ export const SELECTORS = {
     CARD: {
       SELF: 'grid-card',
       BODY: 'grid-card-body',
+      SCROLL_REGION: 'grid-card-scroll-region',
       TITLE: {
         SELF: 'grid-card-title',
         TEXT: 'grid-card-title-text',

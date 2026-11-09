@@ -17,6 +17,9 @@ const SCROLL_ARROW = {
   SHOW_THRESHOLD: 50, // distance from top or bottom to show arrow
 } as const
 
+/** Overflow up to this many px is subpixel rounding, not something to scroll to. */
+const SCROLLABLE_SLACK_PX = 1
+
 type ArrowDirection = 'up' | 'down'
 
 const ScrollArrow = ({
@@ -55,7 +58,12 @@ const ScrollArrow = ({
   </button>
 )
 
-/** Scroll arrows for a scrollable region. Spread `scrollRegionProps` onto the element they should scroll. */
+/**
+ * Scroll arrows for a scrollable region. Spread `scrollRegionProps` onto the element they should scroll.
+ *
+ * `isScrollable` says whether the region's contents overflow it, so it can stay
+ * a plain box, not a scroll container, while they fit.
+ */
 export const useArrowBtns = ({ isOpen }: { isOpen: boolean }) => {
   const contentRef = useRef<HTMLDivElement>(null)
   const scrollRegionId = useId() // the arrows point at this via aria-controls
@@ -105,9 +113,17 @@ export const useArrowBtns = ({ isOpen }: { isOpen: boolean }) => {
     return [upArrow, downArrow]
   }, [height, scrollTop, isOpen])
 
+  // Read each render: the resize observer above re-renders on any change to the
+  // region's size, which is all that can change whether its contents fit.
+  const scrollRegion = contentRef.current
+  const isScrollable =
+    !!scrollRegion &&
+    scrollRegion.scrollHeight - scrollRegion.clientHeight > SCROLLABLE_SLACK_PX
+
   return {
     UpArrow,
     DownArrow,
+    isScrollable,
     scrollRegionProps: {
       ref: contentRef,
       id: scrollRegionId,

@@ -14,9 +14,14 @@ export const GridCardBody = ({
   onExpandEnd: () => void
   children: React.ReactNode
 } & Pick<GridCardsContextValue, 'expandingRef' | 'setExpandingRef'>) => {
-  const { UpArrow, DownArrow, scrollRegionProps } = useArrowBtns({
+  const { UpArrow, DownArrow, isScrollable, scrollRegionProps } = useArrowBtns({
     isOpen: isOpen && !expandingRef,
   })
+  // A scroll container only while its contents overflow. iOS Safari hands a
+  // drag to an `overflow: auto` box even when there's nothing in it to scroll,
+  // and inside an iframe, like bvandercar.dev's live preview, doesn't pass the
+  // drag on to the page, which then can't be scrolled by touching the card.
+  const canScroll = isOpen && isScrollable
 
   return (
     <>
@@ -34,13 +39,15 @@ export const GridCardBody = ({
           }
         }}>
         <div
+          data-testid="grid-card-scroll-region"
           className={cn(
             'relative min-h-0', // position/layout
             '[&::-webkit-scrollbar]:hidden', // appearance
-            isOpen ? 'overflow-y-auto mb-1 py-1' : 'overflow-hidden'
+            isOpen && 'mb-1 py-1',
+            canScroll ? 'overflow-y-auto' : 'overflow-hidden'
           )}
-          // scrollable region must be keyboard-accessible (a11y); only when open
-          tabIndex={isOpen ? 0 : -1}
+          // scrollable region must be keyboard-accessible (a11y); only when it scrolls
+          tabIndex={canScroll ? 0 : -1}
           {...scrollRegionProps}>
           {children}
         </div>

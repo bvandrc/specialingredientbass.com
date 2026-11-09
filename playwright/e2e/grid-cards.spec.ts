@@ -18,6 +18,7 @@ const expectExpandedStates = async (titles: Locator, states: boolean[]) => {
 
 const CARD_TITLE = SELECTORS.GRID.CARD.TITLE.SELF
 const MIXES_PROMPT = SELECTORS.GRID.SOUNDCLOUD_MIXES_PROMPT
+const SCROLL_REGION = SELECTORS.GRID.CARD.SCROLL_REGION
 
 test.describe('grid cards', () => {
   let cardCount: number
@@ -88,6 +89,33 @@ test.describe('grid cards', () => {
           true,
           ...Array(cardCount - 2).fill(false),
         ])
+      })
+    })
+
+    // iOS Safari hands a drag to any `overflow: auto` box, and in an iframe
+    // doesn't pass it on, so a card with nothing to scroll mustn't be one.
+    test('an expanded card scrolls only while its tracks overflow it', async ({
+      page,
+    }) => {
+      const scrollRegion = page.getByTestId(SCROLL_REGION).first()
+      await page.getByTestId(CARD_TITLE).first().click()
+
+      await test.step('a screen too short for the tracks scrolls them', async () => {
+        await page.setViewportSize({
+          width: PIXEL_7.viewport.width,
+          height: 400,
+        })
+        await expect(scrollRegion).toHaveCSS('overflow-y', 'auto')
+        await expect(scrollRegion).toHaveAttribute('tabindex', '0')
+      })
+
+      await test.step('a screen they fit on leaves them still', async () => {
+        await page.setViewportSize({
+          width: PIXEL_7.viewport.width,
+          height: 2000,
+        })
+        await expect(scrollRegion).toHaveCSS('overflow-y', 'hidden')
+        await expect(scrollRegion).toHaveAttribute('tabindex', '-1')
       })
     })
   })
