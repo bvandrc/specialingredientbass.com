@@ -68,7 +68,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4",
-    "@biomejs/biome": "^2.6",
+    "@biomejs/biome": "^2.6.7",
     "@playwright/test": "^1",
     "@spotify/web-api-ts-sdk": "^1",
     "@swc/core": "^1",
