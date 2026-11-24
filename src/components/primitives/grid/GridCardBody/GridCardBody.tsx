@@ -1,6 +1,6 @@
 import { cn } from '@/utils'
-import type { GridCardsContextValue } from './GridCardsProvider'
-import { useArrowBtns } from './useArrowBtns'
+import type { GridCardsContextValue } from '../GridCardsProvider'
+import { useArrowBtns } from './hooks/useArrowBtns'
 
 export const GridCardBody = ({
   isOpen,
@@ -8,12 +8,12 @@ export const GridCardBody = ({
   setExpandingRef,
   onExpandEnd,
   children,
-}: {
+}: Pick<GridCardsContextValue, 'expandingRef' | 'setExpandingRef'> & {
   isOpen: boolean
   /** Called when the open transition finishes; not when a collapse does. */
   onExpandEnd: () => void
   children: React.ReactNode
-} & Pick<GridCardsContextValue, 'expandingRef' | 'setExpandingRef'>) => {
+}) => {
   const { UpArrow, DownArrow, scrollRegionProps } = useArrowBtns({
     isOpen: isOpen && !expandingRef,
   })
