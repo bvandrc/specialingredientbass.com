@@ -16,8 +16,10 @@ const expectExpandedStates = async (titles: Locator, states: boolean[]) => {
   )
 }
 
-const CARD_TITLE = SELECTORS.GRID.CARD.TITLE.SELF
-const MIXES_PROMPT = SELECTORS.GRID.SOUNDCLOUD_MIXES_PROMPT
+const { GRID } = SELECTORS
+
+const CARD_TITLE = GRID.CARD.TITLE.SELF
+const MIXES_PROMPT = GRID.SOUNDCLOUD_MIXES_PROMPT
 
 test.describe('grid cards', () => {
   let cardCount: number

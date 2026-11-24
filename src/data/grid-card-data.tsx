@@ -7,8 +7,7 @@ const InlineLink = ({
   href,
   text,
   children,
-}: {
-  href: string
+}: Required<Pick<React.ComponentProps<'a'>, 'href'>> & {
   text?: string
   children?: React.ReactNode
 }) => (

@@ -3,13 +3,13 @@ import { useIsMobile } from '@bvandrc/react-toolkit'
 import { GridCardsProvider } from './GridCardsProvider'
 
 export const GridBody = ({
-  children,
   noneExpandedInfo,
   'aria-label': ariaLabel,
+  children,
 }: {
-  children: React.ReactNode
   noneExpandedInfo?: React.ReactNode
   'aria-label': string
+  children: React.ReactNode
 }) => {
   const isMobile = useIsMobile()
   return (
