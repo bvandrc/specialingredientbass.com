@@ -20,11 +20,11 @@ import { cn } from '@/utils'
 import { setSearchParams } from '~/shared/api-utils'
 import { SC_PLAYER_HEIGHT } from '~/shared/soundcloud'
 
-export interface SoundcloudPlayerProps
-  extends Pick<React.ComponentProps<'div'>, 'className'> {
+export interface SoundcloudPlayerProps {
   url: string
   iframeSrc: string
   title: string
+  className?: string
   showArtwork?: boolean
   player: ReturnType<typeof useSoundcloudPlayer>
 }
