@@ -2,7 +2,7 @@
 
 React site for DJ Special Ingredient, deployed to GitHub Pages by `.github/workflows/deploy.yml`.
 
-- **Stack**: React 18 + Vite + TypeScript, Tailwind v4, Biome, Playwright for e2e/a11y/Lighthouse. FontAwesome for icons, `soundcloud-widget` for the embedded players, `react-ga4` for analytics.
+- **Stack**: React 19 + Vite + TypeScript, Tailwind v4, Biome, Playwright for e2e/a11y/Lighthouse. FontAwesome for icons, `soundcloud-widget` for the embedded players, `react-ga4` for analytics.
 - **Layout**:
   - `src/` is the app.
   - `build/` is code that runs only at build time, from `vite.config.ts`, and never ships.

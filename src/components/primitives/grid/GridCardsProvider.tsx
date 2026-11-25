@@ -12,7 +12,7 @@ import Masonry from 'react-masonry-css'
 import { cn } from '@/utils'
 import type { GridCardProps } from './GridCard'
 
-export type ExpandingRef = React.RefObject<HTMLDivElement> | undefined
+export type ExpandingRef = React.RefObject<HTMLDivElement | null> | undefined
 
 export type GridCardsContextValue = {
   registerCard: (id: string, opts: Pick<GridCardProps, 'initiallyOpen'>) => void
@@ -94,7 +94,7 @@ export const GridCardsProvider = ({
   )
 
   return (
-    <GridCardsContext.Provider value={value}>
+    <GridCardsContext value={value}>
       {noneExpandedInfo && noneExpanded && (
         <div data-testid="none-expanded-info">{noneExpandedInfo}</div>
       )}
@@ -118,6 +118,6 @@ export const GridCardsProvider = ({
         )}>
         {children}
       </Masonry>
-    </GridCardsContext.Provider>
+    </GridCardsContext>
   )
 }
