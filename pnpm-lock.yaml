@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@bvandrc/react-toolkit':
         specifier: ^2.3
-        version: 2.6.2(react@18.3.1)(vitest@5.1.0(@opentelemetry/api@1.10.0)(@types/node@24.19.2)(vite@8.3.7(@types/node@24.19.2)(jiti@2.7.0)))
+        version: 2.6.2(react@19.3.1)(vitest@5.1.0(@opentelemetry/api@1.10.0)(@types/node@24.19.2)(vite@8.3.7(@types/node@24.19.2)(jiti@2.7.0)))
       '@fontsource/barlow':
         specifier: ^5
         version: 5.3.0
@@ -31,7 +31,7 @@ importers:
         version: 7.3.1
       '@fortawesome/react-fontawesome':
         specifier: ^3
-        version: 3.5.0(@fortawesome/fontawesome-svg-core@7.3.1)(react@18.3.1)
+        version: 3.5.0(@fortawesome/fontawesome-svg-core@7.3.1)(react@19.3.1)
       clsx:
         specifier: ^2
         version: 2.1.1
@@ -39,17 +39,17 @@ importers:
         specifier: ^1
         version: 1.53.2
       react:
-        specifier: ^18
-        version: 18.3.1
+        specifier: ^19
+        version: 19.3.1
       react-dom:
-        specifier: ^18
-        version: 18.3.1(react@18.3.1)
+        specifier: ^19
+        version: 19.3.1(react@19.3.1)
       react-ga4:
         specifier: ^3
         version: 3.0.1
       react-masonry-css:
         specifier: ^1
-        version: 1.0.16(react@18.3.1)
+        version: 1.0.16(react@19.3.1)
       soundcloud-widget:
         specifier: ^0.2
         version: 0.2.1
@@ -61,7 +61,7 @@ importers:
         version: 2.0.0
       usehooks-ts:
         specifier: ^3
-        version: 3.1.1(react@18.3.1)
+        version: 3.1.1(react@19.3.1)
     devDependencies:
       '@axe-core/playwright':
         specifier: ^4
@@ -85,11 +85,11 @@ importers:
         specifier: ^24
         version: 24.19.2
       '@types/react':
-        specifier: ^18
-        version: 18.3.31
+        specifier: ^19
+        version: 19.3.0
       '@types/react-dom':
-        specifier: ^18
-        version: 18.3.7(@types/react@18.3.31)
+        specifier: ^19
+        version: 19.3.0(@types/react@19.3.0)
       '@vitejs/plugin-react':
         specifier: ^6
         version: 6.3.0(vite@8.3.7(@types/node@24.19.2)(jiti@2.7.0))
@@ -787,16 +787,13 @@ packages:
   '@types/node@24.19.2':
     resolution: {integrity: sha512-93d49wCWJkCyN87MxLpNN6KXPCwFw7bVUg79mGUV1OS40JGWwVCr8n61DXCSqz7CV6/VfPkb7xec7uP2M+QHWQ==}
 
-  '@types/prop-types@15.7.15':
-    resolution: {integrity: sha512-F6bEyamV9jKGAFBEmlQnesRPGOQqS2+Uwi0Em15xenOxHaf2hv6L8YCVn3rPdPJOiJfPiCnLIRyvwVaqMY3MIw==}
-
-  '@types/react-dom@18.3.7':
-    resolution: {integrity: sha512-MEe3UeoENYVFXzoXEWsvcpg6ZvlrFNlOQ7EOsvhI3CfAXwzPfO8Qwuxd40nepsYKqyyVQnTdEfv68q91yLcKrQ==}
+  '@types/react-dom@19.3.0':
+    resolution: {integrity: sha512-ZI7bU42mZXXKHn/qNLEw2IrbiINU7X5+vfgdixBHkCNpYWXjKgfQ/P+uyGb5CjOLB9UcnTeg3rylQtV2hym44Q==}
     peerDependencies:
-      '@types/react': ^18.0.0
+      '@types/react': ^19.3.0
 
-  '@types/react@18.3.31':
-    resolution: {integrity: sha512-vfEqpXTvwT91yhmwdfouStN2hSKwTvyRs8qpLfADyrq/kxDw0hZM7Wk9Ug1FELj8hIby+S/+kQCSRFF32nv2Qw==}
+  '@types/react@19.3.0':
+    resolution: {integrity: sha512-N0rFCuH9YoxG9/m61l9MfpJKfmLOVU0em7ipIz6TRgSSkvReLB9vL85GB+yr8Bs5leqpvg96JSwF4ZS1s4viQg==}
 
   '@typescript/typescript-aix-ppc64@7.0.2':
     resolution: {integrity: sha512-MTKKkWB7p/0E9xi1d1tHtZ5PiLkGEMIq88pK2CubZjOsLtYTLqhgIgi6zepFa+9GHZ6h05NMCkQxGKiPXMxXtQ==}
@@ -1430,9 +1427,6 @@ packages:
     resolution: {integrity: sha512-c80Qupofp43y4cJ7+8TTDN/AsDwLi5oOm/plBrWI+iQt485vKXCco+yVmOwEgdo9VOdsYTuV0UlTeetVPTriXA==}
     engines: {node: '>=12'}
 
-  js-tokens@4.0.0:
-    resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
-
   json-schema-traverse@1.0.0:
     resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
 
@@ -1566,10 +1560,6 @@ packages:
 
   lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
-
-  loose-envify@1.4.0:
-    resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
-    hasBin: true
 
   lru-cache@11.5.3:
     resolution: {integrity: sha512-U4N8FgzmWxc8k1VH8Kr6lQg18U7Fjvby6wXHVRX/ZZ7IwWbRMgrRbP0Wrb5q5NVinryp4SQampHKdvtecItxUg==}
@@ -1712,10 +1702,10 @@ packages:
     resolution: {integrity: sha512-s4VSOf6yN0rvbRZGxs8Om5CWj6seneMwK3oDb4lWDH0UPhWcxwOWw5+qk24bxq87szX1ydrwylIOp2uG1ojUpA==}
     engines: {node: '>= 0.8'}
 
-  react-dom@18.3.1:
-    resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
+  react-dom@19.3.1:
+    resolution: {integrity: sha512-Y0bARz53lhEC1NMCASs0/j+faB/zqt3R8hpvg1e8+61ZVJ4UL0UdC4cBbXfZMcIuhrfgeILTLe+ZeBCavQPtKQ==}
     peerDependencies:
-      react: ^18.3.1
+      react: ^19.3.1
 
   react-ga4@3.0.1:
     resolution: {integrity: sha512-GyCc01bSheWXjzGDyHsXMOqk/SP5Cf/JrcJTg4hcpKx4eeSwaJKpJUc+ipF4ffLTZkmabmf3ZGBv4OKHTXNXyA==}
@@ -1725,8 +1715,8 @@ packages:
     peerDependencies:
       react: '>=16.0.0'
 
-  react@18.3.1:
-    resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
+  react@19.3.1:
+    resolution: {integrity: sha512-QNhWdt7nrgVWWQG58QuGsAR3jv3Hbe4mb4vz7w2csnHavciZJgda1CPNaldF6eVxv90ud3jUXpKlHL69gO38yw==}
     engines: {node: '>=0.10.0'}
 
   rechoir@0.8.0:
@@ -1772,8 +1762,8 @@ packages:
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  scheduler@0.23.2:
-    resolution: {integrity: sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==}
+  scheduler@0.28.0:
+    resolution: {integrity: sha512-juorfCmIkIw8tT+p5BXSm6PJjQF/ycEYmKyzURCIt/RaZIhL+PulbQ9Yu2z1HdOJDdqDTlxA1+xKBmHXJsczAw==}
 
   semver@7.8.6:
     resolution: {integrity: sha512-9lpSSU4Mly3mrtruwLs1eLK6+gzbzqeBFwRNjIjE+9LuDpWdYctrQlQ3ej1Ilgi7gknpsTRnPoLP8DpCHqHIJw==}
@@ -2151,12 +2141,12 @@ snapshots:
   '@biomejs/cli-win32-x64@2.6.7':
     optional: true
 
-  '@bvandrc/react-toolkit@2.6.2(react@18.3.1)(vitest@5.1.0(@opentelemetry/api@1.10.0)(@types/node@24.19.2)(vite@8.3.7(@types/node@24.19.2)(jiti@2.7.0)))':
+  '@bvandrc/react-toolkit@2.6.2(react@19.3.1)(vitest@5.1.0(@opentelemetry/api@1.10.0)(@types/node@24.19.2)(vite@8.3.7(@types/node@24.19.2)(jiti@2.7.0)))':
     dependencies:
       es-toolkit: 1.53.2
-      react: 18.3.1
+      react: 19.3.1
       type-fest: 5.10.0
-      usehooks-ts: 3.1.1(react@18.3.1)
+      usehooks-ts: 3.1.1(react@19.3.1)
     optionalDependencies:
       vitest: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@24.19.2)(vite@8.3.7(@types/node@24.19.2)(jiti@2.7.0))
 
@@ -2206,10 +2196,10 @@ snapshots:
     dependencies:
       '@fortawesome/fontawesome-common-types': 7.3.1
 
-  '@fortawesome/react-fontawesome@3.5.0(@fortawesome/fontawesome-svg-core@7.3.1)(react@18.3.1)':
+  '@fortawesome/react-fontawesome@3.5.0(@fortawesome/fontawesome-svg-core@7.3.1)(react@19.3.1)':
     dependencies:
       '@fortawesome/fontawesome-svg-core': 7.3.1
-      react: 18.3.1
+      react: 19.3.1
 
   '@hapi/bourne@3.0.0': {}
 
@@ -2549,15 +2539,12 @@ snapshots:
     dependencies:
       undici-types: 7.24.6
 
-  '@types/prop-types@15.7.15': {}
-
-  '@types/react-dom@18.3.7(@types/react@18.3.31)':
+  '@types/react-dom@19.3.0(@types/react@19.3.0)':
     dependencies:
-      '@types/react': 18.3.31
+      '@types/react': 19.3.0
 
-  '@types/react@18.3.31':
+  '@types/react@19.3.0':
     dependencies:
-      '@types/prop-types': 15.7.15
       csstype: 3.2.3
 
   '@typescript/typescript-aix-ppc64@7.0.2':
@@ -3065,8 +3052,6 @@ snapshots:
 
   js-library-detector@6.7.0: {}
 
-  js-tokens@4.0.0: {}
-
   json-schema-traverse@1.0.0: {}
 
   json5@2.2.3: {}
@@ -3227,10 +3212,6 @@ snapshots:
 
   lodash.debounce@4.0.8: {}
 
-  loose-envify@1.4.0:
-    dependencies:
-      js-tokens: 4.0.0
-
   lru-cache@11.5.3: {}
 
   magic-string@1.4.5:
@@ -3375,21 +3356,18 @@ snapshots:
       iconv-lite: 0.4.24
       unpipe: 1.0.0
 
-  react-dom@18.3.1(react@18.3.1):
+  react-dom@19.3.1(react@19.3.1):
     dependencies:
-      loose-envify: 1.4.0
-      react: 18.3.1
-      scheduler: 0.23.2
+      react: 19.3.1
+      scheduler: 0.28.0
 
   react-ga4@3.0.1: {}
 
-  react-masonry-css@1.0.16(react@18.3.1):
+  react-masonry-css@1.0.16(react@19.3.1):
     dependencies:
-      react: 18.3.1
+      react: 19.3.1
 
-  react@18.3.1:
-    dependencies:
-      loose-envify: 1.4.0
+  react@19.3.1: {}
 
   rechoir@0.8.0:
     dependencies:
@@ -3445,9 +3423,7 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-  scheduler@0.23.2:
-    dependencies:
-      loose-envify: 1.4.0
+  scheduler@0.28.0: {}
 
   semver@7.8.6: {}
 
@@ -3622,10 +3598,10 @@ snapshots:
 
   unpipe@1.0.0: {}
 
-  usehooks-ts@3.1.1(react@18.3.1):
+  usehooks-ts@3.1.1(react@19.3.1):
     dependencies:
       lodash.debounce: 4.0.8
-      react: 18.3.1
+      react: 19.3.1
 
   vary@1.1.2: {}
 

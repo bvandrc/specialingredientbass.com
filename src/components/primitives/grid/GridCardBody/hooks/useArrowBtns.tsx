@@ -60,7 +60,8 @@ export const useArrowBtns = ({ isOpen }: { isOpen: boolean }) => {
   const contentRef = useRef<HTMLDivElement>(null)
   const scrollRegionId = useId() // the arrows point at this via aria-controls
   const { height = 0 } = useResizeObserver({
-    ref: contentRef,
+    // usehooks-ts still types `ref` without React 19's `null` in `current`.
+    ref: contentRef as React.RefObject<HTMLDivElement>,
     box: 'content-box',
   })
   const [scrollTop, setScrollTop] = useState(0)
